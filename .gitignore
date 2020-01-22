@@ -123,3 +123,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Api key should be safe I think
+settings.json
