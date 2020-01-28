@@ -126,3 +126,10 @@ dmypy.json
 
 # Api key should be safe I think
 settings.json
+
+# VisualStudioCode 
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

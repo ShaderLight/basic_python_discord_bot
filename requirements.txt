@@ -1,0 +1,3 @@
+shinden.py
+discord.py
+urbandictionary
