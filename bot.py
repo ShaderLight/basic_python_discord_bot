@@ -1,8 +1,9 @@
-from discord.ext import commands
-import json
-import urbandictionary as ud
-from shinden import get_first_page_search
 import discord
+from discord.ext import commands
+import urbandictionary as ud
+import shinden as sh
+
+import json
 
 with open('settings.json') as f:
     content = json.load(f)
@@ -10,7 +11,7 @@ with open('settings.json') as f:
 api_key = content["api"]
 prefix = content['prefix']
 
-bot = commands.Bot(command_prefix = prefix)
+bot = commands.Bot(command_prefix = prefix, help_command = None)
 
 @bot.event
 async def on_ready():
@@ -23,7 +24,7 @@ async def on_ready():
     await bot.change_presence(activity=stream)
     print("Ready")
 
-@bot.command(name = 'urban', help='Responds with urban dictionary definition')
+@bot.command(name = 'urban', help='Responds with urban dictionary definition', category = 'Urban Dictionary')
 async def urban(ctx, word, which_result=1):
     defs = ud.define(word)
     try:
@@ -50,12 +51,12 @@ async def urbanlist(ctx, word):
             await ctx.send("No results")
     await ctx.send(embed = response)
 
-@bot.command(name='shinden', help = 'Shinden search results')
+@bot.command(name='shinden', help = 'Returns a result anime or manga from shinden.pl')
 async def shinden(ctx, title, which_result = 1,anime_or_manga = 'anime'):
     if anime_or_manga == 'manga':
-        anime_list = get_first_page_search(title, 'manga')
+        anime_list = sh.get_first_page_search(title, 'manga')
     else:
-        anime_list = get_first_page_search(title)
+        anime_list = sh.get_first_page_search(title)
 
     anime = anime_list[which_result-1]
     color = discord.Colour(16777215)
@@ -65,12 +66,12 @@ async def shinden(ctx, title, which_result = 1,anime_or_manga = 'anime'):
     response.add_field(name = "Status", value = anime.status)
     await ctx.send(embed = response)
 
-@bot.command(name='shindenlist')
+@bot.command(name='shindenlist', help = 'Returns a list of anime/manga results, to be used with '+ prefix + 'shinden command')
 async def shindenlist(ctx, title, anime_or_manga = 'anime'):
     if anime_or_manga == 'manga':
-        anime_list = get_first_page_search(title, 'manga')
+        anime_list = sh.get_first_page_search(title, 'manga')
     else:
-        anime_list = get_first_page_search(title)
+        anime_list = sh.get_first_page_search(title)
     color = discord.Colour(16777215)
     response = discord.Embed(title= 'Shinden', type = 'rich', description = '***Search results for: ' + title + '***',colour = color.teal())
     counter = 1
@@ -85,5 +86,29 @@ async def truth(ctx):
     response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
     await ctx.send(embed = response)
 
+@bot.command(name = 'urbanrandom', help = 'Returns random Urban Dictionary definition')
+async def urbanrandom(ctx):
+    definition = ud.random()[0]
+    response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`'
 
+    await ctx.send(response)
+
+@bot.command(name = 'shindencharacterlist')
+async def shindencharacterlist(ctx, keyword, search_type = 'contains'):
+    keyword = str(keyword)
+    character_list = sh.search_characters(keyword, search_type)
+    color = discord.Colour(16777215)
+    response = discord.Embed(title = '***Shinden characters***', type = 'rich', description = 'Search results for: ***' + keyword + '***', colour = color.green())
+    counter = 1
+    for ch in character_list:
+        
+        info = '**Appears in:** '
+        for appear in ch.appearance_list:
+            info = info + str(appear) + ', '
+        
+        response.add_field(name = '`' + str(counter) + '. ' + ch.name + '`', value = info[:-2], inline = False)
+        counter = counter + 1
+    await ctx.send(embed = response)
+    
+          
 bot.run(api_key)
