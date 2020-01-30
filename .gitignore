@@ -125,7 +125,7 @@ dmypy.json
 .pyre/
 
 # Api key should be safe I think
-#settings.json
+settings.json
 
 # VisualStudioCode 
 .vscode/*
