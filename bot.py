@@ -14,16 +14,23 @@ prefix = content['prefix']
 
 bot = commands.Bot(command_prefix = prefix, help_command = None)
 
+# Excuted when bot is connected and ready
+
 @bot.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
+
     for guild in bot.guilds:
         print('Logged in ' + str(guild.name) +  ' (id: '+ str(guild.id) +')')
     members = ' - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
+
     stream = discord.Streaming(name = 'Online', url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+
     await bot.change_presence(activity=stream)
     print("Ready")
+
+# Urban Dictionary related commands
 
 @bot.command(name = 'urban', help='Responds with urban dictionary definition', category = 'Urban Dictionary')
 async def urban(ctx, word, which_result=1):
@@ -35,6 +42,7 @@ async def urban(ctx, word, which_result=1):
     
     response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`'
     await ctx.send(response)
+
 
 @bot.command(name = 'urbanlist', help='Responds with urban dictionary definition list')
 async def urbanlist(ctx, word):
@@ -52,40 +60,6 @@ async def urbanlist(ctx, word):
             await ctx.send("No results")
     await ctx.send(embed = response)
 
-@bot.command(name='shinden', help = 'Returns a result anime or manga from shinden.pl')
-async def shinden(ctx, title, which_result = 1,anime_or_manga = 'anime'):
-    if anime_or_manga == 'manga':
-        anime_list = sh.search_titles(title, anime_or_manga = 'manga')
-    else:
-        anime_list = sh.search_titles(title)
-
-    anime = anime_list[which_result-1]
-    color = discord.Colour(16777215)
-    response = discord.Embed(title = '***' + anime.title + '***', type = 'rich', description = 'Tags: ' + str(anime.tags), colour = color.teal(), url = anime.url)
-    response.add_field(name = 'Score', value = anime.top_score)
-    response.add_field(name = 'Episodes', value = anime.episodes)
-    response.add_field(name = "Status", value = anime.status)
-    await ctx.send(embed = response)
-
-@bot.command(name='shindenlist', help = 'Returns a list of anime/manga results, to be used with '+ prefix + 'shinden command')
-async def shindenlist(ctx, title, anime_or_manga = 'anime'):
-    if anime_or_manga == 'manga':
-        anime_list = sh.search_titles(title, anime_or_manga = 'manga')
-    else:
-        anime_list = sh.search_titles(title)
-    color = discord.Colour(16777215)
-    response = discord.Embed(title= 'Shinden', type = 'rich', description = '***Search results for: ' + title + '***',colour = color.teal())
-    counter = 1
-    for anime in anime_list:
-        response.add_field(name = str(counter) + '.', value = anime.title)
-        counter = counter + 1
-    await ctx.send(embed = response)
-
-@bot.command(name = 'truth')
-async def truth(ctx):
-    response = discord.Embed(title = 'The truth')
-    response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
-    await ctx.send(embed = response)
 
 @bot.command(name = 'urbanrandom', help = 'Returns random Urban Dictionary definition')
 async def urbanrandom(ctx):
@@ -94,10 +68,99 @@ async def urbanrandom(ctx):
 
     await ctx.send(response)
 
-@bot.command(name = 'shindencharacterlist')
-async def shindencharacterlist(ctx, keyword, search_type = 'contains'):
+# Shinden related commands
+
+@bot.command(name='shindenanime', help = 'Returns a result anime from shinden.pl')
+async def shindenanime(ctx, title, which_result = 1):
+    anime_list = sh.search_titles(title)
+
+    anime = anime_list[which_result-1]
+    color = discord.Colour(16777215)
+
+    response = discord.Embed(title = '***' + anime.title + '***', type = 'rich', description = 'Tags: ' + str(anime.tags), colour = color.teal(), url = anime.url)
+    response.add_field(name = 'Score', value = anime.top_score)
+    response.add_field(name = 'Episodes', value = anime.episodes)
+    response.add_field(name = "Status", value = anime.status)
+
+    await ctx.send(embed = response)
+
+
+@bot.command(name='shindenmanga', help = 'Returns a result anime or manga from shinden.pl')
+async def shindenmanga(ctx, title, which_result = 1):
+    title = str(title)
+
+    try:
+        which_result = int(which_result)
+    except:
+        await ctx.send('**Wrong parameters**')
+
+    manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+    manga = manga_list[which_result-1]
+    color = discord.Colour(16777215)
+
+    response = discord.Embed(title = '***' + manga.title + '***', type = 'rich', description = 'Tags: ' + str(manga.tags), colour = color.teal(), url = manga.url)
+    response.add_field(name = 'Score', value = manga.top_score)
+    response.add_field(name = 'Chapters', value = manga.episodes)
+    response.add_field(name = 'Status', value = manga.status)
+
+    await ctx.send(embed = response)
+
+
+@bot.command(name='shindenanimelist', help = 'Returns a list of anime results')
+async def shindenanimelist(ctx, title):
+    anime_list = sh.search_titles(title)
+    color = discord.Colour(16777215)
+
+    response = discord.Embed(title= 'Shinden', type = 'rich', description = '***Search results for: ' + title + '***', colour = color.teal())
+    
+    counter = 1
+    for anime in anime_list:
+        response.add_field(name = str(counter) + '.', value = anime.title)
+        counter = counter + 1
+
+    await ctx.send(embed = response)
+
+
+@bot.command(name='shindenmangalist', help = 'Returns a list of manga results')
+async def shindenmangalist(ctx, title):
+    manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+    color = discord.Colour(16777215)
+
+    response = discord.Embed(title= 'Shinden', type = 'rich', description = '***Search results for: ' + title + '***', colour = color.teal())
+    
+    counter = 1
+    for anime in manga_list:
+        response.add_field(name = str(counter) + '.', value = anime.title)
+        counter = counter + 1
+        
+    await ctx.send(embed = response)
+
+
+@bot.command(name = 'shindencharacter')
+async def shindencharacter(ctx, keyword, which_result = 1):
     keyword = str(keyword)
-    character_list = sh.search_characters(keyword, search_type, False)
+    try:
+        which_result = int(which_result)
+    except:
+        await ctx.send("**Wrong parameters**")
+    
+    character_list = sh.search_characters(keyword)
+    character = character_list[which_result-1]
+    color = discord.Colour(16777215)
+
+    response = discord.Embed(title = '***' + character.name + '***', type = 'rich', description = '`' + character.description + '`', colour = color.dark_gold(), url = character.url)
+
+    response.add_field(name = 'Gender', value = character.gender)
+    response.add_field(name = 'Is historical', value = character.is_historical)
+    response.add_field(name = 'Appearance list', value = (', '.join(character.appearance_list)), inline = False) 
+
+    await ctx.send(embed = response)
+
+
+@bot.command(name = 'shindencharacterlist')
+async def shindencharacterlist(ctx, keyword):
+    keyword = str(keyword)
+    character_list = sh.search_characters(keyword)
     color = discord.Colour(16777215)
     response = discord.Embed(title = '***Shinden characters***', type = 'rich', description = 'Search results for: ***' + keyword + '***', colour = color.green())
     counter = 1
@@ -110,6 +173,7 @@ async def shindencharacterlist(ctx, keyword, search_type = 'contains'):
         response.add_field(name = '`' + str(counter) + '. ' + ch.name + '`', value = info[:-2], inline = False)
         counter = counter + 1
     await ctx.send(embed = response)
+
 
 @bot.command(name = 'shindenuserlist')
 async def shindenuserlist(ctx, keyword, search_type = 'contains'):
@@ -126,4 +190,13 @@ async def shindenuserlist(ctx, keyword, search_type = 'contains'):
         counter = counter + 1
     
     await ctx.send(embed = response)
+
+# Other commands
+
+@bot.command(name = 'truth')
+async def truth(ctx):
+    response = discord.Embed(title = 'The truth')
+    response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
+    await ctx.send(embed = response)
+
 bot.run(api_key)
