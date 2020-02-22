@@ -1,4 +1,5 @@
 {
 	"api": "you_api_token_here",
-	"prefix": "!"
+	"prefix": "!",
+	"use_caching": true
 }

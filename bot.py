@@ -9,8 +9,13 @@ import json
 with open('settings.json') as f:
     content = json.load(f)
 
-api_key = content["api"]
+use_caching = content['use_caching']
+if use_caching:
+    import caching_functions as cf
+
+api_key = content['api']
 prefix = content['prefix']
+
 
 bot = commands.Bot(command_prefix = prefix, help_command = None)
 
@@ -72,7 +77,27 @@ async def urbanrandom(ctx):
 
 @bot.command(name='shindenanime', help = 'Returns a result anime from shinden.pl')
 async def shindenanime(ctx, title, which_result = 1):
-    anime_list = sh.search_titles(title)
+    title = str(title)
+
+    if use_caching:
+        cache = cf.find_cache(title, 'shindenanime')
+        if cache != None:
+            anime_list = cache
+        else:
+            anime_list = sh.search_titles(title)
+    else:
+        anime_list = sh.search_titles(title)
+    
+    if use_caching:
+        cf.cache_response(title, anime_list, 'shindenanime')
+    
+    try:
+        which_result = int(which_result)
+    except:
+        return await ctx.send('**Wrong parameters**')
+
+    if anime_list == None:
+        return await ctx.send('**No results**')
 
     anime = anime_list[which_result-1]
     color = discord.Colour(16777215)
@@ -89,12 +114,23 @@ async def shindenanime(ctx, title, which_result = 1):
 async def shindenmanga(ctx, title, which_result = 1):
     title = str(title)
 
+    if use_caching:
+        cache = cf.find_cache(title, 'shindenmanga')
+        if cache != None:
+            manga_list = cache
+        else:
+            manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+    else:
+        manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+    
+    if use_caching:
+        cf.cache_response(title, manga_list, 'shindenmanga')
+
     try:
         which_result = int(which_result)
     except:
         await ctx.send('**Wrong parameters**')
 
-    manga_list = sh.search_titles(title, anime_or_manga = 'manga')
     manga = manga_list[which_result-1]
     color = discord.Colour(16777215)
 
@@ -108,7 +144,20 @@ async def shindenmanga(ctx, title, which_result = 1):
 
 @bot.command(name='shindenanimelist', help = 'Returns a list of anime results')
 async def shindenanimelist(ctx, title):
-    anime_list = sh.search_titles(title)
+    title = str(title)
+
+    if use_caching:
+        cache = cf.find_cache(title, 'shindenanime')
+        if cache != None:
+            anime_list = cache
+        else:
+            anime_list = sh.search_titles(title)
+    else:
+        anime_list = sh.search_titles(title)
+    
+    if use_caching:
+        cf.cache_response(title, anime_list, 'shindenanime')
+    
     color = discord.Colour(16777215)
 
     response = discord.Embed(title= 'Shinden', type = 'rich', description = '***Search results for: ' + title + '***', colour = color.teal())
@@ -123,7 +172,18 @@ async def shindenanimelist(ctx, title):
 
 @bot.command(name='shindenmangalist', help = 'Returns a list of manga results')
 async def shindenmangalist(ctx, title):
-    manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+    if use_caching:
+        cache = cf.find_cache(title, 'shindenmanga')
+        if cache != None:
+            manga_list = cache
+        else:
+            manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+    else:
+        manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+    
+    if use_caching:
+        cf.cache_response(title, manga_list, 'shindenmanga')
+    
     color = discord.Colour(16777215)
 
     response = discord.Embed(title= 'Shinden', type = 'rich', description = '***Search results for: ' + title + '***', colour = color.teal())
@@ -138,6 +198,21 @@ async def shindenmangalist(ctx, title):
 
 @bot.command(name = 'shindencharacter')
 async def shindencharacter(ctx, keyword, which_result = 1):
+    keyword = str(keyword)
+
+    if use_caching:
+        cache = cf.find_cache(keyword, 'shindencharacter')
+        if cache != None:
+            print('Using cached data')
+            character_list = cache
+        else:
+            character_list = sh.search_characters(keyword)
+    else:
+        character_list = sh.search_characters(keyword)
+    
+    if use_caching:
+        cf.cache_response(keyword, character_list, 'shindencharacter')
+    
     keyword = str(keyword)
     try:
         which_result = int(which_result)
@@ -160,6 +235,19 @@ async def shindencharacter(ctx, keyword, which_result = 1):
 @bot.command(name = 'shindencharacterlist')
 async def shindencharacterlist(ctx, keyword):
     keyword = str(keyword)
+
+    if use_caching:
+        cache = cf.find_cache(keyword, 'shindencharacter')
+        if cache != None:
+            character_list = cache
+        else:
+            character_list = sh.search_characters(keyword)
+    else:
+        character_list = sh.search_characters(keyword)
+    
+    if use_caching:
+        cf.cache_response(keyword, character_list, 'shindencharacter')
+    
     character_list = sh.search_characters(keyword)
     color = discord.Colour(16777215)
     response = discord.Embed(title = '***Shinden characters***', type = 'rich', description = 'Search results for: ***' + keyword + '***', colour = color.green())
@@ -176,9 +264,21 @@ async def shindencharacterlist(ctx, keyword):
 
 
 @bot.command(name = 'shindenuserlist')
-async def shindenuserlist(ctx, keyword, search_type = 'contains'):
+async def shindenuserlist(ctx, keyword):
     keyword = str(keyword)
-    user_list = sh.search_users(keyword, search_type)
+
+    if use_caching:
+        cache = cf.find_cache(keyword, 'shindenuser')
+        if cache != None:
+            user_list = cache
+        else:
+            user_list = sh.search_users(keyword)
+    else:
+        user_list = sh.search_users(keyword)
+    
+    if use_caching:
+        cf.cache_response(keyword, user_list, 'shindenuser')
+
     color = discord.Colour(16777215)
     response = discord.Embed(title = '***Shinden users***', type = 'rich', description = 'Search results for: ***' + keyword + '***', colour = color.purple()) 
     
@@ -198,5 +298,6 @@ async def truth(ctx):
     response = discord.Embed(title = 'The truth')
     response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
     await ctx.send(embed = response)
+
 
 bot.run(api_key)
