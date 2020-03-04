@@ -35,7 +35,7 @@ async def on_ready():
 
 # Urban Dictionary related commands
 
-@bot.command(name = 'urban', help='Responds with urban dictionary definition', category = 'Urban Dictionary')
+@bot.command(name = 'urban', aliases=['u','ud'] ,help='Responds with urban dictionary definition', category = 'Urban Dictionary')
 async def urban(ctx, word, which_result=1):
     word = str(word) # Checking if word is a string
     defs = ud.define(word) # Using UrbanDictionary library to search for Urban Dictionary definitions
@@ -48,7 +48,7 @@ async def urban(ctx, word, which_result=1):
     await ctx.send(response)
 
 
-@bot.command(name = 'urbanlist', help='Responds with urban dictionary definition list')
+@bot.command(name = 'urbanlist', aliases=['ul','udlist','udl', 'ulist'], help='Responds with urban dictionary definition list')
 async def urbanlist(ctx, word): # This function responds with every definition found on UD (maximum result count is 10 and maximum word count for every definition is 75, urban command does not have that restriction)
     word = str(word)
     defs = ud.define(word)
@@ -66,7 +66,7 @@ async def urbanlist(ctx, word): # This function responds with every definition f
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'urbanrandom', help = 'Returns random Urban Dictionary definition')
+@bot.command(name = 'urbanrandom', aliases=['ur', 'udrandom', 'udr', 'urandom'], help = 'Returns random Urban Dictionary definition')
 async def urbanrandom(ctx):
     definition = ud.random()[0] # selecting first definition from the list of random definitions
     response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`'
@@ -75,7 +75,7 @@ async def urbanrandom(ctx):
 
 # Shinden related commands
 
-@bot.command(name='shindenanime', help = 'Returns an anime from shinden.pl')
+@bot.command(name='shindenanime', aliases=['sa', 'shindena', 'sha', 'sanime', 'shanime'], help = 'Returns an anime from shinden.pl')
 async def shindenanime(ctx, title, which_result = 1):
     try: # Checking the correctness of parameters
         title = str(title)
@@ -97,7 +97,7 @@ async def shindenanime(ctx, title, which_result = 1):
     await ctx.send(embed = response)
 
 
-@bot.command(name='shindenmanga', help = 'Returns an anime or manga from shinden.pl')
+@bot.command(name='shindenmanga', aliases=['sm', 'shindenm', 'shm','smanga', 'shmanga'], help = 'Returns an anime or manga from shinden.pl')
 async def shindenmanga(ctx, title, which_result = 1):
     try:
         title = str(title)
@@ -117,7 +117,7 @@ async def shindenmanga(ctx, title, which_result = 1):
     await ctx.send(embed = response)
 
 
-@bot.command(name='shindenanimelist', help = 'Returns a list of anime from shinden.pl')
+@bot.command(name='shindenanimelist', aliases=['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help = 'Returns a list of anime from shinden.pl')
 async def shindenanimelist(ctx, title):
     title = str(title)
 
@@ -134,7 +134,7 @@ async def shindenanimelist(ctx, title):
     await ctx.send(embed = response)
 
 
-@bot.command(name='shindenmangalist', help = 'Returns a list of manga results')
+@bot.command(name='shindenmangalist', aliases=['sml', 'shindenml', 'shml', 'smangalist', 'shmangalist'], help = 'Returns a list of manga results')
 async def shindenmangalist(ctx, title):
     title = str(title)
 
@@ -151,7 +151,7 @@ async def shindenmangalist(ctx, title):
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'shindencharacter')
+@bot.command(name = 'shindencharacter', aliases=['sc', 'shindenc', 'shc', 'scharacter', 'shcharacter', 'sch', 'shindench', 'shch'], help= 'Returns a character result from shinden.pl')
 async def shindencharacter(ctx, keyword, which_result = 1):
     try:
         keyword = str(keyword)
@@ -172,7 +172,7 @@ async def shindencharacter(ctx, keyword, which_result = 1):
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'shindencharacterlist')
+@bot.command(name = 'shindencharacterlist', aliases=['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'])
 async def shindencharacterlist(ctx, keyword):
     keyword = str(keyword)
 
@@ -193,7 +193,7 @@ async def shindencharacterlist(ctx, keyword):
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'shindenuserlist')
+@bot.command(name = 'shindenuserlist', aliases=['sul','shindenul', 'shul', 'suserlist', 'shuserlist'])
 async def shindenuserlist(ctx, keyword, search_type = 'contains'):
     keyword = str(keyword)
     user_list = sh.search_users(keyword, search_type)
@@ -211,7 +211,7 @@ async def shindenuserlist(ctx, keyword, search_type = 'contains'):
 
 # Other commands
 
-@bot.command(name = 'truth') # This basically responds with dino earth image and nothing else
+@bot.command(name = 'truth', help = 'This basically responds with dino earth image and nothing else')
 async def truth(ctx):
     response = discord.Embed(title = 'The truth')
     response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
