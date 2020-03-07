@@ -193,6 +193,26 @@ async def shindencharacterlist(ctx, keyword):
     await ctx.send(embed = response)
 
 
+@bot.command(name = 'shindenuser', aliases=['su', 'shindenu', 'shu', 'suser', 'shuser'])
+async def shindenuser(ctx, keyword, which_result = 1):
+    keyword = str(keyword)
+    user_list = sh.search_users(keyword)
+    user = user_list[which_result-1]
+
+    color = discord.Colour(16777215)
+    response = discord.Embed(title = '**' + user.nickname + '**', type = 'rich', colour = color.red(), url = user.url)
+    
+    response.add_field(name = 'Anime titles watched', value = '`' + str(user.anime_titles_watched) + '`')
+    response.add_field(name = 'Anime hours watched', value = '`' + str(int(user.anime_minutes_watched/60)) + '`')
+    response.add_field(name = 'Anime episodes watched', value = '`' + str(user.anime_episodes_watched) + '`')
+    response.add_field(name = 'Average anime ratings', value = '`' + str(user.average_anime_ratings) + '`')
+    response.add_field(name = 'Achievement count', value = '`' + str(user.achievement_count) + '`')
+    response.add_field(name = 'Points', value = '`' + str(user.points) + '`')
+    response.add_field(name = 'Last seen', value = '`' + str(user.last_seen.strftime('%H:%M %d.%m.%Y')) + '`')
+    
+    await ctx.send(embed = response)
+
+
 @bot.command(name = 'shindenuserlist', aliases=['sul','shindenul', 'shul', 'suserlist', 'shuserlist'])
 async def shindenuserlist(ctx, keyword, search_type = 'contains'):
     keyword = str(keyword)
