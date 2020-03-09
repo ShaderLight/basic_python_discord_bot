@@ -27,15 +27,37 @@ async def on_ready():
     members = ' - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}') # printing out a list of server members
 
-    # Setting bot status to streaming (it's rickroll)
-    stream = discord.Streaming(name = 'Online', url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-    await bot.change_presence(activity=stream) 
+    # Setting bot status to streaming (Never gonna give you up)
+    stream = discord.Streaming(name = prefix + 'helperino', url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+    await bot.change_presence(activity = stream) 
 
     print("Ready")
 
+
+# Help command
+@bot.command(name = 'help', aliases = ['helperino'], help = 'Lists available commands')
+async def help(ctx):
+    color = discord.Colour(16777215)
+    response = discord.Embed(title = '**Available commands**', type = 'rich', description = '() - parameter, [] - optional parameter with a default value\nIf parameter has spaces, it must be within quotation marks, eq. **' + prefix +'ud "i like pizza"**', colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
+
+    response.add_field(name = prefix + 'urban (word) [which_result = 1]', value = 'Responds with Urban Dictionary definition', inline = False)
+    response.add_field(name = prefix + 'urbanlist (word)', value = 'Results for maximum 10 first results from Urban Dictionary', inline = False)
+    response.add_field(name = prefix + 'urbanrandom (word) [which_result = 1]', value = 'Returns an anime from shinden.pl', inline = False)
+    response.add_field(name = prefix + 'shindenanime (title) [which_result = 1]', value = 'Returns an anime from shinden.pl', inline = False)
+    response.add_field(name = prefix + 'shindenmanga (title)', value = 'Returns a manga from shinden.pl', inline = False)
+    response.add_field(name = prefix + 'shindenanimelist (title)', value = 'Returns a list of anime from shinden.pl', inline = False)
+    response.add_field(name = prefix + 'shindenmangalist (title)', value = 'Returns a list of manga results', inline = False)
+    response.add_field(name = prefix + 'shindencharacter (name) [which_result = 1]', value = 'Returns a character result from shinden.pl', inline = False)
+    response.add_field(name = prefix + 'shindencharacterlist (name)', value = 'Responds with a list of character results', inline = False)
+    response.add_field(name = prefix + 'shindenuser (nickname) [which_result = 1]', value = 'Searches for a shinden user', inline = False)
+    response.add_field(name = prefix + 'shindenuserlist (nickname)', value = 'Lists shinden users found', inline = False)
+    response.add_field(name = prefix + 'truth', value = 'Yeah...', inline = False)
+
+    await ctx.send(embed = response)
+    
 # Urban Dictionary related commands
 
-@bot.command(name = 'urban', aliases=['u','ud'] ,help='Responds with urban dictionary definition', category = 'Urban Dictionary')
+@bot.command(name = 'urban', aliases=['u','ud'], help = 'Responds with urban dictionary definition')
 async def urban(ctx, word, which_result=1):
     word = str(word) # Checking if word is a string
     defs = ud.define(word) # Using UrbanDictionary library to search for Urban Dictionary definitions
@@ -48,7 +70,7 @@ async def urban(ctx, word, which_result=1):
     await ctx.send(response)
 
 
-@bot.command(name = 'urbanlist', aliases=['ul','udlist','udl', 'ulist'], help='Responds with urban dictionary definition list')
+@bot.command(name = 'urbanlist', aliases = ['ul','udlist','udl', 'ulist'], help = 'Responds with urban dictionary definition list')
 async def urbanlist(ctx, word): # This function responds with every definition found on UD (maximum result count is 10 and maximum word count for every definition is 75, urban command does not have that restriction)
     word = str(word)
     defs = ud.define(word)
@@ -66,7 +88,7 @@ async def urbanlist(ctx, word): # This function responds with every definition f
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'urbanrandom', aliases=['ur', 'udrandom', 'udr', 'urandom'], help = 'Returns random Urban Dictionary definition')
+@bot.command(name = 'urbanrandom', aliases = ['ur', 'udrandom', 'udr', 'urandom'], help = 'Returns random Urban Dictionary definition')
 async def urbanrandom(ctx):
     definition = ud.random()[0] # selecting first definition from the list of random definitions
     response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`'
@@ -75,7 +97,7 @@ async def urbanrandom(ctx):
 
 # Shinden related commands
 
-@bot.command(name='shindenanime', aliases=['sa', 'shindena', 'sha', 'sanime', 'shanime'], help = 'Returns an anime from shinden.pl')
+@bot.command(name ='shindenanime', aliases = ['sa', 'shindena', 'sha', 'sanime', 'shanime'], help = 'Returns an anime from shinden.pl')
 async def shindenanime(ctx, title, which_result = 1):
     try: # Checking the correctness of parameters
         title = str(title)
@@ -97,7 +119,7 @@ async def shindenanime(ctx, title, which_result = 1):
     await ctx.send(embed = response)
 
 
-@bot.command(name='shindenmanga', aliases=['sm', 'shindenm', 'shm','smanga', 'shmanga'], help = 'Returns an anime or manga from shinden.pl')
+@bot.command(name = 'shindenmanga', aliases = ['sm', 'shindenm', 'shm','smanga', 'shmanga'], help = 'Returns a manga from shinden.pl')
 async def shindenmanga(ctx, title, which_result = 1):
     try:
         title = str(title)
@@ -117,7 +139,7 @@ async def shindenmanga(ctx, title, which_result = 1):
     await ctx.send(embed = response)
 
 
-@bot.command(name='shindenanimelist', aliases=['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help = 'Returns a list of anime from shinden.pl')
+@bot.command(name = 'shindenanimelist', aliases = ['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help = 'Returns a list of anime from shinden.pl')
 async def shindenanimelist(ctx, title):
     title = str(title)
 
@@ -151,15 +173,15 @@ async def shindenmangalist(ctx, title):
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'shindencharacter', aliases=['sc', 'shindenc', 'shc', 'scharacter', 'shcharacter', 'sch', 'shindench', 'shch'], help= 'Returns a character result from shinden.pl')
-async def shindencharacter(ctx, keyword, which_result = 1):
+@bot.command(name = 'shindencharacter', aliases = ['sc', 'shindenc', 'shc', 'scharacter', 'shcharacter', 'sch', 'shindench', 'shch'], help = 'Returns a character result from shinden.pl')
+async def shindencharacter(ctx, name, which_result = 1):
     try:
-        keyword = str(keyword)
+        name = str(name)
         which_result = int(which_result)
     except:
         await ctx.send("**Wrong parameters**")
     
-    character_list = sh.search_characters(keyword)
+    character_list = sh.search_characters(name)
     character = character_list[which_result-1]
     color = discord.Colour(16777215)
 
@@ -172,14 +194,14 @@ async def shindencharacter(ctx, keyword, which_result = 1):
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'shindencharacterlist', aliases=['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'])
-async def shindencharacterlist(ctx, keyword):
-    keyword = str(keyword)
+@bot.command(name = 'shindencharacterlist', aliases = ['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'], help = 'Responds with a list of character results')
+async def shindencharacterlist(ctx, name):
+    name = str(name)
 
-    character_list = sh.search_characters(keyword)
+    character_list = sh.search_characters(name)
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title = '***Shinden characters***', type = 'rich', description = 'Search results for: ***' + keyword + '***', colour = color.green())
+    response = discord.Embed(title = '***Shinden characters***', type = 'rich', description = 'Search results for: ***' + name + '***', colour = color.green())
 
     counter = 1
     for ch in character_list:
@@ -193,10 +215,10 @@ async def shindencharacterlist(ctx, keyword):
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'shindenuser', aliases=['su', 'shindenu', 'shu', 'suser', 'shuser'])
-async def shindenuser(ctx, keyword, which_result = 1):
-    keyword = str(keyword)
-    user_list = sh.search_users(keyword)
+@bot.command(name = 'shindenuser', aliases = ['su', 'shindenu', 'shu', 'suser', 'shuser'], help = 'Searches for a shinden user')
+async def shindenuser(ctx, nickname, which_result = 1):
+    nickname = str(nickname)
+    user_list = sh.search_users(nickname)
     user = user_list[which_result-1]
 
     color = discord.Colour(16777215)
@@ -213,12 +235,12 @@ async def shindenuser(ctx, keyword, which_result = 1):
     await ctx.send(embed = response)
 
 
-@bot.command(name = 'shindenuserlist', aliases=['sul','shindenul', 'shul', 'suserlist', 'shuserlist'])
-async def shindenuserlist(ctx, keyword, search_type = 'contains'):
-    keyword = str(keyword)
-    user_list = sh.search_users(keyword, search_type)
+@bot.command(name = 'shindenuserlist', aliases = ['sul', 'shindenul', 'shul', 'suserlist', 'shuserlist'], help = 'Lists shinden users found')
+async def shindenuserlist(ctx, nickname, search_type = 'contains'):
+    nickname = str(nickname)
+    user_list = sh.search_users(nickname, search_type)
     color = discord.Colour(16777215)
-    response = discord.Embed(title = '***Shinden users***', type = 'rich', description = 'Search results for: ***' + keyword + '***', colour = color.purple()) 
+    response = discord.Embed(title = '***Shinden users***', type = 'rich', description = 'Search results for: ***' + nickname + '***', colour = color.purple()) 
     
     counter = 1
     for user in user_list: # Formatting the data using datatime's strftime method
