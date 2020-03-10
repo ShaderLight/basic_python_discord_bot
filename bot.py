@@ -146,11 +146,12 @@ async def shindenanimelist(ctx, title):
     anime_list = sh.search_titles(title)
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title= 'Shinden', type = 'rich', description = '***Search results for: ' + title + '***', colour = color.teal())
+    response = discord.Embed(title= '***Shinden anime list***', type = 'rich', description = 'Search results for: **' + title + '**', colour = color.teal())
     
     counter = 1
     for anime in anime_list:
-        response.add_field(name = str(counter) + '.', value = anime.title) # Counter variable helps with returning many anime titles in a row (1. 2. 3. etc)
+        value_text = '[' + anime.title + ']' + '(' + anime.url + ')'
+        response.add_field(name = str(counter) + '.', value = value_text) # Counter variable helps with returning many anime titles in a row (1. 2. 3. etc)
         counter = counter + 1
 
     await ctx.send(embed = response)
@@ -163,11 +164,12 @@ async def shindenmangalist(ctx, title):
     manga_list = sh.search_titles(title, anime_or_manga = 'manga')
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title= 'Shinden', type = 'rich', description = '***Search results for: ' + title + '***', colour = color.teal())
+    response = discord.Embed(title= '***Shinden manga list***', type = 'rich', description = 'Search results for: **' + title + '**', colour = color.teal())
     
     counter = 1
-    for anime in manga_list:
-        response.add_field(name = str(counter) + '.', value = anime.title)
+    for manga in manga_list:
+        value_text = '[' + manga.title + ']' + '(' + manga.url + ')'
+        response.add_field(name = str(counter) + '.', value = value_text)
         counter = counter + 1
         
     await ctx.send(embed = response)
@@ -201,12 +203,12 @@ async def shindencharacterlist(ctx, name):
     character_list = sh.search_characters(name)
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title = '***Shinden characters***', type = 'rich', description = 'Search results for: ***' + name + '***', colour = color.green())
+    response = discord.Embed(title = '***Shinden character list***', type = 'rich', description = 'Search results for: **' + name + '**', colour = color.green())
 
     counter = 1
     for ch in character_list:
         
-        info = '**Appears in:** '
+        info = '[**Appears in: **]' + '(' + ch.url + ')'
         for appear in ch.appearance_list:
             info = info + str(appear) + ', '
         
@@ -236,15 +238,16 @@ async def shindenuser(ctx, nickname, which_result = 1):
 
 
 @bot.command(name = 'shindenuserlist', aliases = ['sul', 'shindenul', 'shul', 'suserlist', 'shuserlist'], help = 'Lists shinden users found')
-async def shindenuserlist(ctx, nickname, search_type = 'contains'):
+async def shindenuserlist(ctx, nickname):
     nickname = str(nickname)
-    user_list = sh.search_users(nickname, search_type)
+    user_list = sh.search_users(nickname)
     color = discord.Colour(16777215)
-    response = discord.Embed(title = '***Shinden users***', type = 'rich', description = 'Search results for: ***' + nickname + '***', colour = color.purple()) 
+    response = discord.Embed(title = '***Shinden user list***', type = 'rich', description = 'Search results for: ***' + nickname + '***', colour = color.purple()) 
     
     counter = 1
     for user in user_list: # Formatting the data using datatime's strftime method
-        info = '**Last seen:** ' + user.last_seen.strftime('%H:%M %d.%m.%Y') + '\n' + '**Hours watched: **' + str(int(user.anime_minutes_watched/60))
+        profile_hyperlink = '[Profile]' + '(' + user.url + ')'
+        info = '**Last seen:** ' + user.last_seen.strftime('%H:%M %d.%m.%Y') + '\n' + '**Hours watched: **' + str(int(user.anime_minutes_watched/60)) + '\n' + profile_hyperlink
 
         response.add_field(name = '`' + str(counter) + '.' + user.nickname + '`', value = info, inline = False)
         counter = counter + 1
