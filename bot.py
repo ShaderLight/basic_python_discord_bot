@@ -58,23 +58,55 @@ async def help(ctx):
 # Urban Dictionary related commands
 
 @bot.command(name = 'urban', aliases=['u','ud'], help = 'Responds with urban dictionary definition')
-async def urban(ctx, word, which_result=1):
-    word = str(word) # Checking if word is a string
-    defs = ud.define(word) # Using UrbanDictionary library to search for Urban Dictionary definitions
-    try:
-        definition = defs[which_result-1] # Selecting one result, based on which_result parameter (first result by default)
-    except IndexError:
-        await ctx.send("**No result**") # If index is out of range, then prints out that there was no result found
+async def urban(ctx, *args):
+    if args == ():
+        return await ctx.send('Help page')
+
+    args_list = list(args)
+    which_result = 1
+
+    if len(args) >= 2:
+        possible_int = args_list.pop()
+
+        try:
+            which_result = int(possible_int)
+        
+        except:
+            args_list.append(possible_int)
+        
+        words = ' '.join(args_list)
+        
+        defs = ud.define(words) # Using UrbanDictionary library to search for Urban Dictionary definitions
+        try:
+            definition = defs[which_result-1] # Selecting one result, based on which_result parameter (first result by default)
+        except IndexError:
+            await ctx.send("**No result**") # If index is out of range, then prints out that there was no result found
     
-    response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`' # Reponse with some discord formatting for a nicer look
-    await ctx.send(response)
+        response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`' # Reponse with some discord formatting for a nicer look
+        await ctx.send(response)
+
+    else:
+        words = ' '.join(args_list)
+
+        defs = ud.define(words) # Using UrbanDictionary library to search for Urban Dictionary definitions
+        try:
+            definition = defs[which_result-1] # Selecting one result, based on which_result parameter (first result by default)
+        except IndexError:
+            await ctx.send("**No result**") # If index is out of range, then prints out that there was no result found
+    
+        response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`' # Reponse with some discord formatting for a nicer look
+        await ctx.send(response)
 
 
 @bot.command(name = 'urbanlist', aliases = ['ul','udlist','udl', 'ulist'], help = 'Responds with urban dictionary definition list')
-async def urbanlist(ctx, word): # This function responds with every definition found on UD (maximum result count is 10 and maximum word count for every definition is 75, urban command does not have that restriction)
-    word = str(word)
-    defs = ud.define(word)
-    response = discord.Embed(title = word, type = 'rich', description = 'Results for maximum 10 first results from Urban Dictionary' )
+async def urbanlist(ctx, *args): # This function responds with every definition found on UD (maximum result count is 10 and maximum word count for every definition is 75, urban command does not have that restriction)
+    if args == ():
+        return await ctx.send('Help page')
+    
+    words = ' '.join(args)
+
+    defs = ud.define(words)
+    response = discord.Embed(title = words, type = 'rich', description = 'Results for maximum 10 first results from Urban Dictionary' )
     try:
         check = 0 # This variable checks if there was at least one successful iteration
         for i in range(10):
@@ -98,25 +130,62 @@ async def urbanrandom(ctx):
 # Shinden related commands
 
 @bot.command(name ='shindenanime', aliases = ['sa', 'shindena', 'sha', 'sanime', 'shanime'], help = 'Returns an anime from shinden.pl')
-async def shindenanime(ctx, title, which_result = 1):
-    try: # Checking the correctness of parameters
-        title = str(title)
-        which_result = int(which_result)
-    except:
-        return await ctx.send("**wrong parameters**")
+async def shindenanime(ctx, *args):
+    if args == ():
+        return await ctx.send('Help page')
+    
+    args_list = list(args)
 
-    anime_list = sh.search_titles(title)
+    if len(args) >= 2:
+        which_result = 1
+        possible_int = args_list.pop()
 
-    anime = anime_list[which_result-1] # Selecting one anime result from the list of all found results
-    color = discord.Colour(16777215)
+        try:
+            which_result = int(possible_int)
+        
+        except:
+            args_list.append(possible_int)
+        
+        title = ' '.join(args_list)
 
-    # Creating a discord embed message object and adding fields with information
-    response = discord.Embed(title = '***' + anime.title + '***', type = 'rich', description = 'Tags: ' + str(anime.tags), colour = color.teal(), url = anime.url) 
-    response.add_field(name = 'Score', value = anime.top_score)
-    response.add_field(name = 'Episodes', value = anime.episodes)
-    response.add_field(name = "Status", value = anime.status)
+        anime_list = sh.search_titles(title)
 
-    await ctx.send(embed = response)
+        try:
+            anime = anime_list[which_result-1] # Selecting one anime result from the list of all found results
+        except TypeError:
+            return await ctx.send('No results')
+        except IndexError:
+            await ctx.send('which_result param was too big, showing last result')
+            anime = anime_list[-1]
+
+        color = discord.Colour(16777215)
+
+        # Creating a discord embed message object and adding fields with information
+        response = discord.Embed(title = '***' + anime.title + '***', type = 'rich', description = 'Tags: ' + str(anime.tags), colour = color.teal(), url = anime.url) 
+        response.add_field(name = 'Score', value = anime.top_score)
+        response.add_field(name = 'Episodes', value = anime.episodes)
+        response.add_field(name = "Status", value = anime.status)
+
+        await ctx.send(embed = response)
+
+    else:
+        title = ' '.join(args_list)
+        anime_list = sh.search_titles(title)
+
+        try:
+            anime = anime_list[0] # Selecting one anime result from the list of all found results
+        except TypeError:
+            return await ctx.send('No results')
+
+        color = discord.Colour(16777215)
+
+        # Creating a discord embed message object and adding fields with information
+        response = discord.Embed(title = '***' + anime.title + '***', type = 'rich', description = 'Tags: ' + str(anime.tags), colour = color.teal(), url = anime.url) 
+        response.add_field(name = 'Score', value = anime.top_score)
+        response.add_field(name = 'Episodes', value = anime.episodes)
+        response.add_field(name = "Status", value = anime.status)
+
+        await ctx.send(embed = response)
 
 
 @bot.command(name = 'shindenmanga', aliases = ['sm', 'shindenm', 'shm','smanga', 'shmanga'], help = 'Returns a manga from shinden.pl')
@@ -140,7 +209,7 @@ async def shindenmanga(ctx, title, which_result = 1):
 
 
 @bot.command(name = 'shindenanimelist', aliases = ['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help = 'Returns a list of anime from shinden.pl')
-async def shindenanimelist(ctx, title):
+async def shindenanimelist(ctx, *, title):
     title = str(title)
 
     anime_list = sh.search_titles(title)
@@ -158,7 +227,7 @@ async def shindenanimelist(ctx, title):
 
 
 @bot.command(name='shindenmangalist', aliases=['sml', 'shindenml', 'shml', 'smangalist', 'shmangalist'], help = 'Returns a list of manga results')
-async def shindenmangalist(ctx, title):
+async def shindenmangalist(ctx, *, title):
     title = str(title)
 
     manga_list = sh.search_titles(title, anime_or_manga = 'manga')
@@ -197,7 +266,7 @@ async def shindencharacter(ctx, name, which_result = 1):
 
 
 @bot.command(name = 'shindencharacterlist', aliases = ['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'], help = 'Responds with a list of character results')
-async def shindencharacterlist(ctx, name):
+async def shindencharacterlist(ctx, *, name):
     name = str(name)
 
     character_list = sh.search_characters(name)
@@ -238,7 +307,7 @@ async def shindenuser(ctx, nickname, which_result = 1):
 
 
 @bot.command(name = 'shindenuserlist', aliases = ['sul', 'shindenul', 'shul', 'suserlist', 'shuserlist'], help = 'Lists shinden users found')
-async def shindenuserlist(ctx, nickname):
+async def shindenuserlist(ctx, *, nickname):
     nickname = str(nickname)
     user_list = sh.search_users(nickname)
     color = discord.Colour(16777215)
@@ -263,6 +332,8 @@ async def truth(ctx):
 
     await ctx.send(embed = response)
 
-
+@bot.command(name = 'test2')
+async def test2(ctx, *, arg):
+    await ctx.send(type(arg))
 # Finally running the bot with our api key from settings.json
 bot.run(api_key)
