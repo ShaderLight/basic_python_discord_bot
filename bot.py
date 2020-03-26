@@ -5,6 +5,9 @@ import shinden as sh
 
 import json
 
+import timer
+
+t = timer.Timer()
 
 with open('settings.json') as f:
     content = json.load(f)
@@ -102,6 +105,8 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
     if args == ():
         return await ctx.send('Help page')
     
+    t.start()
+
     words = ' '.join(args)
 
     defs = ud.define(words)
@@ -115,7 +120,13 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
             response.add_field(name = result.word, value = text, inline = False)
     except IndexError:
         if check == 0: # If there wasnt any correct iteration, then bot responds with No result message
-            await ctx.send("No results")
+            t.stop()
+            return await ctx.send("No results")
+    
+    footer_text = 'From shinden.pl | Done in '
+    execution_time = str(t.stop())
+    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
     await ctx.send(embed = response)
 
 
@@ -132,6 +143,8 @@ async def urbanrandom(ctx):
 async def shindenanime(ctx, *args):
     if args == ():
         return await ctx.send('Help page')
+    
+    t.start()
 
     if len(args) >= 2:
         args_list = list(args)
@@ -150,6 +163,7 @@ async def shindenanime(ctx, *args):
         try:
             anime = anime_list[which_result-1] # Selecting one anime result from the list of all found results
         except TypeError:
+            t.stop()
             return await ctx.send('No results')
         except IndexError:
             await ctx.send('which_result param was too big, showing last result')
@@ -163,6 +177,10 @@ async def shindenanime(ctx, *args):
         response.add_field(name = 'Episodes', value = anime.episodes)
         response.add_field(name = "Status", value = anime.status)
 
+        footer_text = 'From shinden.pl | Done in '
+        execution_time = str(t.stop())
+        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
         await ctx.send(embed = response)
 
     else:
@@ -172,6 +190,7 @@ async def shindenanime(ctx, *args):
         try:
             anime = anime_list[0] # Selecting one anime result from the list of all found results
         except TypeError:
+            t.stop()
             return await ctx.send('No results')
 
         color = discord.Colour(16777215)
@@ -182,6 +201,10 @@ async def shindenanime(ctx, *args):
         response.add_field(name = 'Episodes', value = anime.episodes)
         response.add_field(name = "Status", value = anime.status)
 
+        footer_text = 'From shinden.pl | Done in '
+        execution_time = str(t.stop())
+        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
         await ctx.send(embed = response)
 
 
@@ -189,6 +212,8 @@ async def shindenanime(ctx, *args):
 async def shindenmanga(ctx, *args):
     if args == ():
         return await ctx.send('Help page')
+
+    t.start()
 
     if len(args) >= 2:
         args_list = list(args)
@@ -207,6 +232,7 @@ async def shindenmanga(ctx, *args):
         try:
             manga = manga_list[which_result-1]
         except TypeError:
+            t.stop()
             return await ctx.send('No results')
         except IndexError:
             await ctx.send('which_result param was too big, showing last result')
@@ -219,6 +245,10 @@ async def shindenmanga(ctx, *args):
         response.add_field(name = 'Chapters', value = manga.episodes)
         response.add_field(name = 'Status', value = manga.status)
 
+        footer_text = 'From shinden.pl | Done in '
+        execution_time = str(t.stop())
+        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        
         await ctx.send(embed = response)
 
     else:
@@ -230,6 +260,7 @@ async def shindenmanga(ctx, *args):
         try:
             manga = manga_list[0]
         except TypeError:
+            t.stop()
             return await ctx.send('No results')
 
         color = discord.Colour(16777215)
@@ -238,7 +269,11 @@ async def shindenmanga(ctx, *args):
         response.add_field(name = 'Score', value = manga.top_score)
         response.add_field(name = 'Chapters', value = manga.episodes)
         response.add_field(name = 'Status', value = manga.status)
-
+        
+        footer_text = 'From shinden.pl | Done in '
+        execution_time = str(t.stop())
+        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        
         await ctx.send(embed = response)
 
 
@@ -247,6 +282,8 @@ async def shindenanimelist(ctx, *args):
     if args == ():
         return await ctx.send('Help page')
     
+    t.start()
+
     title = ' '.join(args)
 
     anime_list = sh.search_titles(title)
@@ -260,11 +297,17 @@ async def shindenanimelist(ctx, *args):
         response.add_field(name = str(counter) + '.', value = value_text) # Counter variable helps with returning many anime titles in a row (1. 2. 3. etc)
         counter = counter + 1
 
+    footer_text = 'From shinden.pl | Done in '
+    execution_time = str(t.stop())
+    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
     await ctx.send(embed = response)
 
 
 @bot.command(name='shindenmangalist', aliases=['sml', 'shindenml', 'shml', 'smangalist', 'shmangalist'], help = 'Returns a list of manga results')
 async def shindenmangalist(ctx, *args):
+    t.start()
+
     if args == ():
         return await ctx.send('Help page')
 
@@ -280,7 +323,11 @@ async def shindenmangalist(ctx, *args):
         value_text = '[' + manga.title + ']' + '(' + manga.url + ')'
         response.add_field(name = str(counter) + '.', value = value_text)
         counter = counter + 1
-        
+
+    footer_text = 'From shinden.pl | Done in '
+    execution_time = str(t.stop())
+    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
     await ctx.send(embed = response)
 
 
@@ -288,6 +335,8 @@ async def shindenmangalist(ctx, *args):
 async def shindencharacter(ctx, *args):
     if args == ():
         return await ctx.send('Help page')
+
+    t.start()
 
     if len(args) >= 2:
         args_list = list(args)
@@ -305,12 +354,14 @@ async def shindencharacter(ctx, *args):
         try:
             character = character_list[which_result-1]
         except TypeError:
+            t.stop()
             return await ctx.send('No results')
         except IndexError:
             await ctx.send('which_result param was too big, showing last result')
             character = character_list[-1]
 
         color = discord.Colour(16777215)
+        
         if len(character.description) > 2000: # Description of discord embed must be under 2048 characters
             desc = character.description[:2000] + '...'
         else:
@@ -322,13 +373,22 @@ async def shindencharacter(ctx, *args):
         response.add_field(name = 'Is historical', value = character.is_historical)
         response.add_field(name = 'Appearance list', value = (', '.join(character.appearance_list)), inline = False)
 
+        footer_text = 'From shinden.pl | Done in '
+        execution_time = str(t.stop())
+        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        
         await ctx.send(embed = response)
 
     else:
         name = ' '.join(args)
 
         character_list = sh.search_characters(name)
-        character = character_list[0]
+        try:
+            character = character_list[0]
+        except:
+            t.stop()
+            return await ctx.send('No result')
+        
         color = discord.Colour(16777215)
 
         response = discord.Embed(title = '***' + character.name + '***', type = 'rich', description = '`' + character.description + '`', colour = color.dark_gold(), url = character.url)
@@ -337,6 +397,10 @@ async def shindencharacter(ctx, *args):
         response.add_field(name = 'Is historical', value = character.is_historical)
         response.add_field(name = 'Appearance list', value = (', '.join(character.appearance_list)), inline = False)
 
+        footer_text = 'From shinden.pl | Done in '
+        execution_time = str(t.stop())
+        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        
         await ctx.send(embed = response)
 
 
@@ -344,6 +408,8 @@ async def shindencharacter(ctx, *args):
 async def shindencharacterlist(ctx, *args):
     if args == ():
         return await ctx.send('Help page')
+
+    t.start()
 
     name = ' '.join(args)
 
@@ -361,6 +427,11 @@ async def shindencharacterlist(ctx, *args):
         
         response.add_field(name = '`' + str(counter) + '. ' + ch.name + '`', value = info[:-2], inline = False)
         counter = counter + 1
+    
+    footer_text = 'From shinden.pl | Done in '
+    execution_time = str(t.stop())
+    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
     await ctx.send(embed = response)
 
 
@@ -368,6 +439,8 @@ async def shindencharacterlist(ctx, *args):
 async def shindenuser(ctx, *args):
     if args == ():
         return await ctx.send('Help page')
+
+    t.start()
 
     if len(args) >= 2:
         args_list = list(args)
@@ -388,6 +461,7 @@ async def shindenuser(ctx, *args):
             await ctx.send('which_result param too big, showing last result')
             user = user_list[-1]
         except TypeError:
+            t.stop()
             return await ctx.send('No results')
 
         color = discord.Colour(16777215)
@@ -401,6 +475,10 @@ async def shindenuser(ctx, *args):
         response.add_field(name = 'Points', value = '`' + str(user.points) + '`')
         response.add_field(name = 'Last seen', value = '`' + str(user.last_seen.strftime('%H:%M %d.%m.%Y')) + '`')
         
+        footer_text = 'From shinden.pl | Done in '
+        execution_time = str(t.stop())
+        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
         await ctx.send(embed = response)
     
     else:
@@ -410,6 +488,7 @@ async def shindenuser(ctx, *args):
         try:
             user = user_list[0]
         except TypeError:
+            t.stop()
             return await ctx.send('No results')
 
         color = discord.Colour(16777215)
@@ -423,6 +502,10 @@ async def shindenuser(ctx, *args):
         response.add_field(name = 'Points', value = '`' + str(user.points) + '`')
         response.add_field(name = 'Last seen', value = '`' + str(user.last_seen.strftime('%H:%M %d.%m.%Y')) + '`')
         
+        footer_text = 'From shinden.pl | Done in '
+        execution_time = str(t.stop())
+        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
         await ctx.send(embed = response)
 
 
@@ -430,6 +513,8 @@ async def shindenuser(ctx, *args):
 async def shindenuserlist(ctx, *args):
     if args == ():
         return await ctx.send('Help page')
+
+    t.start()
 
     nickname = ' '.join(args)
 
@@ -445,6 +530,10 @@ async def shindenuserlist(ctx, *args):
         response.add_field(name = '`' + str(counter) + '.' + user.nickname + '`', value = info, inline = False)
         counter = counter + 1
     
+    footer_text = 'From shinden.pl | Done in '
+    execution_time = str(t.stop())
+    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+
     await ctx.send(embed = response)
 
 # Other commands
