@@ -1,5 +1,7 @@
 import time
 
+# Timer inspired by https://realpython.com/python-timer/
+
 class Timer:
     def __init__(self):
         self.start_time = None
@@ -19,6 +21,7 @@ class Timer:
         return(elapsed_time)
 
 class TimerAlreadyRunning(Exception):
-    pass  
+    pass
+
 class TimerNotRunning(Exception):
     pass

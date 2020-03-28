@@ -4,22 +4,28 @@ import urbandictionary as ud
 import shinden as sh
 
 import json
+from datetime import datetime, timedelta
 
 import timer
+import covid19
 
+
+
+cv = covid19.Covid_data()
 t = timer.Timer()
 
 with open('settings.json') as f:
     content = json.load(f)
 
-api_key = content["api"]
+api_key = content['api']
 prefix = content['prefix']
+
 
 # Applying settings
 bot = commands.Bot(command_prefix = prefix, help_command = None)
 
-# Excuted when bot is connected and ready
 
+# Excuted when bot is connected and ready
 @bot.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(bot)) # printing out the bot's nickname
@@ -57,8 +63,12 @@ async def help(ctx):
     response.add_field(name = prefix + 'truth', value = 'Yeah...', inline = False)
 
     await ctx.send(embed = response)
-    
+
+
+ 
 # Urban Dictionary related commands
+
+
 
 @bot.command(name = 'urban', aliases=['u','ud'], help = 'Responds with urban dictionary definition')
 async def urban(ctx, *args):
@@ -100,6 +110,7 @@ async def urban(ctx, *args):
         await ctx.send(response)
 
 
+
 @bot.command(name = 'urbanlist', aliases = ['ul','udlist','udl', 'ulist'], help = 'Responds with urban dictionary definition list')
 async def urbanlist(ctx, *args): # This function responds with every definition found on UD (maximum result count is 10 and maximum word count for every definition is 75, urban command does not have that restriction)
     if args == ():
@@ -130,6 +141,7 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
     await ctx.send(embed = response)
 
 
+
 @bot.command(name = 'urbanrandom', aliases = ['ur', 'udrandom', 'udr', 'urandom'], help = 'Returns random Urban Dictionary definition')
 async def urbanrandom(ctx):
     definition = ud.random()[0]  # selecting first definition from the list of random definitions
@@ -137,7 +149,11 @@ async def urbanrandom(ctx):
 
     await ctx.send(response)
 
+
+
 # Shinden related commands
+
+
 
 @bot.command(name ='shindenanime', aliases = ['sa', 'shindena', 'sha', 'sanime', 'shanime'], help = 'Returns an anime from shinden.pl')
 async def shindenanime(ctx, *args):
@@ -206,6 +222,7 @@ async def shindenanime(ctx, *args):
         response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
 
         await ctx.send(embed = response)
+
 
 
 @bot.command(name = 'shindenmanga', aliases = ['sm', 'shindenm', 'shm','smanga', 'shmanga'], help = 'Returns a manga from shinden.pl')
@@ -277,6 +294,7 @@ async def shindenmanga(ctx, *args):
         await ctx.send(embed = response)
 
 
+
 @bot.command(name = 'shindenanimelist', aliases = ['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help = 'Returns a list of anime from shinden.pl')
 async def shindenanimelist(ctx, *args):
     if args == ():
@@ -304,6 +322,7 @@ async def shindenanimelist(ctx, *args):
     await ctx.send(embed = response)
 
 
+
 @bot.command(name='shindenmangalist', aliases=['sml', 'shindenml', 'shml', 'smangalist', 'shmangalist'], help = 'Returns a list of manga results')
 async def shindenmangalist(ctx, *args):
     t.start()
@@ -329,6 +348,7 @@ async def shindenmangalist(ctx, *args):
     response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
 
     await ctx.send(embed = response)
+
 
 
 @bot.command(name = 'shindencharacter', aliases = ['sc', 'shindenc', 'shc', 'scharacter', 'shcharacter', 'sch', 'shindench', 'shch'], help = 'Returns a character result from shinden.pl')
@@ -404,6 +424,7 @@ async def shindencharacter(ctx, *args):
         await ctx.send(embed = response)
 
 
+
 @bot.command(name = 'shindencharacterlist', aliases = ['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'], help = 'Responds with a list of character results')
 async def shindencharacterlist(ctx, *args):
     if args == ():
@@ -433,6 +454,7 @@ async def shindencharacterlist(ctx, *args):
     response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
 
     await ctx.send(embed = response)
+
 
 
 @bot.command(name = 'shindenuser', aliases = ['su', 'shindenu', 'shu', 'suser', 'shuser'], help = 'Searches for a shinden user')
@@ -509,6 +531,7 @@ async def shindenuser(ctx, *args):
         await ctx.send(embed = response)
 
 
+
 @bot.command(name = 'shindenuserlist', aliases = ['sul', 'shindenul', 'shul', 'suserlist', 'shuserlist'], help = 'Lists shinden users found')
 async def shindenuserlist(ctx, *args):
     if args == ():
@@ -536,7 +559,11 @@ async def shindenuserlist(ctx, *args):
 
     await ctx.send(embed = response)
 
+
+
 # Other commands
+
+
 
 @bot.command(name = 'truth', help = 'This basically responds with dino earth image and nothing else')
 async def truth(ctx):
@@ -544,6 +571,37 @@ async def truth(ctx):
     response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
 
     await ctx.send(embed = response)
+
+
+
+@bot.command(name = 'covid', aliases = ['ncov', 'covid19', 'coronavirus'])
+async def covid(ctx):
+    if cv.when_last_update() == 'never':
+        cv.update()
+    elif (datetime.now() - cv.when_last_update()) > timedelta(days=1):
+        cv.update()
+    
+    data = cv.read_data()
+
+    color = discord.Colour(16777215)
+    world_embed = discord.Embed(title = '**COVID-19 - World**', type = 'rich', colour = color.red(), url = 'https://worldometers.info/coronavirus/')
+    
+    world_embed.add_field(name = 'Cases', value = data['world'].cases)
+    world_embed.add_field(name = 'Deaths', value = data['world'].deaths)
+    world_embed.add_field(name = 'Recovered', value = data['world'].recovered)
+
+    poland_embed = discord.Embed(title = '**COVID-19 - Poland**', type = 'rich', colour = color.red(), url = 'https://worldometers.info/coronavirus/country/poland')
+    
+    poland_embed.add_field(name = 'Cases', value = data['poland'].cases)
+    poland_embed.add_field(name = 'Deaths', value = data['poland'].deaths)
+    poland_embed.add_field(name = 'Recovered', value = data['poland'].recovered)
+
+    world_embed.set_footer(text = 'Data from worldometers.info/coronavirus')
+    poland_embed.set_footer(text = 'Data from worldometers.info/coronavirus')
+
+    await ctx.send(embed = world_embed)
+    await ctx.send(embed = poland_embed)
+
 
 
 # Finally running the bot with our api key from settings.json
