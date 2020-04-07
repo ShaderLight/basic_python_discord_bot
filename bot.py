@@ -47,20 +47,22 @@ async def on_ready():
 @bot.command(name = 'help', aliases = ['helperino'], help = 'Lists available commands')
 async def help(ctx):
     color = discord.Colour(16777215)
-    response = discord.Embed(title = '**Available commands**', type = 'rich', description = '() - parameter, [] - optional parameter with a default value\nIf parameter has spaces, it must be within quotation marks, eq. **' + prefix +'ud "i like pizza"**', colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
+    response = discord.Embed(title = '**Flop bot**', type = 'rich', description = '() - parameter, [] - optional parameter with a default value.\nIn commands with optional which_result parameter and a number in last word of first param, it is recommended to enter the which_result param aswell, eq. **' + prefix +'shindenanime sao 2 1**', colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
 
     response.add_field(name = prefix + 'urban (word) [which_result = 1]', value = 'Responds with Urban Dictionary definition', inline = False)
     response.add_field(name = prefix + 'urbanlist (word)', value = 'Results for maximum 10 first results from Urban Dictionary', inline = False)
-    response.add_field(name = prefix + 'urbanrandom (word) [which_result = 1]', value = 'Returns an anime from shinden.pl', inline = False)
+    response.add_field(name = prefix + 'urbanrandom', value = 'Returns random Urban Dictionary definition', inline = False)
     response.add_field(name = prefix + 'shindenanime (title) [which_result = 1]', value = 'Returns an anime from shinden.pl', inline = False)
-    response.add_field(name = prefix + 'shindenmanga (title)', value = 'Returns a manga from shinden.pl', inline = False)
+    response.add_field(name = prefix + 'shindenmanga (title) [which_result = 1]', value = 'Returns a manga from shinden.pl', inline = False)
     response.add_field(name = prefix + 'shindenanimelist (title)', value = 'Returns a list of anime from shinden.pl', inline = False)
     response.add_field(name = prefix + 'shindenmangalist (title)', value = 'Returns a list of manga results', inline = False)
     response.add_field(name = prefix + 'shindencharacter (name) [which_result = 1]', value = 'Returns a character result from shinden.pl', inline = False)
     response.add_field(name = prefix + 'shindencharacterlist (name)', value = 'Responds with a list of character results', inline = False)
     response.add_field(name = prefix + 'shindenuser (nickname) [which_result = 1]', value = 'Searches for a shinden user', inline = False)
     response.add_field(name = prefix + 'shindenuserlist (nickname)', value = 'Lists shinden users found', inline = False)
+    response.add_field(name = prefix + 'covid', value = 'Returns actual data about COVID-19 for the world and Poland', inline = False)
     response.add_field(name = prefix + 'truth', value = 'Yeah...', inline = False)
+
 
     await ctx.send(embed = response)
 
@@ -72,8 +74,15 @@ async def help(ctx):
 
 @bot.command(name = 'urban', aliases=['u','ud'], help = 'Responds with urban dictionary definition')
 async def urban(ctx, *args):
-    if args == ():
-        return await ctx.send('Help page')
+    if args == (): # If no arguments were passed, then respond with help message
+        help_string = ('**Command:** urban\n'
+            '**Description:** Responds with urban dictionary definition.\n'
+            '**Aliases:** `u, ud`\n'
+            '**Usage:** `' + prefix + 'urban (word) [which_result = 1]`\n'
+            '**Parameters:** \n'
+            '\t*word* (str)\n'
+            '\t*which_result* (int) - optional, default value = 1')
+        return await ctx.send(help_string)
 
     if len(args) >= 2:
         args_list = list(args)
@@ -114,7 +123,13 @@ async def urban(ctx, *args):
 @bot.command(name = 'urbanlist', aliases = ['ul','udlist','udl', 'ulist'], help = 'Responds with urban dictionary definition list')
 async def urbanlist(ctx, *args): # This function responds with every definition found on UD (maximum result count is 10 and maximum word count for every definition is 75, urban command does not have that restriction)
     if args == ():
-        return await ctx.send('Help page')
+        help_string = ('**Command:** urbanlist\n'
+            '**Description:** Responds with urban dictionary definition list.\n'
+            '**Aliases:** `ul, udlist, udl, ulist`\n'
+            '**Usage:** `' + prefix + 'urbanlist (word)`\n'
+            '**Parameters:** \n'
+            '\t*word* (str)')
+        return await ctx.send(help_string)
     
     t.start()
 
@@ -158,7 +173,14 @@ async def urbanrandom(ctx):
 @bot.command(name ='shindenanime', aliases = ['sa', 'shindena', 'sha', 'sanime', 'shanime'], help = 'Returns an anime from shinden.pl')
 async def shindenanime(ctx, *args):
     if args == ():
-        return await ctx.send('Help page')
+        help_string = ('**Command:** shindenanime\n'
+            '**Description:** Returns an anime from shinden.pl\n'
+            '**Aliases:** `sa, shindena, sha, sanime, shanime`\n'
+            '**Usage:** `' + prefix + 'shindenanime (title) [which_result]`\n'
+            '**Parameters:** \n'
+            '\t*title* (str)\n'
+            '\t*which_result* (int) - optional, default value = 1')
+        return await ctx.send(help_string)
     
     t.start()
 
@@ -228,7 +250,14 @@ async def shindenanime(ctx, *args):
 @bot.command(name = 'shindenmanga', aliases = ['sm', 'shindenm', 'shm','smanga', 'shmanga'], help = 'Returns a manga from shinden.pl')
 async def shindenmanga(ctx, *args):
     if args == ():
-        return await ctx.send('Help page')
+        help_string = ('**Command:** shindenmanga\n'
+            '**Description:** Returns a manga from shinden.pl\n'
+            '**Aliases:** `sm, shindenm, shm, smanga, shmanga`\n'
+            '**Usage:** `' + prefix + 'shindenmanga (title) [which_result]`\n'
+            '**Parameters:** \n'
+            '\t*title* (str)\n'
+            '\t*which_result* (int) - optional, default value = 1')
+        return await ctx.send(help_string)
 
     t.start()
 
@@ -298,8 +327,14 @@ async def shindenmanga(ctx, *args):
 @bot.command(name = 'shindenanimelist', aliases = ['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help = 'Returns a list of anime from shinden.pl')
 async def shindenanimelist(ctx, *args):
     if args == ():
-        return await ctx.send('Help page')
-    
+        help_string = ('**Command:** shindenanimelist\n'
+            '**Description:** Returns a list of anime from shinden.pl\n'
+            '**Aliases:** `sal, shindenal, shal, sanimelist, shanimelist`\n'
+            '**Usage:** `' + prefix + 'shindenanimelist (title)`\n'
+            '**Parameters:** \n'
+            '\t*title* (str)\n')
+        return await ctx.send(help_string)
+
     t.start()
 
     title = ' '.join(args)
@@ -328,7 +363,14 @@ async def shindenmangalist(ctx, *args):
     t.start()
 
     if args == ():
-        return await ctx.send('Help page')
+        help_string = ('**Command:** shindenmangalist\n'
+            '**Description:** Returns a list of manga results\n'
+            '**Aliases:** `sml, shindenml, shml, smangalist, shmangalist`\n'
+            '**Usage:** `' + prefix + 'shindenmangalist (title)`\n'
+            '**Parameters:** \n'
+            '\t*title* (str)')
+
+        return await ctx.send(help_string)
 
     title = ' '.join(args)
 
@@ -354,7 +396,15 @@ async def shindenmangalist(ctx, *args):
 @bot.command(name = 'shindencharacter', aliases = ['sc', 'shindenc', 'shc', 'scharacter', 'shcharacter', 'sch', 'shindench', 'shch'], help = 'Returns a character result from shinden.pl')
 async def shindencharacter(ctx, *args):
     if args == ():
-        return await ctx.send('Help page')
+        help_string = ('**Command:** shindencharacter\n'
+            '**Description:** Returns a character result from shinden.pl\n'
+            '**Aliases:** `sc, shindenc, shc, scharacter, shcharacter, sch, shindench, shch`\n'
+            '**Usage:** `' + prefix + 'shindencharacter (name) [which_result]`\n'
+            '**Parameters:** \n'
+            '\t*name* (str)\n'
+            '\t*which_result* (int) - optional, default value = 1')
+
+        return await ctx.send(help_string)
 
     t.start()
 
@@ -428,7 +478,14 @@ async def shindencharacter(ctx, *args):
 @bot.command(name = 'shindencharacterlist', aliases = ['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'], help = 'Responds with a list of character results')
 async def shindencharacterlist(ctx, *args):
     if args == ():
-        return await ctx.send('Help page')
+        help_string = ('**Command:** shindencharacterlist\n'
+            '**Description:** Returns with a list of character results\n'
+            '**Aliases:** `scl, shindencl, shcl, scharacterlist, schl, shindenchl, shchl`\n'
+            '**Usage:** `' + prefix + 'shindencharacter (name)`\n'
+            '**Parameters:** \n'
+            '\t*name* (str)\n')
+
+        return await ctx.send(help_string)
 
     t.start()
 
@@ -460,7 +517,15 @@ async def shindencharacterlist(ctx, *args):
 @bot.command(name = 'shindenuser', aliases = ['su', 'shindenu', 'shu', 'suser', 'shuser'], help = 'Searches for a shinden user')
 async def shindenuser(ctx, *args):
     if args == ():
-        return await ctx.send('Help page')
+        help_string = ('**Command:** shindenuser\n'
+            '**Description:** Searches for a shinden user\n'
+            '**Aliases:** `su, shindenu, shc, shu, suser, shuser`\n'
+            '**Usage:** `' + prefix + 'shindencharacter (nickname) [which_result]`\n'
+            '**Parameters:** \n'
+            '\t*nickname* (str)\n'
+            '\t*which_result* (int) - optional, default value = 1')
+
+        return await ctx.send(help_string)
 
     t.start()
 
@@ -535,7 +600,13 @@ async def shindenuser(ctx, *args):
 @bot.command(name = 'shindenuserlist', aliases = ['sul', 'shindenul', 'shul', 'suserlist', 'shuserlist'], help = 'Lists shinden users found')
 async def shindenuserlist(ctx, *args):
     if args == ():
-        return await ctx.send('Help page')
+        help_string = ('**Command:** shindenuserlist\n'
+            '**Description:** Lists shinden users found\n'
+            '**Aliases:** `sul, shindenul, shul, suserlist, shuserlist`\n'
+            '**Usage:** `' + prefix + 'shindencharacterlist (nickname)`\n'
+            '**Parameters:** \n'
+            '\t*nickname* (str)\n')
+        return await ctx.send(help_string)
 
     t.start()
 
@@ -565,24 +636,16 @@ async def shindenuserlist(ctx, *args):
 
 
 
-@bot.command(name = 'truth', help = 'This basically responds with dino earth image and nothing else')
-async def truth(ctx):
-    response = discord.Embed(title = 'The truth')
-    response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
-
-    await ctx.send(embed = response)
-
-
-
 @bot.command(name = 'covid', aliases = ['ncov', 'covid19', 'coronavirus'])
 async def covid(ctx):
     if cv.when_last_update() == 'never':
         cv.update()
-    elif (datetime.now() - cv.when_last_update()) > timedelta(days=1):
+    elif (datetime.now() - cv.when_last_update()) > timedelta(days=1): # if covid data hasnt been updated in 1 day, then update (in order to minimalise requests sent)
         cv.update()
     
     data = cv.read_data()
 
+    # Creating two separate embeds for world and poland respectively
     color = discord.Colour(16777215)
     world_embed = discord.Embed(title = '**COVID-19 - World**', type = 'rich', colour = color.red(), url = 'https://worldometers.info/coronavirus/')
     
@@ -595,12 +658,21 @@ async def covid(ctx):
     poland_embed.add_field(name = 'Cases', value = data['poland'].cases)
     poland_embed.add_field(name = 'Deaths', value = data['poland'].deaths)
     poland_embed.add_field(name = 'Recovered', value = data['poland'].recovered)
-
+    
     world_embed.set_footer(text = 'Data from worldometers.info/coronavirus')
     poland_embed.set_footer(text = 'Data from worldometers.info/coronavirus')
 
     await ctx.send(embed = world_embed)
     await ctx.send(embed = poland_embed)
+
+
+
+@bot.command(name = 'truth', help = 'This basically responds with dino earth image and nothing else')
+async def truth(ctx):
+    response = discord.Embed(title = 'The truth')
+    response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
+
+    await ctx.send(embed = response)
 
 
 
