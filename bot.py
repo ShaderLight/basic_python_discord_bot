@@ -61,7 +61,6 @@ async def help(ctx):
     response.add_field(name = prefix + 'shindenuser (nickname) [which_result = 1]', value = 'Searches for a shinden user', inline = False)
     response.add_field(name = prefix + 'shindenuserlist (nickname)', value = 'Lists shinden users found', inline = False)
     response.add_field(name = prefix + 'covid', value = 'Returns actual data about COVID-19 for the world and Poland', inline = False)
-    response.add_field(name = prefix + 'truth', value = 'Yeah...', inline = False)
 
 
     await ctx.send(embed = response)

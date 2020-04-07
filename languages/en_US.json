@@ -1,0 +1,130 @@
+{
+    "help": [
+        "Available commands",
+        "() - parameter, '[] - optional parameter with a default value",
+        "If parameter has spaces, it must be within quotation marks, eq.",
+        "word",
+        "title",
+        "name",
+        "nickname",
+        "which_result",
+        "Responds with Urban Dictionary definition",
+        "Results for maximum 10 first results from Urban Dictionary",
+        "Returns random Urban Dictionary result",
+        "'Returns an anime from shinden.pl",
+        "Returns a manga from shinden.pl",
+        "Returns a list of anime from shinden.pl",
+        "Returns a list of manga results",
+        "Returns a character result from shinden.pl",
+        "Responds with a list of character results",
+        "Searches for a shinden user"
+    ],
+    "language": [
+        "Wrong or not supported language",
+        "Desired language has already been set",
+        "Language changed to"
+    ],
+    "urban": [
+        "**Command:** urban\n**Description:** Responds with urban dictionary definition.\n**Aliases:** `u, ud`\n**Usage:** `",
+        "urban (word) [which_result = 1]`\n**Parameters:** \n\t*word* (str)\n\t*which_result* (int) - optional, default value = 1",
+        "No results"
+    ],
+    "urbanlist": [
+        "**Command:** urbanlist\n**Description:** Responds with urban dictionary definition list.\n**Aliases:** `ul, udlist, udl, ulist`\n'**Usage:** `' + prefix + ",
+        "urbanlist (word)`\n**Parameters:** \n\t*word* (str)",
+        "From shinden.pl | Done in ",
+        "seconds"
+    ],
+    "shindenanime": [
+        "**Command:** shindenanime\n**Description:** Returns an anime from shinden.pl\n**Aliases:** `sa, shindena, sha, sanime, shanime`\n**Usage:** `",
+        "shindenanime (title) [which_result]`\n**title* (str)\n\t*which_result* (int) - opt*Parameters:** \n\tional, default value = 1",
+        "No results",
+        "which_result param was too big, showing last result",
+        "Tags: ",
+        "Score",
+        "Episodes",
+        "Status",
+        "From shinden.pl | Done in ",
+        " seconds"
+    ],
+    "shindenmanga": [
+        "**Command:** shindenmanga\n**Description:** Returns a manga from shinden.pl\n**Aliases:** `sm, shindenm, shm, smanga, shmanga`\n**Usage:** `",
+        "shindenmanga (title) [which_result]`\n**Parameters:** \n\t*title* (str)\n\t*which_result* (int) - optional, default value = 1",
+        "No results",
+        "which_result param was too big, showing last result",
+        "Tags: ",
+        "Score",
+        "Chapters",
+        "Status",
+        "From shinden.pl | Done in ",
+        " seconds"
+    ],
+    "shindenanimelist": [
+        "**Command:** shindenanimelist\n**Description:** Returns a list of anime from shinden.pl\n**Aliases:** `sal, shindenal, shal, sanimelist, shanimelist`\n**Usage:** `",
+        "shindenanimelist (title)`\n**Parameters:** \n\t*title* (str)\n",
+        "***Shinden anime list***",
+        "Search results for: ",
+        "From shinden.pl | Done in ",
+        " seconds"
+    ],
+    "shindenmangalist": [
+        "**Command:** shindenmangalist\n**Description:** Returns a list of manga results\n**Aliases:** `sml, shindenml, shml, smangalist, shmangalist`\n**Usage:** `",
+        "shindenmangalist (title)`\n**Parameters:** \n\t*title* (str)",
+        "***Shinden manga list***",
+        "Search results for: ",
+        "From shinden.pl | Done in ",
+        " seconds"
+    ],
+    "shindencharacter": [
+        "**Command:** shindencharacter\n**Description:** Returns a character result from shinden.pl\n**Aliases:** `sc, shindenc, shc, scharacter, shcharacter, sch, shindench, shch`\n**Usage:** `",
+        "shindencharacter (name) [which_result]`\n**Parameters:** \n\t*name* (str)\n\t*which_result* (int) - optional, default value = 1",
+        "No results",
+        "which_result param was too big, showing last result",
+        "Gender",
+        "Is historical",
+        "Appearance list",
+        "From shinden.pl | Done in ",
+        " seconds"
+    ],
+    "shindencharacterlist": [
+        "**Command:** shindencharacterlist\n**Description:** Returns with a list of character results\n**Aliases:** `scl, shindencl, shcl, scharacterlist, schl, shindenchl, shchl`\n**Usage:** `",
+        "shindencharacter (name)`\n**Parameters:** \n\t*name* (str)\n",
+        "***Shinden character list***",
+        "Search results for: ",
+        "**Appears in: **",
+        "From shinden.pl | Done in ",
+        " seconds"
+    ],
+    "shindenuser": [
+        "**Command:** shindenuser\n**Description:** Searches for a shinden user\n**Aliases:** `su, shindenu, shc, shu, suser, shuser`\n**Usage:** `",
+        "shindencharacter (nickname) [which_result]`\n**Parameters:** \n\t*nickname* (str)\n\t*which_result* (int) - optional, default value = 1",
+        "which_result param too big, showing last result",
+        "No results",
+        "Anime titles watched",
+        "Anime hours watched",
+        "Anime episodes watched",
+        "Average anime ratings",
+        "Achievement count",
+        "Points",
+        "Last seen",
+        "From shinden.pl | Done in ",
+        " seconds"
+    ],
+    "shindenuserlist": [
+        "**Command:** shindenuserlist\n**Description:** Lists shinden users found\n**Aliases:** `sul, shindenul, shul, suserlist, shuserlist`\n**Usage:** `",
+        "shindencharacterlist (nickname)`\n**Parameters:** \n\t*nickname* (str)\n",
+        "***Shinden user list***",
+        "Search results for: ",
+        "Profile",
+        "**Last seen: ",
+        "From shinden.pl | Done in ",
+        " seconds"
+    ],
+    "covid": [
+        "**COVID-19 - World**",
+        "Cases",
+        "Deaths",
+        "Recovered",
+        "Data from worldometers.info/coronavirus"
+    ]
+}
