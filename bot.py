@@ -22,7 +22,7 @@ prefix = content['prefix']
 
 
 # Applying settings
-bot = commands.Bot(command_prefix = prefix, help_command = None)
+bot = commands.Bot(command_prefix=prefix, help_command=None)
 
 
 # Excuted when bot is connected and ready
@@ -37,34 +37,33 @@ async def on_ready():
     print(f'Guild Members:\n - {members}') # printing out a list of server members
 
     # Setting bot status to streaming (Never gonna give you up)
-    stream = discord.Streaming(name = prefix + 'helperino', url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ')
-    await bot.change_presence(activity = stream) 
+    stream = discord.Streaming(name=prefix + 'helperino', url='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+    await bot.change_presence(activity=stream) 
 
     print("Ready")
 
 
 # Help command
-@bot.command(name = 'help', aliases = ['helperino'], help = 'Lists available commands')
+@bot.command(name='help', aliases=['helperino'], help='Lists available commands')
 async def help(ctx):
     color = discord.Colour(16777215)
-    response = discord.Embed(title = '**Flop bot**', type = 'rich', description = '() - parameter, [] - optional parameter with a default value.\nIn commands with optional which_result parameter and a number in last word of first param, it is recommended to enter the which_result param aswell, eq. **' + prefix +'shindenanime sao 2 1**', colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
+    response = discord.Embed(title='**Flop bot**', type='rich', description='() - parameter, [] - optional parameter with a default value.\nIn commands with optional which_result parameter and a number in last word of first param, it is recommended to enter the which_result param aswell, eq. **{}shindenanime sao 2 1**'.format(prefix), colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
 
-    response.add_field(name = prefix + 'urban (word) [which_result = 1]', value = 'Responds with Urban Dictionary definition', inline = False)
-    response.add_field(name = prefix + 'urbanlist (word)', value = 'Results for maximum 10 first results from Urban Dictionary', inline = False)
-    response.add_field(name = prefix + 'urbanrandom', value = 'Returns random Urban Dictionary definition', inline = False)
-    response.add_field(name = prefix + 'shindenanime (title) [which_result = 1]', value = 'Returns an anime from shinden.pl', inline = False)
-    response.add_field(name = prefix + 'shindenmanga (title) [which_result = 1]', value = 'Returns a manga from shinden.pl', inline = False)
-    response.add_field(name = prefix + 'shindenanimelist (title)', value = 'Returns a list of anime from shinden.pl', inline = False)
-    response.add_field(name = prefix + 'shindenmangalist (title)', value = 'Returns a list of manga results', inline = False)
-    response.add_field(name = prefix + 'shindencharacter (name) [which_result = 1]', value = 'Returns a character result from shinden.pl', inline = False)
-    response.add_field(name = prefix + 'shindencharacterlist (name)', value = 'Responds with a list of character results', inline = False)
-    response.add_field(name = prefix + 'shindenuser (nickname) [which_result = 1]', value = 'Searches for a shinden user', inline = False)
-    response.add_field(name = prefix + 'shindenuserlist (nickname)', value = 'Lists shinden users found', inline = False)
-    response.add_field(name = prefix + 'covid', value = 'Returns actual data about COVID-19 for the world and Poland', inline = False)
-    response.add_field(name = prefix + 'truth', value = 'Yeah...', inline = False)
+    response.add_field(name='{}urban (word) [which_result=1]'.format(prefix), value='Responds with Urban Dictionary definition', inline=False)
+    response.add_field(name='{}urbanlist (word)'.format(prefix), value='Results for maximum 10 first results from Urban Dictionary', inline=False)
+    response.add_field(name='{}urbanrandom'.format(prefix), value='Returns random Urban Dictionary definition', inline=False)
+    response.add_field(name='{}shindenanime (title) [which_result=1]'.format(prefix), value='Returns an anime from shinden.pl', inline=False)
+    response.add_field(name='{}shindenmanga (title) [which_result=1]'.format(prefix), value='Returns a manga from shinden.pl', inline = False)
+    response.add_field(name='{}shindenanimelist (title)'.format(prefix), value='Returns a list of anime from shinden.pl', inline = False)
+    response.add_field(name='{}shindenmangalist (title)'.format(prefix), value='Returns a list of manga results', inline = False)
+    response.add_field(name='{}shindencharacter (name) [which_result=1]'.format(prefix), value='Returns a character result from shinden.pl', inline=False)
+    response.add_field(name='{}shindencharacterlist (name)'.format(prefix), value='Responds with a list of character results', inline=False)
+    response.add_field(name='{}shindenuser (nickname) [which_result=1]'.format(prefix), value='Searches for a shinden user', inline=False)
+    response.add_field(name='{}shindenuserlist (nickname)'.format(prefix), value='Lists shinden users found', inline=False)
+    response.add_field(name='{}covid'.format(prefix), value='Returns actual data about COVID-19 for the world and Poland', inline=False)
 
 
-    await ctx.send(embed = response)
+    await ctx.send(embed=response)
 
 
  
@@ -72,16 +71,16 @@ async def help(ctx):
 
 
 
-@bot.command(name = 'urban', aliases=['u','ud'], help = 'Responds with urban dictionary definition')
+@bot.command(name='urban', aliases=['u','ud'], help='Responds with urban dictionary definition')
 async def urban(ctx, *args):
     if args == (): # If no arguments were passed, then respond with help message
         help_string = ('**Command:** urban\n'
             '**Description:** Responds with urban dictionary definition.\n'
             '**Aliases:** `u, ud`\n'
-            '**Usage:** `' + prefix + 'urban (word) [which_result = 1]`\n'
+            '**Usage:** `{}urban (word) [which_result=1]`\n'
             '**Parameters:** \n'
             '\t*word* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1')
+            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
         return await ctx.send(help_string)
 
     if len(args) >= 2:
@@ -103,7 +102,7 @@ async def urban(ctx, *args):
         except IndexError:
             await ctx.send("**No result**") # If index is out of range, then prints out that there was no result found
     
-        response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`' # Reponse with some discord formatting for a nicer look
+        response = '***{0.word}***\n\n`{0.definition}\n\n{0.example}`'.format(definition) # Reponse with some discord formatting for a nicer look
         await ctx.send(response)
 
     else:
@@ -115,20 +114,20 @@ async def urban(ctx, *args):
         except IndexError:
             await ctx.send("**No result**") # If index is out of range, then prints out that there was no result found
     
-        response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`' # Reponse with some discord formatting for a nicer look
+        response = '***{0.word}***\n\n`{0.definition}\n\n{0.example}`'.format(definition) # Reponse with some discord formatting for a nicer look
         await ctx.send(response)
 
 
 
-@bot.command(name = 'urbanlist', aliases = ['ul','udlist','udl', 'ulist'], help = 'Responds with urban dictionary definition list')
+@bot.command(name='urbanlist', aliases=['ul','udlist','udl', 'ulist'], help='Responds with urban dictionary definition list')
 async def urbanlist(ctx, *args): # This function responds with every definition found on UD (maximum result count is 10 and maximum word count for every definition is 75, urban command does not have that restriction)
     if args == ():
         help_string = ('**Command:** urbanlist\n'
             '**Description:** Responds with urban dictionary definition list.\n'
             '**Aliases:** `ul, udlist, udl, ulist`\n'
-            '**Usage:** `' + prefix + 'urbanlist (word)`\n'
+            '**Usage:** `{}urbanlist (word)`\n'
             '**Parameters:** \n'
-            '\t*word* (str)')
+            '\t*word* (str)'.format(prefix))
         return await ctx.send(help_string)
     
     t.start()
@@ -136,31 +135,30 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
     words = ' '.join(args)
 
     defs = ud.define(words)
-    response = discord.Embed(title = words, type = 'rich', description = 'Results for maximum 10 first results from Urban Dictionary' )
+    response = discord.Embed(title=words, type='rich', description='Results for maximum 10 first results from Urban Dictionary' )
     try:
         check = 0 # This variable checks if there was at least one successful iteration
         for i in range(10):
             result = defs[i]
             check = 1 
             text = (result.definition[:75] + '...') if len(result.definition) > 75 else result.definition # This line checks if the word count of the definition is over 75, if true, then cuts it and adds '...'
-            response.add_field(name = result.word, value = text, inline = False)
+            response.add_field(name=result.word, value=text, inline=False)
     except IndexError:
         if check == 0: # If there wasnt any correct iteration, then bot responds with No result message
             t.stop()
             return await ctx.send("No results")
     
-    footer_text = 'From shinden.pl | Done in '
     execution_time = str(t.stop())
-    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time[:5]))
 
-    await ctx.send(embed = response)
+    await ctx.send(embed=response)
 
 
 
-@bot.command(name = 'urbanrandom', aliases = ['ur', 'udrandom', 'udr', 'urandom'], help = 'Returns random Urban Dictionary definition')
+@bot.command(name='urbanrandom', aliases=['ur', 'udrandom', 'udr', 'urandom'], help='Returns random Urban Dictionary definition')
 async def urbanrandom(ctx):
     definition = ud.random()[0]  # selecting first definition from the list of random definitions
-    response = '***' + definition.word + '***' + '\n\n`' + definition.definition + '\n\n' + definition.example + '`'
+    response = '***{0.word}***\n\n`{0.definition}\n\n{0.example}`'.format(definition)
 
     await ctx.send(response)
 
@@ -170,16 +168,16 @@ async def urbanrandom(ctx):
 
 
 
-@bot.command(name ='shindenanime', aliases = ['sa', 'shindena', 'sha', 'sanime', 'shanime'], help = 'Returns an anime from shinden.pl')
+@bot.command(name='shindenanime', aliases=['sa', 'shindena', 'sha', 'sanime', 'shanime'], help='Returns an anime from shinden.pl')
 async def shindenanime(ctx, *args):
     if args == ():
         help_string = ('**Command:** shindenanime\n'
             '**Description:** Returns an anime from shinden.pl\n'
             '**Aliases:** `sa, shindena, sha, sanime, shanime`\n'
-            '**Usage:** `' + prefix + 'shindenanime (title) [which_result]`\n'
+            '**Usage:** `{}shindenanime (title) [which_result]`\n'
             '**Parameters:** \n'
             '\t*title* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1')
+            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
         return await ctx.send(help_string)
     
     t.start()
@@ -210,16 +208,15 @@ async def shindenanime(ctx, *args):
         color = discord.Colour(16777215)
 
         # Creating a discord embed message object and adding fields with information
-        response = discord.Embed(title = '***' + anime.title + '***', type = 'rich', description = 'Tags: ' + str(anime.tags), colour = color.teal(), url = anime.url) 
-        response.add_field(name = 'Score', value = anime.top_score)
-        response.add_field(name = 'Episodes', value = anime.episodes)
-        response.add_field(name = "Status", value = anime.status)
+        response = discord.Embed(title='***{0.title}***'.format(anime), type='rich', description='Tags: ' + str(anime.tags), colour=color.teal(), url=anime.url) 
+        response.add_field(name='Score', value=anime.top_score)
+        response.add_field(name='Episodes', value=anime.episodes)
+        response.add_field(name="Status", value=anime.status)
 
-        footer_text = 'From shinden.pl | Done in '
-        execution_time = str(t.stop())
-        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        execution_time = round(t.stop(), 3)
+        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
 
-        await ctx.send(embed = response)
+        await ctx.send(embed=response)
 
     else:
         title = ' '.join(args)
@@ -234,29 +231,28 @@ async def shindenanime(ctx, *args):
         color = discord.Colour(16777215)
 
         # Creating a discord embed message object and adding fields with information
-        response = discord.Embed(title = '***' + anime.title + '***', type = 'rich', description = 'Tags: ' + str(anime.tags), colour = color.teal(), url = anime.url) 
-        response.add_field(name = 'Score', value = anime.top_score)
-        response.add_field(name = 'Episodes', value = anime.episodes)
-        response.add_field(name = "Status", value = anime.status)
+        response = discord.Embed(title='***{0.title}***'.format(anime), type='rich', description='Tags: ' + str(anime.tags), colour=color.teal(), url=anime.url) 
+        response.add_field(name='Score', value=anime.top_score)
+        response.add_field(name='Episodes', value=anime.episodes)
+        response.add_field(name="Status", value=anime.status)
 
-        footer_text = 'From shinden.pl | Done in '
-        execution_time = str(t.stop())
-        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        execution_time = round(t.stop(), 3)
+        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
 
-        await ctx.send(embed = response)
-
+        await ctx.send(embed=response)
 
 
-@bot.command(name = 'shindenmanga', aliases = ['sm', 'shindenm', 'shm','smanga', 'shmanga'], help = 'Returns a manga from shinden.pl')
+
+@bot.command(name='shindenmanga', aliases=['sm', 'shindenm', 'shm','smanga', 'shmanga'], help='Returns a manga from shinden.pl')
 async def shindenmanga(ctx, *args):
     if args == ():
         help_string = ('**Command:** shindenmanga\n'
             '**Description:** Returns a manga from shinden.pl\n'
             '**Aliases:** `sm, shindenm, shm, smanga, shmanga`\n'
-            '**Usage:** `' + prefix + 'shindenmanga (title) [which_result]`\n'
+            '**Usage:** `{}shindenmanga (title) [which_result]`\n'
             '**Parameters:** \n'
             '\t*title* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1')
+            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
         return await ctx.send(help_string)
 
     t.start()
@@ -273,7 +269,7 @@ async def shindenmanga(ctx, *args):
 
         title = ' '.join(args_list)
 
-        manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+        manga_list = sh.search_titles(title, anime_or_manga='manga')
 
         try:
             manga = manga_list[which_result-1]
@@ -286,22 +282,22 @@ async def shindenmanga(ctx, *args):
 
         color = discord.Colour(16777215)
 
-        response = discord.Embed(title = '***' + manga.title + '***', type = 'rich', description = 'Tags: ' + str(manga.tags), colour = color.teal(), url = manga.url)
-        response.add_field(name = 'Score', value = manga.top_score)
-        response.add_field(name = 'Chapters', value = manga.episodes)
-        response.add_field(name = 'Status', value = manga.status)
+        response = discord.Embed(title='***{0.title}***'.format(manga), type='rich', description='Tags: ' + str(manga.tags), colour=color.teal(), url=manga.url)
+        response.add_field(name='Score', value=manga.top_score)
+        response.add_field(name='Chapters', value=manga.episodes)
+        response.add_field(name='Status', value=manga.status)
 
-        footer_text = 'From shinden.pl | Done in '
-        execution_time = str(t.stop())
-        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        execution_time = round(t.stop(), 3)
+        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+
         
-        await ctx.send(embed = response)
+        await ctx.send(embed=response)
 
     else:
 
         title = ' '.join(args)
 
-        manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+        manga_list = sh.search_titles(title, anime_or_manga='manga')
 
         try:
             manga = manga_list[0]
@@ -311,28 +307,28 @@ async def shindenmanga(ctx, *args):
 
         color = discord.Colour(16777215)
 
-        response = discord.Embed(title = '***' + manga.title + '***', type = 'rich', description = 'Tags: ' + str(manga.tags), colour = color.teal(), url = manga.url)
-        response.add_field(name = 'Score', value = manga.top_score)
-        response.add_field(name = 'Chapters', value = manga.episodes)
-        response.add_field(name = 'Status', value = manga.status)
+        response = discord.Embed(title='***{0.title}***'.format(manga), type='rich', description='Tags: {0.tags}'.format(manga), colour=color.teal(), url=manga.url)
+        response.add_field(name='Score', value=manga.top_score)
+        response.add_field(name = 'Chapters', value=manga.episodes)
+        response.add_field(name='Status', value=manga.status)
         
-        footer_text = 'From shinden.pl | Done in '
-        execution_time = str(t.stop())
-        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        execution_time = round(t.stop(), 3)
+        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+
         
-        await ctx.send(embed = response)
+        await ctx.send(embed=response)
 
 
 
-@bot.command(name = 'shindenanimelist', aliases = ['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help = 'Returns a list of anime from shinden.pl')
+@bot.command(name='shindenanimelist', aliases=['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help='Returns a list of anime from shinden.pl')
 async def shindenanimelist(ctx, *args):
     if args == ():
         help_string = ('**Command:** shindenanimelist\n'
             '**Description:** Returns a list of anime from shinden.pl\n'
             '**Aliases:** `sal, shindenal, shal, sanimelist, shanimelist`\n'
-            '**Usage:** `' + prefix + 'shindenanimelist (title)`\n'
+            '**Usage:** `{}shindenanimelist (title)`\n'
             '**Parameters:** \n'
-            '\t*title* (str)\n')
+            '\t*title* (str)\n'.format(prefix))
         return await ctx.send(help_string)
 
     t.start()
@@ -342,23 +338,23 @@ async def shindenanimelist(ctx, *args):
     anime_list = sh.search_titles(title)
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title= '***Shinden anime list***', type = 'rich', description = 'Search results for: **' + title + '**', colour = color.teal())
+    response = discord.Embed(title='***Shinden anime list***', type='rich', description='Search results for: **{}**'.format(title), colour=color.teal())
     
     counter = 1
     for anime in anime_list:
-        value_text = '[' + anime.title + ']' + '(' + anime.url + ')'
-        response.add_field(name = str(counter) + '.', value = value_text) # Counter variable helps with returning many anime titles in a row (1. 2. 3. etc)
+        value_text = '[{0.title}]({0.url})'.format(anime)
+        response.add_field(name=str(counter) + '.', value=value_text) # Counter variable helps with returning many anime titles in a row (1. 2. 3. etc)
         counter = counter + 1
 
-    footer_text = 'From shinden.pl | Done in '
-    execution_time = str(t.stop())
-    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
-
-    await ctx.send(embed = response)
+    execution_time = round(t.stop(), 3)
+    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
 
 
+    await ctx.send(embed=response)
 
-@bot.command(name='shindenmangalist', aliases=['sml', 'shindenml', 'shml', 'smangalist', 'shmangalist'], help = 'Returns a list of manga results')
+
+
+@bot.command(name='shindenmangalist', aliases=['sml', 'shindenml', 'shml', 'smangalist', 'shmangalist'], help='Returns a list of manga results')
 async def shindenmangalist(ctx, *args):
     t.start()
 
@@ -366,43 +362,43 @@ async def shindenmangalist(ctx, *args):
         help_string = ('**Command:** shindenmangalist\n'
             '**Description:** Returns a list of manga results\n'
             '**Aliases:** `sml, shindenml, shml, smangalist, shmangalist`\n'
-            '**Usage:** `' + prefix + 'shindenmangalist (title)`\n'
+            '**Usage:** `{}shindenmangalist (title)`\n'
             '**Parameters:** \n'
-            '\t*title* (str)')
+            '\t*title* (str)'.format(prefix))
 
         return await ctx.send(help_string)
 
     title = ' '.join(args)
 
-    manga_list = sh.search_titles(title, anime_or_manga = 'manga')
+    manga_list = sh.search_titles(title, anime_or_manga='manga')
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title= '***Shinden manga list***', type = 'rich', description = 'Search results for: **' + title + '**', colour = color.teal())
+    response = discord.Embed(title='***Shinden manga list***', type='rich', description='Search results for: **{}**'.format(title), colour=color.teal())
     
     counter = 1
     for manga in manga_list:
-        value_text = '[' + manga.title + ']' + '(' + manga.url + ')'
-        response.add_field(name = str(counter) + '.', value = value_text)
+        value_text = '[{0.title}]({0.url})'.format(manga)
+        response.add_field(name=str(counter) + '.', value=value_text)
         counter = counter + 1
 
-    footer_text = 'From shinden.pl | Done in '
-    execution_time = str(t.stop())
-    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
-
-    await ctx.send(embed = response)
+    execution_time = round(t.stop(), 3)
+    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
 
 
+    await ctx.send(embed=response)
 
-@bot.command(name = 'shindencharacter', aliases = ['sc', 'shindenc', 'shc', 'scharacter', 'shcharacter', 'sch', 'shindench', 'shch'], help = 'Returns a character result from shinden.pl')
+
+
+@bot.command(name='shindencharacter', aliases=['sc', 'shindenc', 'shc', 'scharacter', 'shcharacter', 'sch', 'shindench', 'shch'], help='Returns a character result from shinden.pl')
 async def shindencharacter(ctx, *args):
     if args == ():
         help_string = ('**Command:** shindencharacter\n'
             '**Description:** Returns a character result from shinden.pl\n'
             '**Aliases:** `sc, shindenc, shc, scharacter, shcharacter, sch, shindench, shch`\n'
-            '**Usage:** `' + prefix + 'shindencharacter (name) [which_result]`\n'
+            '**Usage:** `{}shindencharacter (name) [which_result]`\n'
             '**Parameters:** \n'
             '\t*name* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1')
+            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
 
         return await ctx.send(help_string)
 
@@ -437,17 +433,17 @@ async def shindencharacter(ctx, *args):
         else:
             desc = character.description
 
-        response = discord.Embed(title = '***' + character.name + '***', type = 'rich', description = '`' + desc + '`', colour = color.dark_gold(), url = character.url)
+        response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`' + desc + '`', colour=color.dark_gold(), url=character.url)
 
-        response.add_field(name = 'Gender', value = character.gender)
-        response.add_field(name = 'Is historical', value = character.is_historical)
-        response.add_field(name = 'Appearance list', value = (', '.join(character.appearance_list)), inline = False)
+        response.add_field(name='Gender', value=character.gender)
+        response.add_field(name='Is historical', value=character.is_historical)
+        response.add_field(name='Appearance list', value=(', '.join(character.appearance_list)), inline=False)
 
-        footer_text = 'From shinden.pl | Done in '
-        execution_time = str(t.stop())
-        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        execution_time = round(t.stop(), 3)
+        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+
         
-        await ctx.send(embed = response)
+        await ctx.send(embed=response)
 
     else:
         name = ' '.join(args)
@@ -461,29 +457,29 @@ async def shindencharacter(ctx, *args):
         
         color = discord.Colour(16777215)
 
-        response = discord.Embed(title = '***' + character.name + '***', type = 'rich', description = '`' + character.description + '`', colour = color.dark_gold(), url = character.url)
+        response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`{0.description}`'.format(character), colour=color.dark_gold(), url=character.url)
 
-        response.add_field(name = 'Gender', value = character.gender)
-        response.add_field(name = 'Is historical', value = character.is_historical)
-        response.add_field(name = 'Appearance list', value = (', '.join(character.appearance_list)), inline = False)
+        response.add_field(name='Gender', value=character.gender)
+        response.add_field(name='Is historical', value=character.is_historical)
+        response.add_field(name='Appearance list', value=(', '.join(character.appearance_list)), inline=False)
 
-        footer_text = 'From shinden.pl | Done in '
-        execution_time = str(t.stop())
-        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        execution_time = round(t.stop(), 3)
+        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+
         
-        await ctx.send(embed = response)
+        await ctx.send(embed=response)
 
 
 
-@bot.command(name = 'shindencharacterlist', aliases = ['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'], help = 'Responds with a list of character results')
+@bot.command(name='shindencharacterlist', aliases=['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'], help='Responds with a list of character results')
 async def shindencharacterlist(ctx, *args):
     if args == ():
         help_string = ('**Command:** shindencharacterlist\n'
             '**Description:** Returns with a list of character results\n'
             '**Aliases:** `scl, shindencl, shcl, scharacterlist, schl, shindenchl, shchl`\n'
-            '**Usage:** `' + prefix + 'shindencharacter (name)`\n'
+            '**Usage:** `{}shindencharacter (name)`\n'
             '**Parameters:** \n'
-            '\t*name* (str)\n')
+            '\t*name* (str)\n'.format(prefix))
 
         return await ctx.send(help_string)
 
@@ -494,36 +490,36 @@ async def shindencharacterlist(ctx, *args):
     character_list = sh.search_characters(name)
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title = '***Shinden character list***', type = 'rich', description = 'Search results for: **' + name + '**', colour = color.green())
+    response = discord.Embed(title='***Shinden character list***', type='rich', description='Search results for: **{}**'.format(name), colour=color.green())
 
     counter = 1
-    for ch in character_list:
+    for character in character_list:
         
-        info = '[**Appears in: **]' + '(' + ch.url + ')'
-        for appear in ch.appearance_list:
+        info = '[**Appears in: **]({0.url})'.format(character)
+        for appear in character.appearance_list:
             info = info + str(appear) + ', '
         
-        response.add_field(name = '`' + str(counter) + '. ' + ch.name + '`', value = info[:-2], inline = False)
+        response.add_field(name='`{0}. {1.name}`'.format(counter, character), value=info[:-2], inline=False)
         counter = counter + 1
     
-    footer_text = 'From shinden.pl | Done in '
-    execution_time = str(t.stop())
-    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
-
-    await ctx.send(embed = response)
+    execution_time = round(t.stop(), 3)
+    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
 
 
+    await ctx.send(embed=response)
 
-@bot.command(name = 'shindenuser', aliases = ['su', 'shindenu', 'shu', 'suser', 'shuser'], help = 'Searches for a shinden user')
+
+
+@bot.command(name='shindenuser', aliases=['su', 'shindenu', 'shu', 'suser', 'shuser'], help='Searches for a shinden user')
 async def shindenuser(ctx, *args):
     if args == ():
         help_string = ('**Command:** shindenuser\n'
             '**Description:** Searches for a shinden user\n'
             '**Aliases:** `su, shindenu, shc, shu, suser, shuser`\n'
-            '**Usage:** `' + prefix + 'shindencharacter (nickname) [which_result]`\n'
+            '**Usage:** `{}shindencharacter (nickname) [which_result]`\n'
             '**Parameters:** \n'
             '\t*nickname* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1')
+            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
 
         return await ctx.send(help_string)
 
@@ -552,21 +548,26 @@ async def shindenuser(ctx, *args):
             return await ctx.send('No results')
 
         color = discord.Colour(16777215)
-        response = discord.Embed(title = '**' + user.nickname + '**', type = 'rich', colour = color.red(), url = user.url)
+        response = discord.Embed(title='**{0.nickname}**'.format(user), type='rich', colour=color.red(), url=user.url)
         
-        response.add_field(name = 'Anime titles watched', value = '`' + str(user.anime_titles_watched) + '`')
-        response.add_field(name = 'Anime hours watched', value = '`' + str(int(user.anime_minutes_watched/60)) + '`')
-        response.add_field(name = 'Anime episodes watched', value = '`' + str(user.anime_episodes_watched) + '`')
-        response.add_field(name = 'Average anime ratings', value = '`' + str(user.average_anime_ratings) + '`')
-        response.add_field(name = 'Achievement count', value = '`' + str(user.achievement_count) + '`')
-        response.add_field(name = 'Points', value = '`' + str(user.points) + '`')
-        response.add_field(name = 'Last seen', value = '`' + str(user.last_seen.strftime('%H:%M %d.%m.%Y')) + '`')
-        
-        footer_text = 'From shinden.pl | Done in '
-        execution_time = str(t.stop())
-        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+        response.add_field(name='Anime titles watched', value='`{0.anime_titles_watched}`'.format(user))
 
-        await ctx.send(embed = response)
+        hours_watched = int(user.anime_minutes_watched/60)
+        response.add_field(name='Anime hours watched', value='`{}`'.format(hours_watched))
+
+        response.add_field(name='Anime episodes watched', value='`{0.anime_episodes_watched}`'.format(user))
+        response.add_field(name='Average anime ratings', value='`{0.average_anime_ratings}`'.format(user))
+        response.add_field(name='Achievement count', value='`{0.achievement_count}`'.format(user))
+        response.add_field(name='Points', value='`{0.points}`'.format(user))
+
+        formatted_last_seen = user.last_seen.strftime('%H:%M %d.%m.%Y')
+        response.add_field(name='Last seen', value='`{}`'.format(formatted_last_seen))
+        
+        execution_time = round(t.stop(), 3)
+        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+
+
+        await ctx.send(embed=response)
     
     else:
         nickname = ' '.join(args)
@@ -579,33 +580,38 @@ async def shindenuser(ctx, *args):
             return await ctx.send('No results')
 
         color = discord.Colour(16777215)
-        response = discord.Embed(title = '**' + user.nickname + '**', type = 'rich', colour = color.red(), url = user.url)
+        response = discord.Embed(title='**{0.nickname}**'.format(user), type='rich', colour=color.red(), url=user.url)
         
-        response.add_field(name = 'Anime titles watched', value = '`' + str(user.anime_titles_watched) + '`')
-        response.add_field(name = 'Anime hours watched', value = '`' + str(int(user.anime_minutes_watched/60)) + '`')
-        response.add_field(name = 'Anime episodes watched', value = '`' + str(user.anime_episodes_watched) + '`')
-        response.add_field(name = 'Average anime ratings', value = '`' + str(user.average_anime_ratings) + '`')
-        response.add_field(name = 'Achievement count', value = '`' + str(user.achievement_count) + '`')
-        response.add_field(name = 'Points', value = '`' + str(user.points) + '`')
-        response.add_field(name = 'Last seen', value = '`' + str(user.last_seen.strftime('%H:%M %d.%m.%Y')) + '`')
+        response.add_field(name='Anime titles watched', value='`{0.anime_titles_watched}`'.format(user))
+
+        hours_watched = int(user.anime_minutes_watched/60)
+        response.add_field(name='Anime hours watched', value='`{}`'.format(hours_watched))
+
+        response.add_field(name='Anime episodes watched', value='`{0.anime_episodes_watched}`'.format(user))
+        response.add_field(name='Average anime ratings', value='`{0.average_anime_ratings}`'.format(user))
+        response.add_field(name='Achievement count', value='`{0.achievement_count}`'.format(user))
+        response.add_field(name='Points', value='`{0.points}`'.format(user))
+
+        formatted_last_seen = user.last_seen.strftime('%H:%M %d.%m.%Y')
+        response.add_field(name='Last seen', value='`{}`'.format(formatted_last_seen))
         
-        footer_text = 'From shinden.pl | Done in '
-        execution_time = str(t.stop())
-        response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
-
-        await ctx.send(embed = response)
+        execution_time = round(t.stop(), 3)
+        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
 
 
+        await ctx.send(embed=response)
 
-@bot.command(name = 'shindenuserlist', aliases = ['sul', 'shindenul', 'shul', 'suserlist', 'shuserlist'], help = 'Lists shinden users found')
+
+
+@bot.command(name='shindenuserlist', aliases=['sul', 'shindenul', 'shul', 'suserlist', 'shuserlist'], help='Lists shinden users found')
 async def shindenuserlist(ctx, *args):
     if args == ():
         help_string = ('**Command:** shindenuserlist\n'
             '**Description:** Lists shinden users found\n'
             '**Aliases:** `sul, shindenul, shul, suserlist, shuserlist`\n'
-            '**Usage:** `' + prefix + 'shindencharacterlist (nickname)`\n'
+            '**Usage:** `{}shindencharacterlist (nickname)`\n'
             '**Parameters:** \n'
-            '\t*nickname* (str)\n')
+            '\t*nickname* (str)\n'.format(prefix))
         return await ctx.send(help_string)
 
     t.start()
@@ -614,21 +620,24 @@ async def shindenuserlist(ctx, *args):
 
     user_list = sh.search_users(nickname)
     color = discord.Colour(16777215)
-    response = discord.Embed(title = '***Shinden user list***', type = 'rich', description = 'Search results for: ***' + nickname + '***', colour = color.purple()) 
+    response = discord.Embed(title='***Shinden user list***', type='rich', description='Search results for: ***{}***'.format(nickname), colour=color.purple()) 
     
     counter = 1
     for user in user_list: # Formatting the data using datatime's strftime method
-        profile_hyperlink = '[Profile]' + '(' + user.url + ')'
-        info = '**Last seen:** ' + user.last_seen.strftime('%H:%M %d.%m.%Y') + '\n' + '**Hours watched: **' + str(int(user.anime_minutes_watched/60)) + '\n' + profile_hyperlink
+        profile_hyperlink = '[Profile]({0.url})'.format(user)
+        formatted_last_seen = user.last_seen.strftime('%H:%M %d.%m.%Y')
+        hours_watched = int(user.anime_minutes_watched/60)
 
-        response.add_field(name = '`' + str(counter) + '.' + user.nickname + '`', value = info, inline = False)
+        info = '**Last seen:** {}\n**Hours watched: **{}\n{}'.format(formatted_last_seen, hours_watched, profile_hyperlink)
+
+        response.add_field(name='`{0}. {1.nickname}`'.format(counter, user), value=info, inline=False)
         counter = counter + 1
     
-    footer_text = 'From shinden.pl | Done in '
     execution_time = str(t.stop())
-    response.set_footer(text = footer_text + execution_time[:5] + ' seconds')
+    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time[:5]))
 
-    await ctx.send(embed = response)
+
+    await ctx.send(embed=response)
 
 
 
@@ -636,7 +645,7 @@ async def shindenuserlist(ctx, *args):
 
 
 
-@bot.command(name = 'covid', aliases = ['ncov', 'covid19', 'coronavirus'])
+@bot.command(name='covid', aliases=['ncov', 'covid19', 'coronavirus'])
 async def covid(ctx):
     if cv.when_last_update() == 'never':
         cv.update()
@@ -647,32 +656,32 @@ async def covid(ctx):
 
     # Creating two separate embeds for world and poland respectively
     color = discord.Colour(16777215)
-    world_embed = discord.Embed(title = '**COVID-19 - World**', type = 'rich', colour = color.red(), url = 'https://worldometers.info/coronavirus/')
+    world_embed = discord.Embed(title='**COVID-19 - World**', type='rich', colour=color.red(), url='https://worldometers.info/coronavirus/')
     
-    world_embed.add_field(name = 'Cases', value = data['world'].cases)
-    world_embed.add_field(name = 'Deaths', value = data['world'].deaths)
-    world_embed.add_field(name = 'Recovered', value = data['world'].recovered)
+    world_embed.add_field(name='Cases', value=data['world'].cases)
+    world_embed.add_field(name='Deaths', value=data['world'].deaths)
+    world_embed.add_field(name='Recovered', value=data['world'].recovered)
 
-    poland_embed = discord.Embed(title = '**COVID-19 - Poland**', type = 'rich', colour = color.red(), url = 'https://worldometers.info/coronavirus/country/poland')
+    poland_embed = discord.Embed(title='**COVID-19 - Poland**', type='rich', colour=color.red(), url='https://worldometers.info/coronavirus/country/poland')
     
-    poland_embed.add_field(name = 'Cases', value = data['poland'].cases)
-    poland_embed.add_field(name = 'Deaths', value = data['poland'].deaths)
-    poland_embed.add_field(name = 'Recovered', value = data['poland'].recovered)
+    poland_embed.add_field(name='Cases', value=data['poland'].cases)
+    poland_embed.add_field(name='Deaths', value=data['poland'].deaths)
+    poland_embed.add_field(name='Recovered', value=data['poland'].recovered)
     
-    world_embed.set_footer(text = 'Data from worldometers.info/coronavirus')
-    poland_embed.set_footer(text = 'Data from worldometers.info/coronavirus')
+    world_embed.set_footer(text='Data from worldometers.info/coronavirus')
+    poland_embed.set_footer(text='Data from worldometers.info/coronavirus')
 
-    await ctx.send(embed = world_embed)
-    await ctx.send(embed = poland_embed)
+    await ctx.send(embed=world_embed)
+    await ctx.send(embed=poland_embed)
 
 
 
-@bot.command(name = 'truth', help = 'This basically responds with dino earth image and nothing else')
+@bot.command(name='truth', help='This basically responds with dino earth image and nothing else')
 async def truth(ctx):
-    response = discord.Embed(title = 'The truth')
-    response.set_image(url = 'https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
+    response = discord.Embed(title='The truth')
+    response.set_image(url='https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
 
-    await ctx.send(embed = response)
+    await ctx.send(embed=response)
 
 
 
