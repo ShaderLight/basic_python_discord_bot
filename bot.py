@@ -4,43 +4,59 @@ import urbandictionary as ud
 import shinden as sh
 
 import json
+import logging
+import sys
 from datetime import datetime, timedelta
 
 import timer
 import covid19
 
-
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.INFO)
 
 cv = covid19.Covid_data()
 t = timer.Timer()
 
-with open('settings.json') as f:
-    content = json.load(f)
 
-api_key = content['api']
-prefix = content['prefix']
+# On the first execution, there will be no settings.json, so we will create one
+try:
+    with open('settings.json', 'r') as f:
+        content = json.load(f)
+
+    api_key = content['api']
+    prefix = content['prefix']
+except:
+    logging.warning("Proper settings.json file wasn't found, creating a default one")
+    default_settings = {'api': 'your_api_token', 'prefix': '!'}
+    
+    with open('settings.json', 'w') as f:
+        json.dump(default_settings, f, indent=4)
+
+    # After creating the settings file, code execution will stop, so the user can enter discord api token and run the code again
+    logging.info('Program will now shutdown, please apply settings in settings.json')
+    sys.exit()
 
 
-# Applying settings
+
+# Applying prefix
 bot = commands.Bot(command_prefix=prefix, help_command=None)
 
 
 # Excuted when bot is connected and ready
 @bot.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(bot)) # printing out the bot's nickname
+    logging.info('We have logged in as {0.user}'.format(bot)) # Logging the bot's nickname
 
     for guild in bot.guilds:
-        print('Logged in ' + str(guild.name) +  ' (id: '+ str(guild.id) +')') # printing out server name, which bot is connected to
+        logging.info('Logged in ' + str(guild.name) +  ' (id: '+ str(guild.id) +')') # Printing out server name, which the bot is connected to
 
     members = ' - '.join([member.name for member in guild.members])
-    print(f'Guild Members:\n - {members}') # printing out a list of server members
+    logging.info(f'Guild Members:\n - {members}') # Logging a list of server members
 
     # Setting bot status to streaming (Never gonna give you up)
     stream = discord.Streaming(name=prefix + 'helperino', url='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     await bot.change_presence(activity=stream) 
 
-    print("Ready")
+    logging.info("--- Ready ---")
 
 
 # Help command
