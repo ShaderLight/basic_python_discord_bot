@@ -47,7 +47,7 @@ async def on_ready():
     logging.info('We have logged in as {0.user}'.format(bot)) # Logging the bot's nickname
 
     for guild in bot.guilds:
-        logging.info('Logged in ' + str(guild.name) +  ' (id: '+ str(guild.id) +')') # Printing out server name, which the bot is connected to
+        logging.info('Logged in ' + str(guild.name) +  ' (id: '+ str(guild.id) +')') # Logging server name, which the bot is connected to
 
     members = ' - '.join([member.name for member in guild.members])
     logging.info(f'Guild Members:\n - {members}') # Logging a list of server members
@@ -63,7 +63,7 @@ async def on_ready():
 @bot.command(name='help', aliases=['helperino'], help='Lists available commands')
 async def help(ctx):
     color = discord.Colour(16777215)
-    response = discord.Embed(title='**Flop bot**', type='rich', description='() - parameter, [] - optional parameter with a default value.\nIn commands with optional which_result parameter and a number in last word of first param, it is recommended to enter the which_result param aswell, eq. **{}shindenanime sao 2 1**'.format(prefix), colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
+    response = discord.Embed(title='**Flop bot**', type='rich', description='() - parameter, [] - optional parameter with a default value.\nIn commands with optional which_result parameter and a number in last word of first param, it is recommended to enter the which_result param aswell, eq. **{}half-life 3 1**'.format(prefix), colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
 
     response.add_field(name='{}urban (word) [which_result=1]'.format(prefix), value='Responds with Urban Dictionary definition', inline=False)
     response.add_field(name='{}urbanlist (word)'.format(prefix), value='Results for maximum 10 first results from Urban Dictionary', inline=False)
@@ -165,7 +165,7 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
             return await ctx.send("No results")
     
     execution_time = str(t.stop())
-    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time[:5]))
+    response.set_footer(text='From urbandictionary.com | Done in {} seconds'.format(execution_time[:5]))
 
     await ctx.send(embed=response)
 
