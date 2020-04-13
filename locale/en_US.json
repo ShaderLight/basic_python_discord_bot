@@ -30,7 +30,7 @@
     "language": [
         "Wrong or not supported language",
         "Desired language has already been set",
-        "Language changed to"
+        "Language changed to {}"
     ],
     "urban": [
         "**Command:** urban\n**Description:** Responds with urban dictionary definition.\n**Aliases:** `u, ud`\n**Usage:** `{}urban (word) [which_result=1]`\n**Parameters:** \n\t*word* (str)\n\t*which_result* (int) - optional, default value = 1",

@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 
 import timer
 import covid19
+import languages
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.INFO)
 
@@ -24,9 +25,10 @@ try:
 
     api_key = content['api']
     prefix = content['prefix']
+    language_set = content['language']
 except:
     logging.warning("Proper settings.json file wasn't found, creating a default one")
-    default_settings = {'api': 'your_api_token', 'prefix': '!'}
+    default_settings = {'api': 'your_api_token', 'prefix': '!', 'language':'EN'}
     
     with open('settings.json', 'w') as f:
         json.dump(default_settings, f, indent=4)
@@ -40,6 +42,8 @@ except:
 # Applying prefix
 bot = commands.Bot(command_prefix=prefix, help_command=None)
 
+# Applying language
+lg = languages.Language(language_set)
 
 # Excuted when bot is connected and ready
 @bot.event
@@ -80,6 +84,24 @@ async def help(ctx):
 
 
     await ctx.send(embed=response)
+
+
+# Language command
+@bot.command(name='language', aliases=['lang'])
+async def language(ctx, *args):
+    if len(args)!= 1:
+        return await ctx.send('Bad usage')
+
+    desired_language = ''.join(args)
+    desired_language = desired_language.upper()
+
+    if desired_language == language_set:
+        return await ctx.send('Desired language has already been set')
+
+    lg.update(desired_language)
+    language_set = desired_language
+
+    await ctx.send('Language changed to {}'.format(language_set))
 
 
  
