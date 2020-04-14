@@ -34,7 +34,7 @@ except:
         json.dump(default_settings, f, indent=4)
 
     # After creating the settings file, code execution will stop, so the user can enter discord api token and run the code again
-    logging.info('Program will now shutdown, please apply settings in settings.json')
+    logging.debug('Program will now shutdown, please apply settings in settings.json')
     sys.exit()
 
 
@@ -44,6 +44,8 @@ bot = commands.Bot(command_prefix=prefix, help_command=None)
 
 # Applying language
 lg = languages.Language(starting_language)
+
+logging.debug('Bot ready to connect with prefix {} and language {}'.format(prefix, starting_language))
 
 # Excuted when bot is connected and ready
 @bot.event
@@ -60,27 +62,26 @@ async def on_ready():
     stream = discord.Streaming(name=prefix + 'helperino', url='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     await bot.change_presence(activity=stream) 
 
-    logging.info("--- Ready ---")
+    logging.info("------ | Ready | ------")
 
 
 # Help command
 @bot.command(name='help', aliases=['helperino'], help='Lists available commands')
 async def help(ctx):
     color = discord.Colour(16777215)
-    response = discord.Embed(title='**Flop bot**', type='rich', description='() - parameter, [] - optional parameter with a default value.\nIn commands with optional which_result parameter and a number in last word of first param, it is recommended to enter the which_result param aswell, eq. **{}urban half-life 3 1**'.format(prefix), colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
-
-    response.add_field(name='{}urban (word) [which_result=1]'.format(prefix), value='Responds with Urban Dictionary definition', inline=False)
-    response.add_field(name='{}urbanlist (word)'.format(prefix), value='Results for maximum 10 first results from Urban Dictionary', inline=False)
-    response.add_field(name='{}urbanrandom'.format(prefix), value='Returns random Urban Dictionary definition', inline=False)
-    response.add_field(name='{}shindenanime (title) [which_result=1]'.format(prefix), value='Returns an anime from shinden.pl', inline=False)
-    response.add_field(name='{}shindenmanga (title) [which_result=1]'.format(prefix), value='Returns a manga from shinden.pl', inline = False)
-    response.add_field(name='{}shindenanimelist (title)'.format(prefix), value='Returns a list of anime from shinden.pl', inline = False)
-    response.add_field(name='{}shindenmangalist (title)'.format(prefix), value='Returns a list of manga results', inline = False)
-    response.add_field(name='{}shindencharacter (name) [which_result=1]'.format(prefix), value='Returns a character result from shinden.pl', inline=False)
-    response.add_field(name='{}shindencharacterlist (name)'.format(prefix), value='Responds with a list of character results', inline=False)
-    response.add_field(name='{}shindenuser (nickname) [which_result=1]'.format(prefix), value='Searches for a shinden user', inline=False)
-    response.add_field(name='{}shindenuserlist (nickname)'.format(prefix), value='Lists shinden users found', inline=False)
-    response.add_field(name='{}covid'.format(prefix), value='Returns actual data about COVID-19 for the world and Poland', inline=False)
+    response = discord.Embed(title='***Flop***', type='rich', description=lg.help[1].format(prefix), colour = color.dark_magenta(), url = 'https://github.com/ShaderLight/flop_discord_bot')
+    response.add_field(name=lg.help[2].format(prefix), value=lg.help[3], inline=False)
+    response.add_field(name=lg.help[4].format(prefix), value=lg.help[5], inline=False)
+    response.add_field(name=lg.help[6].format(prefix), value=lg.help[7], inline=False)
+    response.add_field(name=lg.help[8].format(prefix), value=lg.help[9], inline=False)
+    response.add_field(name=lg.help[10].format(prefix), value=lg.help[11], inline = False)
+    response.add_field(name=lg.help[12].format(prefix), value=lg.help[13], inline = False)
+    response.add_field(name=lg.help[14].format(prefix), value=lg.help[15], inline = False)
+    response.add_field(name=lg.help[16].format(prefix), value=lg.help[17], inline=False)
+    response.add_field(name=lg.help[18].format(prefix), value=lg.help[19], inline=False)
+    response.add_field(name=lg.help[20].format(prefix), value=lg.help[21], inline=False)
+    response.add_field(name=lg.help[22].format(prefix), value=lg.help[23], inline=False)
+    response.add_field(name=lg.help[24].format(prefix), value=lg.help[25], inline=False)
 
 
     await ctx.send(embed=response)
