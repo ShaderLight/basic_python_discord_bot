@@ -1,0 +1,120 @@
+{
+    "help": [
+        "Dostępne komendy",
+        "() - parametr, [] - opcjonalny parametr z wartością domyślną.\nW komendach z opcjonalnym parametrem który_wynik i liczbą w ostatnim słowie pierwszego parametru zaleca się również wpisanie parametru który_wynik, np.**{}urban half-life 3 1**",
+        "{}urban (słowo) [który_wynik = 1]",
+        "Odpowiada definicją słownika Urban Dictionary",
+        "{}urbanista (słowo)",
+        "Wyniki dla maksymalnie 10 pierwszych wyników ze słownika Urban Dictionary",
+        "{}urbanrandom",
+        "Zwraca losową definicję słownika Urban Dictionary",
+        "{}shindenanime (tytuł) [który_wynik = 1]",
+        "Zwraca anime z shinden.pl",
+        "{}shindenmanga (tytuł) [który_wynik = 1]",
+        "Zwraca mangę z shinden.pl",
+        "{}shindenanimelist (tytuł)",
+        "Zwraca listę anime z shinden.pl",
+        "{}shindenmangalist (tytuł)",
+        "Zwraca listę wyników mangi z shinden.pl",
+        "{}shindencharacter (imię) [który_wynik = 1]",
+        "Zwraca postać z shinden.pl",
+        "{}shindencharacterlist (imię)",
+        "Odpowiada listą wyników postaci",
+        "{}shindenuser (pseudonim) [który_wynik = 1]",
+        "Szuka użytkownika shinden.pl",
+        "{}shindenuserlist (pseudonim)",
+        "Zwraca liste znalezionych użytkowników shinden.pl",
+        "{}covid",
+        "Zwraca aktualne dane o COVID-19 dla świata i Polski"
+    ],
+    "language": [
+        "Nieprawidłowy lub nieobsługiwany język",
+        "Wybrany język został już ustawiony",
+        "Język zmieniono na {}"
+    ],
+    "urban": [
+        "**Polecenie:** urban\n**Opis:** Odpowiada definicją słownika miejskiego\n **Aliasy:**` u, ud` \n **Sposób użycia:** `{}urban (słowo) [który_wynik = 1]`\n**Parametry: **\n\t*słowo* (str)\n\t*który_wynik* (int) - opcjonalnie, wartość domyślna = 1",
+        "**Brak wyników**",
+        "*** {0.word} *** \n\n`{0.definicja}\n\n{0. przykład}`"
+    ],
+    "urbanlist": [
+        "**Polecenie:** urbanlist\n**Opis:** Odpowiada z listą definicji słownika miejskiego\n **Aliasy:**` ul, udlist, udl, ulist` \n **Zastosowanie:** `{}urbanlist (słowo)`\n**Parametry:**\n\t*słowo* (str)",
+        "Źródło: urbandictionary.com | Wykonane w {} sekund"
+    ],
+    "shindenanime": [
+        "**Polecenie:** shindenanime\n**Opis:** Zwraca anime z shinden.pl\n **Aliasy:**` sa, shindena, sha, sanime, shanime` \n **Sposób użycia:** `{}shindenanime (title) [który_wynik]` \n **Parametry:**\n\t*tytuł* (str)\n\t*który_wynik* (int) - opcjonalnie, wartość domyślna = 1 ",
+        "**Brak wyników**",
+        "parametr który_wynik był zbyt duży, pokazuję ostatni wynik",
+        "Tagi:",
+        "Wynik",
+        "Odcinki",
+        "Status",
+        "Źródło: shinden.pl | Wykonane w {} sekund"
+    ],
+    "shindenmanga": [
+        "**Polecenie:** shindenmanga\n**Opis:** Zwraca mangę z shinden.pl\n **Aliasy:**` sm, shindenm, shm, smanga, shmanga` \n **Sposób użycia:** `{}shindenmanga (title) [który_wynik]` \n **Parametry:**\n\t*tytuł* (str)\n\t*który_wynik* (int) - opcjonalnie, wartość domyślna = 1 ",
+        "**Brak wyników**",
+        "parametr który_wynik był zbyt duży, pokazuję ostatni wynik",
+        "Tagi: ",
+        "Wynik",
+        "Rozdziały",
+        "Status",
+        "Źródło: shinden.pl | Wykonane w {} sekund"
+    ],
+    "shindenanimelist": [
+        "**Polecenie:** shindenanimelist\n**Opis:** Zwraca listę anime z shinden.pl\n **Aliasy:**` sal, shindenal, shal, sanimelist, shanimelist` \n **Sposób użycia:** `{}shindenanimelist (title)` \n **Parametry:**\n\n*tytuł* (str)",
+        "*** Shinden anime list ***",
+        "Wyniki wyszukiwania dla: **{}**",
+        "Źródło: shinden.pl | Wykonane w {} sekund"
+    ],
+    "shindenmangalist": [
+        "**Polecenie:** shindenmangalist\n**Opis:** Zwraca listę wyników mangi \n **Aliasy:**` sml, shindenml, shml, smangalist, shmangalist` \n **Sposób użycia:** `{}shindenmangalist (tytuł) `\n **Parametry:**\n\n* tytuł * (str)",
+        "*** Shinden manga list ***",
+        "Wyniki wyszukiwania dla: **{}**",
+        "Źródło: shinden.pl | Wykonane w {} sekund"
+    ],
+    "shindencharacter": [
+        "**Polecenie:** shindencharacter\n**Opis:** Zwraca wynik postaci z shinden.pl\n **Aliasy:**` sc, shindenc, shc, scharacter, shcharacter, sch, shindench, shch` \n **Zastosowanie:** `{}shindencharacter (name) [który_wynik]` \n **Parametry:**\n\n*imię* (str)\n\n*który_wynik* (int) - opcjonalnie, domyślnie wartość = 1 ",
+        "**Brak wyników**",
+        "parametr który_wynik jest zbyt duży, pokazuję ostatni wynik",
+        "Płeć",
+        "Jest historyczny",
+        "Lista wyglądów",
+        "Źródło: shinden.pl | Wykonane w {} sekund"
+    ],
+    "shindencharacterlist": [
+        "**Polecenie:** shindencharacterlist\n**Opis:** Zwraca listę wyników znaków \n **Aliasy:**` scl, shindencl, shcl, scharacterlist, schl, shindenchl, shchl` \n **Zastosowanie:** `{}shindencharacter (name)` \n **Parametry:** \n\t *imię* (str)",
+        "*** Shinden lista postaci ***",
+        "Wyniki wyszukiwania dla: **{}**",
+        "[** Pojawia się za: **] ({0.url})",
+        "Źródło: shinden.pl | Wykonane w {} sekund"
+    ],
+    "shindenuser": [
+        "**Polecenie:** shindenuser\n**Opis:** Wyszukuje użytkownika shinden \n **Aliasy:**` su, shindenu, shc, shu, suser, shuser` \n **Sposób użycia:** `{}shindencharacter (pseudonim) [który_wynik]` \n **Parametry:** \n\t *pseudonim* (str) \n\t *który_wynik* (int) - opcjonalnie, wartość domyślna = 1 ",
+        "parametr który_wynik jest zbyt duży, pokazuję ostatni wynik",
+        "**Brak wyników**",
+        "Oglądane tytuły anime",
+        "Oglądane godziny anime",
+        "Oglądane odcinki anime",
+        "Średnie oceny anime",
+        "Liczenie osiągnięć",
+        "Zwrotnica",
+        "Ostatnio widziany",
+        "Źródło: shinden.pl | Wykonane w {} sekund"
+    ],
+    "shindenuserlist": [
+        "**Polecenie:** shindenuserlist\n**Opis:** Wyświetla listę użytkowników shinden \n **Aliasy:**` sul, shindenul, shul, suserlist, shuserlist` \n **Zastosowanie:** `{}shindencharacterlist (pseudonim) `\n **Parametry:** \n\t *pseudonim* (str)",
+        "*** Shinden user list ***",
+        "Wyniki wyszukiwania dla: ***{}***",
+        "[Profil]({0.url})",
+        "**Ostatnio oglądane:** {}\n**Godziny obejrzane: **{}\n{}",
+        "Źródło: shinden.pl | Wykonane w {} sekund"
+    ],
+    "covid": [
+        "**COVID-19 - Świat**",
+        "Zarażeni",
+        "Zgony",
+        "Ozdrowiali",
+        "Dane z worldometers.info/coronavirus"
+    ]
+}

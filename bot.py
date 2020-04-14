@@ -25,7 +25,7 @@ try:
 
     api_key = content['api']
     prefix = content['prefix']
-    language_set = content['language']
+    starting_language = content['language']
 except:
     logging.warning("Proper settings.json file wasn't found, creating a default one")
     default_settings = {'api': 'your_api_token', 'prefix': '!', 'language':'EN'}
@@ -43,7 +43,7 @@ except:
 bot = commands.Bot(command_prefix=prefix, help_command=None)
 
 # Applying language
-lg = languages.Language(language_set)
+lg = languages.Language(starting_language)
 
 # Excuted when bot is connected and ready
 @bot.event
@@ -89,19 +89,22 @@ async def help(ctx):
 # Language command
 @bot.command(name='language', aliases=['lang'])
 async def language(ctx, *args):
-    if len(args)!= 1:
+    logging.debug('Executing command {}language'.format(prefix))
+
+    if args == ():
+        return await ctx.send('Help string')
+    elif len(args) > 1:
         return await ctx.send('Bad usage')
 
     desired_language = ''.join(args)
     desired_language = desired_language.upper()
 
-    if desired_language == language_set:
+    if desired_language == lg.lang_set:
         return await ctx.send('Desired language has already been set')
 
     lg.update(desired_language)
-    language_set = desired_language
 
-    await ctx.send('Language changed to {}'.format(language_set))
+    await ctx.send('Language changed to `{}`'.format(lg.lang_set))
 
 
  
@@ -111,6 +114,8 @@ async def language(ctx, *args):
 
 @bot.command(name='urban', aliases=['u','ud'], help='Responds with urban dictionary definition')
 async def urban(ctx, *args):
+    logging.debug('Executing command {}urban'.format(prefix))
+
     if args == (): # If no arguments were passed, then respond with help message
         help_string = ('**Command:** urban\n'
             '**Description:** Responds with urban dictionary definition.\n'
@@ -159,6 +164,8 @@ async def urban(ctx, *args):
 
 @bot.command(name='urbanlist', aliases=['ul','udlist','udl', 'ulist'], help='Responds with urban dictionary definition list')
 async def urbanlist(ctx, *args): # This function responds with every definition found on UD (maximum result count is 10 and maximum word count for every definition is 75, urban command does not have that restriction)
+    logging.debug('Executing command {}urbanlist'.format(prefix))
+    
     if args == ():
         help_string = ('**Command:** urbanlist\n'
             '**Description:** Responds with urban dictionary definition list.\n'
@@ -166,6 +173,7 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
             '**Usage:** `{}urbanlist (word)`\n'
             '**Parameters:** \n'
             '\t*word* (str)'.format(prefix))
+
         return await ctx.send(help_string)
     
     t.start()
@@ -195,6 +203,8 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
 
 @bot.command(name='urbanrandom', aliases=['ur', 'udrandom', 'udr', 'urandom'], help='Returns random Urban Dictionary definition')
 async def urbanrandom(ctx):
+    logging.debug('Executing command {}urbanrandom'.format(prefix))
+
     definition = ud.random()[0]  # selecting first definition from the list of random definitions
     response = '***{0.word}***\n\n`{0.definition}\n\n{0.example}`'.format(definition)
 
@@ -208,6 +218,8 @@ async def urbanrandom(ctx):
 
 @bot.command(name='shindenanime', aliases=['sa', 'shindena', 'sha', 'sanime', 'shanime'], help='Returns an anime from shinden.pl')
 async def shindenanime(ctx, *args):
+    logging.debug('Executing command {}shindenanime'.format(prefix))
+
     if args == ():
         help_string = ('**Command:** shindenanime\n'
             '**Description:** Returns an anime from shinden.pl\n'
@@ -283,6 +295,8 @@ async def shindenanime(ctx, *args):
 
 @bot.command(name='shindenmanga', aliases=['sm', 'shindenm', 'shm','smanga', 'shmanga'], help='Returns a manga from shinden.pl')
 async def shindenmanga(ctx, *args):
+    logging.debug('Executing command {}shindenmanga'.format(prefix))
+
     if args == ():
         help_string = ('**Command:** shindenmanga\n'
             '**Description:** Returns a manga from shinden.pl\n'
@@ -360,6 +374,8 @@ async def shindenmanga(ctx, *args):
 
 @bot.command(name='shindenanimelist', aliases=['sal', 'shindenal', 'shal', 'sanimelist', 'shanimelist'], help='Returns a list of anime from shinden.pl')
 async def shindenanimelist(ctx, *args):
+    logging.debug('Executing command {}shindenanimelist'.format(prefix))
+
     if args == ():
         help_string = ('**Command:** shindenanimelist\n'
             '**Description:** Returns a list of anime from shinden.pl\n'
@@ -394,6 +410,8 @@ async def shindenanimelist(ctx, *args):
 
 @bot.command(name='shindenmangalist', aliases=['sml', 'shindenml', 'shml', 'smangalist', 'shmangalist'], help='Returns a list of manga results')
 async def shindenmangalist(ctx, *args):
+    logging.debug('Executing command {}shindenmangalist'.format(prefix))
+
     t.start()
 
     if args == ():
@@ -429,6 +447,8 @@ async def shindenmangalist(ctx, *args):
 
 @bot.command(name='shindencharacter', aliases=['sc', 'shindenc', 'shc', 'scharacter', 'shcharacter', 'sch', 'shindench', 'shch'], help='Returns a character result from shinden.pl')
 async def shindencharacter(ctx, *args):
+    logging.debug('Executing command {}shindencharacter'.format(prefix))
+
     if args == ():
         help_string = ('**Command:** shindencharacter\n'
             '**Description:** Returns a character result from shinden.pl\n'
@@ -511,6 +531,8 @@ async def shindencharacter(ctx, *args):
 
 @bot.command(name='shindencharacterlist', aliases=['scl', 'shindencl', 'shcl', 'scharacterlist', 'shcharacterlist', 'schl', 'shindenchl', 'shchl'], help='Responds with a list of character results')
 async def shindencharacterlist(ctx, *args):
+    logging.debug('Executing command {}shindencharacterlist'.format(prefix))
+
     if args == ():
         help_string = ('**Command:** shindencharacterlist\n'
             '**Description:** Returns with a list of character results\n'
@@ -550,6 +572,8 @@ async def shindencharacterlist(ctx, *args):
 
 @bot.command(name='shindenuser', aliases=['su', 'shindenu', 'shu', 'suser', 'shuser'], help='Searches for a shinden user')
 async def shindenuser(ctx, *args):
+    logging.debug('Executing command {}shindenuser'.format(prefix))
+
     if args == ():
         help_string = ('**Command:** shindenuser\n'
             '**Description:** Searches for a shinden user\n'
@@ -643,6 +667,8 @@ async def shindenuser(ctx, *args):
 
 @bot.command(name='shindenuserlist', aliases=['sul', 'shindenul', 'shul', 'suserlist', 'shuserlist'], help='Lists shinden users found')
 async def shindenuserlist(ctx, *args):
+    logging.debug('Executing command {}shindenuserlist'.format(prefix))
+
     if args == ():
         help_string = ('**Command:** shindenuserlist\n'
             '**Description:** Lists shinden users found\n'
@@ -685,6 +711,8 @@ async def shindenuserlist(ctx, *args):
 
 @bot.command(name='covid', aliases=['ncov', 'covid19', 'coronavirus'])
 async def covid(ctx):
+    logging.debug('Executing command {}covid'.format(prefix))
+
     if cv.when_last_update() == 'never':
         cv.update()
     elif (datetime.now() - cv.when_last_update()) > timedelta(days=1): # if covid data hasnt been updated in 1 day, then update (in order to minimalise requests sent)
@@ -716,6 +744,8 @@ async def covid(ctx):
 
 @bot.command(name='truth', help='This basically responds with dino earth image and nothing else')
 async def truth(ctx):
+    logging.debug('Executing command {}truth'.format(prefix))
+
     response = discord.Embed(title='The truth')
     response.set_image(url='https://pbs.twimg.com/profile_images/1116994465464508418/E9UB9VPx.png')
 

@@ -30,7 +30,7 @@
     "language": [
         "Wrong or not supported language",
         "Desired language has already been set",
-        "Language changed to {}"
+        "Language changed to `{}`"
     ],
     "urban": [
         "**Command:** urban\n**Description:** Responds with urban dictionary definition.\n**Aliases:** `u, ud`\n**Usage:** `{}urban (word) [which_result=1]`\n**Parameters:** \n\t*word* (str)\n\t*which_result* (int) - optional, default value = 1",
@@ -39,7 +39,6 @@
     ],
     "urbanlist": [
         "**Command:** urbanlist\n**Description:** Responds with urban dictionary definition list.\n**Aliases:** `ul, udlist, udl, ulist`\n**Usage:** `{}urbanlist (word)`\n**Parameters:** \n\t*word* (str)",
-        "urbanlist (word)`\n**Parameters:** \n\t*word* (str)",
         "From urbandictionary.com | Done in {} seconds"
     ],
     "shindenanime": [
@@ -63,7 +62,7 @@
         "From shinden.pl | Done in {} seconds"
     ],
     "shindenanimelist": [
-        "**Command:** shindenanimelist\n**Description:** Returns a list of anime from shinden.pl\n**Aliases:** `sal, shindenal, shal, sanimelist, shanimelist`\n**Usage:** `{}shindenanimelist (title)`\n**Parameters:** \n\t*title* (str)\n",
+        "**Command:** shindenanimelist\n**Description:** Returns a list of anime from shinden.pl\n**Aliases:** `sal, shindenal, shal, sanimelist, shanimelist`\n**Usage:** `{}shindenanimelist (title)`\n**Parameters:** \n\t*title* (str)",
         "***Shinden anime list***",
         "Search results for: **{}**",
         "From shinden.pl | Done in {} seconds"
@@ -84,7 +83,7 @@
         "From shinden.pl | Done in {} seconds"
     ],
     "shindencharacterlist": [
-        "**Command:** shindencharacterlist\n**Description:** Returns with a list of character results\n**Aliases:** `scl, shindencl, shcl, scharacterlist, schl, shindenchl, shchl`\n**Usage:** `{}shindencharacter (name)`\n**Parameters:** \n\t*name* (str)\n",
+        "**Command:** shindencharacterlist\n**Description:** Returns with a list of character results\n**Aliases:** `scl, shindencl, shcl, scharacterlist, schl, shindenchl, shchl`\n**Usage:** `{}shindencharacter (name)`\n**Parameters:** \n\t*name* (str)",
         "***Shinden character list***",
         "Search results for: **{}**",
         "[**Appears in: **]({0.url})",
@@ -104,7 +103,7 @@
         "From shinden.pl | Done in {} seconds"
     ],
     "shindenuserlist": [
-        "**Command:** shindenuserlist\n**Description:** Lists shinden users found\n**Aliases:** `sul, shindenul, shul, suserlist, shuserlist`\n**Usage:** `{}shindencharacterlist (nickname)`\n**Parameters:** \n\t*nickname* (str)\n",
+        "**Command:** shindenuserlist\n**Description:** Lists shinden users found\n**Aliases:** `sul, shindenul, shul, suserlist, shuserlist`\n**Usage:** `{}shindencharacterlist (nickname)`\n**Parameters:** \n\t*nickname* (str)",
         "***Shinden user list***",
         "Search results for: ***{}***",
         "[Profile]({0.url})",

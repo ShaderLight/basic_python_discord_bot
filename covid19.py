@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import json
 from time import sleep
+import logging
 
 
 class Stats(object):
@@ -20,9 +21,10 @@ class Covid_data:
         
         try:
             with open('covid.json', 'r') as f:
-                pass
+                logging.debug('Found existing covid.json')
         except FileNotFoundError:
-            with open('covid,json', 'w') as f:
+            with open('covid.json', 'w') as f:
+                logging.debug('No covid.json found, creating one')
                 json.dump({'updated' : 'never'}, f, indent = 4)
 
 
@@ -99,11 +101,14 @@ class Covid_data:
 
 
     def update(self):
+        logging.debug('Updating covid data')
         world_data = self.get_world_data()
         sleep(0.5)
         poland_data = self.get_poland_data()
 
         self.save_data(world_data, poland_data)
+        
+        logging.debug('Updated covid data')
 
 
     def read_data(self):
