@@ -53,10 +53,10 @@ async def on_ready():
     logging.info('We have logged in as {0.user}'.format(bot)) # Logging the bot's nickname
 
     for guild in bot.guilds:
-        logging.info('Logged in ' + str(guild.name) +  ' (id: '+ str(guild.id) +')') # Printing out server name, which the bot is connected to
+        logging.debug('Logged in ' + str(guild.name) +  ' (id: '+ str(guild.id) +')') # Printing out server name, which the bot is connected to
 
     members = ' - '.join([member.name for member in guild.members])
-    logging.info(f'Guild Members:\n - {members}') # Logging a list of server members
+    logging.debug(f'Guild Members:\n - {members}') # Logging a list of server members
 
     # Setting bot status to streaming (Never gonna give you up)
     stream = discord.Streaming(name=prefix + 'helperino', url='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
@@ -92,20 +92,27 @@ async def help(ctx):
 async def language(ctx, *args):
     logging.debug('Executing command {}language'.format(prefix))
 
-    if args == ():
-        return await ctx.send('Help string')
-    elif len(args) > 1:
-        return await ctx.send('Bad usage')
+    if len(args) != 1:
+        help_string = ('**Command:** language\n'
+            '**Description:** Changes language\n'
+            '**Aliases:** `lang`\n'
+            '**Usage:** `{}language (desired_language)`\n'
+            '**Parameters:** \n'
+            '\t*desired_language* (str, currently only EN or PL)\n'.format(prefix))
+        return await ctx.send(help_string)
 
     desired_language = ''.join(args)
     desired_language = desired_language.upper()
 
     if desired_language == lg.lang_set:
-        return await ctx.send('Desired language has already been set')
+        return await ctx.send('***Desired language has already been set***')
+    
+    try:
+        lg.update(desired_language)
+    except languages.LanguageNotSupportedError:
+        return await ctx.send('***Wrong or not supported language***')
 
-    lg.update(desired_language)
-
-    await ctx.send('Language changed to `{}`'.format(lg.lang_set))
+    await ctx.send('***Language changed to*** `{}`'.format(lg.lang_set))
 
 
  
@@ -144,7 +151,7 @@ async def urban(ctx, *args):
         try:
             definition = defs[which_result-1] # Selecting one result, based on which_result parameter (first result by default)
         except IndexError:
-            await ctx.send("**No result**") # If index is out of range, then prints out that there was no result found
+            await ctx.send("***No result***") # If index is out of range, then prints out that there was no result found
     
         response = '***{0.word}***\n\n`{0.definition}\n\n{0.example}`'.format(definition) # Reponse with some discord formatting for a nicer look
         await ctx.send(response)
@@ -156,7 +163,7 @@ async def urban(ctx, *args):
         try:
             definition = defs[0]
         except IndexError:
-            await ctx.send("**No result**") # If index is out of range, then prints out that there was no result found
+            await ctx.send("***No result***") # If index is out of range, then prints out that there was no result found
     
         response = '***{0.word}***\n\n`{0.definition}\n\n{0.example}`'.format(definition) # Reponse with some discord formatting for a nicer look
         await ctx.send(response)
@@ -193,7 +200,7 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
     except IndexError:
         if check == 0: # If there wasnt any correct iteration, then bot responds with No result message
             t.stop()
-            return await ctx.send("No results")
+            return await ctx.send("***No results***")
     
     execution_time = str(t.stop())
     response.set_footer(text='From urbandictionary.com | Done in {} seconds'.format(execution_time[:5]))
@@ -251,9 +258,9 @@ async def shindenanime(ctx, *args):
             anime = anime_list[which_result-1] # Selecting one anime result from the list of all found results
         except TypeError:
             t.stop()
-            return await ctx.send('No results')
+            return await ctx.send('***No results***')
         except IndexError:
-            await ctx.send('which_result param was too big, showing last result')
+            await ctx.send('**which_result param was too big, showing last result**')
             anime = anime_list[-1]
 
         color = discord.Colour(16777215)
@@ -277,7 +284,7 @@ async def shindenanime(ctx, *args):
             anime = anime_list[0] # Selecting one anime result from the list of all found results
         except TypeError:
             t.stop()
-            return await ctx.send('No results')
+            return await ctx.send('***No results***')
 
         color = discord.Colour(16777215)
 
@@ -328,9 +335,9 @@ async def shindenmanga(ctx, *args):
             manga = manga_list[which_result-1]
         except TypeError:
             t.stop()
-            return await ctx.send('No results')
+            return await ctx.send('***No results***')
         except IndexError:
-            await ctx.send('which_result param was too big, showing last result')
+            await ctx.send('*which_result param was too big, showing last result*')
             manga = manga_list[-1]
 
         color = discord.Colour(16777215)
@@ -356,7 +363,7 @@ async def shindenmanga(ctx, *args):
             manga = manga_list[0]
         except TypeError:
             t.stop()
-            return await ctx.send('No results')
+            return await ctx.send('***No results***')
 
         color = discord.Colour(16777215)
 
@@ -480,9 +487,9 @@ async def shindencharacter(ctx, *args):
             character = character_list[which_result-1]
         except TypeError:
             t.stop()
-            return await ctx.send('No results')
+            return await ctx.send('***No results***')
         except IndexError:
-            await ctx.send('which_result param was too big, showing last result')
+            await ctx.send('*which_result param was too big, showing last result*')
             character = character_list[-1]
 
         color = discord.Colour(16777215)
@@ -512,7 +519,7 @@ async def shindencharacter(ctx, *args):
             character = character_list[0]
         except:
             t.stop()
-            return await ctx.send('No result')
+            return await ctx.send('***No result***')
         
         color = discord.Colour(16777215)
 
@@ -604,11 +611,11 @@ async def shindenuser(ctx, *args):
         try:
             user = user_list[which_result-1]
         except IndexError:
-            await ctx.send('which_result param too big, showing last result')
+            await ctx.send('*which_result param too big, showing last result*')
             user = user_list[-1]
         except TypeError:
             t.stop()
-            return await ctx.send('No results')
+            return await ctx.send('***No results***')
 
         color = discord.Colour(16777215)
         response = discord.Embed(title='**{0.nickname}**'.format(user), type='rich', colour=color.red(), url=user.url)
@@ -640,7 +647,7 @@ async def shindenuser(ctx, *args):
             user = user_list[0]
         except TypeError:
             t.stop()
-            return await ctx.send('No results')
+            return await ctx.send('***No results***')
 
         color = discord.Colour(16777215)
         response = discord.Embed(title='**{0.nickname}**'.format(user), type='rich', colour=color.red(), url=user.url)

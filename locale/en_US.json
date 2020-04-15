@@ -28,13 +28,14 @@
         "Returns actual data about COVID-19 for the world and Poland"
     ],
     "language": [
-        "Wrong or not supported language",
-        "Desired language has already been set",
-        "Language changed to `{}`"
+        "**Command:** language\n**Description:** Changes language\n**Aliases:** `lang`\n**Usage:** `{}language (desired_language)`\n**Parameters:** \n\t*desired_language* (str, currently only EN or PL)\n",
+        "***Wrong or not supported language***",
+        "***Desired language has already been set***",
+        "***Language changed to ***`{}`"
     ],
     "urban": [
         "**Command:** urban\n**Description:** Responds with urban dictionary definition.\n**Aliases:** `u, ud`\n**Usage:** `{}urban (word) [which_result=1]`\n**Parameters:** \n\t*word* (str)\n\t*which_result* (int) - optional, default value = 1",
-        "**No result**",
+        "***No result***",
         "***{0.word}***\n\n`{0.definition}\n\n{0.example}`"
     ],
     "urbanlist": [
@@ -43,8 +44,8 @@
     ],
     "shindenanime": [
         "**Command:** shindenanime\n**Description:** Returns an anime from shinden.pl\n**Aliases:** `sa, shindena, sha, sanime, shanime`\n**Usage:** `{}shindenanime (title) [which_result]`\n**Parameters:** \n\t*title* (str)\n\t*which_result* (int) - optional, default value = 1",
-        "**No result**",
-        "which_result param was too big, showing last result",
+        "***No result***",
+        "*which_result param was too big, showing last result*",
         "Tags: ",
         "Score",
         "Episodes",
@@ -53,8 +54,8 @@
     ],
     "shindenmanga": [
         "**Command:** shindenmanga\n**Description:** Returns a manga from shinden.pl\n**Aliases:** `sm, shindenm, shm, smanga, shmanga`\n**Usage:** `{}shindenmanga (title) [which_result]`\n**Parameters:** \n\t*title* (str)\n\t*which_result* (int) - optional, default value = 1",
-        "**No result**",
-        "which_result param was too big, showing last result",
+        "***No result***",
+        "*which_result param was too big, showing last result*",
         "Tags: ",
         "Score",
         "Chapters",
@@ -75,8 +76,8 @@
     ],
     "shindencharacter": [
         "**Command:** shindencharacter\n**Description:** Returns a character result from shinden.pl\n**Aliases:** `sc, shindenc, shc, scharacter, shcharacter, sch, shindench, shch`\n**Usage:** `{}shindencharacter (name) [which_result]`\n**Parameters:** \n\t*name* (str)\n\t*which_result* (int) - optional, default value = 1",
-        "**No results**",
-        "which_result param was too big, showing last result",
+        "***No results***",
+        "*which_result param was too big, showing last result*",
         "Gender",
         "Is historical",
         "Appearance list",
@@ -91,8 +92,8 @@
     ],
     "shindenuser": [
         "**Command:** shindenuser\n**Description:** Searches for a shinden user\n**Aliases:** `su, shindenu, shc, shu, suser, shuser`\n**Usage:** `{}shindencharacter (nickname) [which_result]`\n**Parameters:** \n\t*nickname* (str)\n\t*which_result* (int) - optional, default value = 1",
-        "which_result param too big, showing last result",
-        "**No result**",
+        "*which_result param too big, showing last result*",
+        "***No result***",
         "Anime titles watched",
         "Anime hours watched",
         "Anime episodes watched",
@@ -105,12 +106,13 @@
     "shindenuserlist": [
         "**Command:** shindenuserlist\n**Description:** Lists shinden users found\n**Aliases:** `sul, shindenul, shul, suserlist, shuserlist`\n**Usage:** `{}shindencharacterlist (nickname)`\n**Parameters:** \n\t*nickname* (str)",
         "***Shinden user list***",
-        "Search results for: ***{}***",
+        "Search results for: **{}**",
         "[Profile]({0.url})",
         "**Last seen:** {}\n**Hours watched: **{}\n{}",
         "From shinden.pl | Done in {} seconds"
     ],
     "covid": [
+        "**COVID-19 - World**",
         "**COVID-19 - World**",
         "Cases",
         "Deaths",

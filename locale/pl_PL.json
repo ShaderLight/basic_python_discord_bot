@@ -28,13 +28,13 @@
         "Zwraca aktualne dane o COVID-19 dla \u015bwiata i Polski"
     ],
     "language": [
-        "Nieprawid\u0142owy lub nieobs\u0142ugiwany j\u0119zyk",
-        "Wybrany j\u0119zyk zosta\u0142 ju\u017c ustawiony",
-        "J\u0119zyk zmieniono na {}"
+        "***Nieprawid\u0142owy lub nieobs\u0142ugiwany j\u0119zyk***",
+        "***Wybrany j\u0119zyk zosta\u0142 ju\u017c ustawiony***",
+        "***J\u0119zyk zmieniono na ***{}"
     ],
     "urban": [
         "**Polecenie:** urban\n**Opis:** Odpowiada definicj\u0105 s\u0142ownika miejskiego\n **Aliasy:**` u, ud` \n **Spos\u00f3b u\u017cycia:** `{}urban (s\u0142owo) [kt\u00f3ry_wynik = 1]`\n**Parametry: **\n\t*s\u0142owo* (str)\n\t*kt\u00f3ry_wynik* (int) - opcjonalnie, warto\u015b\u0107 domy\u015blna = 1",
-        "**Brak wynik\u00f3w**",
+        "***Brak wynik\u00f3w***",
         "*** {0.word} *** \n\n`{0.definicja}\n\n{0. przyk\u0142ad}`"
     ],
     "urbanlist": [
@@ -43,8 +43,8 @@
     ],
     "shindenanime": [
         "**Polecenie:** shindenanime\n**Opis:** Zwraca anime z shinden.pl\n **Aliasy:**` sa, shindena, sha, sanime, shanime` \n **Spos\u00f3b u\u017cycia:** `{}shindenanime (title) [kt\u00f3ry_wynik]` \n **Parametry:**\n\t*tytu\u0142* (str)\n\t*kt\u00f3ry_wynik* (int) - opcjonalnie, warto\u015b\u0107 domy\u015blna = 1 ",
-        "**Brak wynik\u00f3w**",
-        "parametr kt\u00f3ry_wynik by\u0142 zbyt du\u017cy, pokazuj\u0119 ostatni wynik",
+        "***Brak wynik\u00f3w***",
+        "*parametr kt\u00f3ry_wynik by\u0142 zbyt du\u017cy, pokazuj\u0119 ostatni wynik*",
         "Tagi:",
         "Wynik",
         "Odcinki",
@@ -53,8 +53,8 @@
     ],
     "shindenmanga": [
         "**Polecenie:** shindenmanga\n**Opis:** Zwraca mang\u0119 z shinden.pl\n **Aliasy:**` sm, shindenm, shm, smanga, shmanga` \n **Spos\u00f3b u\u017cycia:** `{}shindenmanga (title) [kt\u00f3ry_wynik]` \n **Parametry:**\n\t*tytu\u0142* (str)\n\t*kt\u00f3ry_wynik* (int) - opcjonalnie, warto\u015b\u0107 domy\u015blna = 1 ",
-        "**Brak wynik\u00f3w**",
-        "parametr kt\u00f3ry_wynik by\u0142 zbyt du\u017cy, pokazuj\u0119 ostatni wynik",
+        "***Brak wynik\u00f3w***",
+        "*parametr kt\u00f3ry_wynik by\u0142 zbyt du\u017cy, pokazuj\u0119 ostatni wynik*",
         "Tagi: ",
         "Wynik",
         "Rozdzia\u0142y",
@@ -75,8 +75,8 @@
     ],
     "shindencharacter": [
         "**Polecenie:** shindencharacter\n**Opis:** Zwraca wynik postaci z shinden.pl\n **Aliasy:**` sc, shindenc, shc, scharacter, shcharacter, sch, shindench, shch` \n **Zastosowanie:** `{}shindencharacter (name) [kt\u00f3ry_wynik]` \n **Parametry:**\n\n*imi\u0119* (str)\n\n*kt\u00f3ry_wynik* (int) - opcjonalnie, domy\u015blnie warto\u015b\u0107 = 1 ",
-        "**Brak wynik\u00f3w**",
-        "parametr kt\u00f3ry_wynik jest zbyt du\u017cy, pokazuj\u0119 ostatni wynik",
+        "***Brak wynik\u00f3w***",
+        "*parametr kt\u00f3ry_wynik jest zbyt du\u017cy, pokazuj\u0119 ostatni wynik*",
         "P\u0142e\u0107",
         "Jest historyczny",
         "Lista wygl\u0105d\u00f3w",
@@ -91,8 +91,8 @@
     ],
     "shindenuser": [
         "**Polecenie:** shindenuser\n**Opis:** Wyszukuje u\u017cytkownika shinden \n **Aliasy:**` su, shindenu, shc, shu, suser, shuser` \n **Spos\u00f3b u\u017cycia:** `{}shindencharacter (pseudonim) [kt\u00f3ry_wynik]` \n **Parametry:** \n\t *pseudonim* (str) \n\t *kt\u00f3ry_wynik* (int) - opcjonalnie, warto\u015b\u0107 domy\u015blna = 1 ",
-        "parametr kt\u00f3ry_wynik jest zbyt du\u017cy, pokazuj\u0119 ostatni wynik",
-        "**Brak wynik\u00f3w**",
+        "*parametr kt\u00f3ry_wynik jest zbyt du\u017cy, pokazuj\u0119 ostatni wynik*",
+        "***Brak wynik\u00f3w**",
         "Ogl\u0105dane tytu\u0142y anime",
         "Ogl\u0105dane godziny anime",
         "Ogl\u0105dane odcinki anime",
@@ -112,6 +112,7 @@
     ],
     "covid": [
         "**COVID-19 - \u015bwiat**",
+        "**COVID-19 - Polska**",
         "Zara\u017ceni",
         "Zgony",
         "Ozdrowiali",

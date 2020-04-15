@@ -56,10 +56,11 @@ class Language:
 
     
     def update(self, desired_language):
-        self.lang_set = desired_language.upper()
-
-        if self.lang_set not in ['EN','PL']:
+        
+        if desired_language not in ['EN','PL']:
             raise LanguageNotSupportedError
+        
+        self.lang_set = desired_language.upper()
 
         language_dict = self.read_localisation_file()
 
