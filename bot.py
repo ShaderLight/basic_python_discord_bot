@@ -184,7 +184,11 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
 
         return await ctx.send(help_string)
     
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     words = ' '.join(args)
 
@@ -238,7 +242,11 @@ async def shindenanime(ctx, *args):
             '\t*which_result* (int) - optional, default value = 1'.format(prefix))
         return await ctx.send(help_string)
     
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     if len(args) >= 2:
         args_list = list(args)
@@ -315,7 +323,11 @@ async def shindenmanga(ctx, *args):
             '\t*which_result* (int) - optional, default value = 1'.format(prefix))
         return await ctx.send(help_string)
 
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     if len(args) >= 2:
         args_list = list(args)
@@ -393,11 +405,19 @@ async def shindenanimelist(ctx, *args):
             '\t*title* (str)\n'.format(prefix))
         return await ctx.send(help_string)
 
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     title = ' '.join(args)
 
     anime_list = sh.search_titles(title)
+    if anime_list == None:
+        t.stop()
+        return await ctx.send('***No results***')
+
     color = discord.Colour(16777215)
 
     response = discord.Embed(title='***Shinden anime list***', type='rich', description='Search results for: **{}**'.format(title), colour=color.teal())
@@ -420,7 +440,11 @@ async def shindenanimelist(ctx, *args):
 async def shindenmangalist(ctx, *args):
     logging.debug('Executing command {}shindenmangalist'.format(prefix))
 
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     if args == ():
         help_string = ('**Command:** shindenmangalist\n'
@@ -435,6 +459,9 @@ async def shindenmangalist(ctx, *args):
     title = ' '.join(args)
 
     manga_list = sh.search_titles(title, anime_or_manga='manga')
+    if manga_list == None:
+        t.stop()
+        return await ctx.send('***No results***')
     color = discord.Colour(16777215)
 
     response = discord.Embed(title='***Shinden manga list***', type='rich', description='Search results for: **{}**'.format(title), colour=color.teal())
@@ -468,7 +495,11 @@ async def shindencharacter(ctx, *args):
 
         return await ctx.send(help_string)
 
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     if len(args) >= 2:
         args_list = list(args)
@@ -551,13 +582,20 @@ async def shindencharacterlist(ctx, *args):
 
         return await ctx.send(help_string)
 
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     name = ' '.join(args)
 
-    character_list = sh.search_characters(name)
-    color = discord.Colour(16777215)
+    character_list = sh.search_characters(name, get_description=False)
+    if character_list == None:
+        t.stop()
+        return await ctx.send('***No results***')
 
+    color = discord.Colour(16777215)
     response = discord.Embed(title='***Shinden character list***', type='rich', description='Search results for: **{}**'.format(name), colour=color.green())
 
     counter = 1
@@ -593,7 +631,11 @@ async def shindenuser(ctx, *args):
 
         return await ctx.send(help_string)
 
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     if len(args) >= 2:
         args_list = list(args)
@@ -686,11 +728,19 @@ async def shindenuserlist(ctx, *args):
             '\t*nickname* (str)\n'.format(prefix))
         return await ctx.send(help_string)
 
-    t.start()
+    try:
+        t.start()
+    except timer.TimerAlreadyRunning:
+        t.stop()
+        t.start()
 
     nickname = ' '.join(args)
 
-    user_list = sh.search_users(nickname)
+    user_list = sh.search_users(nickname, detailed_info=True)
+    if user_list == None:
+        t.stop()
+        return await ctx.send('***No results***')
+
     color = discord.Colour(16777215)
     response = discord.Embed(title='***Shinden user list***', type='rich', description='Search results for: ***{}***'.format(nickname), colour=color.purple()) 
     
