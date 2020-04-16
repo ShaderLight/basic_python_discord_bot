@@ -723,7 +723,7 @@ async def covid(ctx):
 
     if cv.when_last_update() == 'never':
         cv.update()
-    elif (datetime.now() - cv.when_last_update()) > timedelta(days=1): # if covid data hasnt been updated in 1 day, then update (in order to minimalise requests sent)
+    elif (datetime.now() - cv.when_last_update()) > timedelta(hours=12): # if covid data hasnt been updated in 12 hours, then update (in order to minimalise requests sent)
         cv.update()
     
     data = cv.read_data()
