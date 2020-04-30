@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import json
 from time import sleep
+import logging
+import random
 
 
 class Stats(object):
@@ -20,14 +22,16 @@ class Covid_data:
         
         try:
             with open('covid.json', 'r') as f:
-                pass
+                logging.debug('Found existing covid.json')
         except FileNotFoundError:
-            with open('covid,json', 'w') as f:
+            with open('covid.json', 'w') as f:
+                logging.debug('No covid.json found, creating one')
                 json.dump({'updated' : 'never'}, f, indent = 4)
 
 
     def get_world_data(self):
-        r = requests.get(self.base_url)
+        user_agent = random.choice(['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'])
+        r = requests.get(self.base_url, headers={'User-Agent': user_agent})
         
         assert r.status_code == 200
 
@@ -46,9 +50,10 @@ class Covid_data:
     
 
     def get_poland_data(self):
+        user_agent = random.choice(['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'])
         url = self.base_url + 'country/poland/'
 
-        r = requests.get(url)
+        r = requests.get(url, headers={'User-Agent': user_agent})
         
         assert r.status_code == 200
 
@@ -99,11 +104,14 @@ class Covid_data:
 
 
     def update(self):
+        logging.debug('Updating covid data')
         world_data = self.get_world_data()
-        sleep(0.5)
+        sleep(random.randrange(10, 20)/10)
         poland_data = self.get_poland_data()
 
         self.save_data(world_data, poland_data)
+        
+        logging.debug('Updated covid data')
 
 
     def read_data(self):
