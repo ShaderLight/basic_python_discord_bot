@@ -93,26 +93,40 @@ async def language(ctx, *args):
     logging.debug('Executing command {}language'.format(prefix))
 
     if len(args) != 1:
+<<<<<<< Updated upstream
         help_string = ('**Command:** language\n'
             '**Description:** Changes language\n'
             '**Aliases:** `lang`\n'
             '**Usage:** `{}language (desired_language)`\n'
             '**Parameters:** \n'
             '\t*desired_language* (str, currently only EN or PL)\n'.format(prefix))
+=======
+        help_string = (lg.language[0].format(prefix))
+>>>>>>> Stashed changes
         return await ctx.send(help_string)
 
     desired_language = ''.join(args)
     desired_language = desired_language.upper()
 
     if desired_language == lg.lang_set:
+<<<<<<< Updated upstream
         return await ctx.send('***Desired language has already been set***')
+=======
+        return await ctx.send(lg.language[2])
+>>>>>>> Stashed changes
     
     try:
         lg.update(desired_language)
     except languages.LanguageNotSupportedError:
+<<<<<<< Updated upstream
         return await ctx.send('***Wrong or not supported language***')
 
     await ctx.send('***Language changed to*** `{}`'.format(lg.lang_set))
+=======
+        return await ctx.send(lg.language[1])
+
+    await ctx.send(lg.language[3].format(lg.lang_set))
+>>>>>>> Stashed changes
 
 
  
@@ -125,13 +139,7 @@ async def urban(ctx, *args):
     logging.debug('Executing command {}urban'.format(prefix))
 
     if args == (): # If no arguments were passed, then respond with help message
-        help_string = ('**Command:** urban\n'
-            '**Description:** Responds with urban dictionary definition.\n'
-            '**Aliases:** `u, ud`\n'
-            '**Usage:** `{}urban (word) [which_result=1]`\n'
-            '**Parameters:** \n'
-            '\t*word* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
+        help_string = (lg.urban[0].format(prefix))
         return await ctx.send(help_string)
 
     if len(args) >= 2:
@@ -151,9 +159,13 @@ async def urban(ctx, *args):
         try:
             definition = defs[which_result-1] # Selecting one result, based on which_result parameter (first result by default)
         except IndexError:
+<<<<<<< Updated upstream
             await ctx.send("***No result***") # If index is out of range, then prints out that there was no result found
+=======
+            await ctx.send(lg.urban[1]) # If index is out of range, then prints out that there was no result found
+>>>>>>> Stashed changes
     
-        response = '***{0.word}***\n\n`{0.definition}\n\n{0.example}`'.format(definition) # Reponse with some discord formatting for a nicer look
+        response = lg.urban[2].format(definition) # Reponse with some discord formatting for a nicer look
         await ctx.send(response)
 
     else:
@@ -163,9 +175,13 @@ async def urban(ctx, *args):
         try:
             definition = defs[0]
         except IndexError:
+<<<<<<< Updated upstream
             await ctx.send("***No result***") # If index is out of range, then prints out that there was no result found
+=======
+            await ctx.send(lg.urban[1]) # If index is out of range, then prints out that there was no result found
+>>>>>>> Stashed changes
     
-        response = '***{0.word}***\n\n`{0.definition}\n\n{0.example}`'.format(definition) # Reponse with some discord formatting for a nicer look
+        response = lg.urban[2].format(definition) # Reponse with some discord formatting for a nicer look
         await ctx.send(response)
 
 
@@ -175,12 +191,16 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
     logging.debug('Executing command {}urbanlist'.format(prefix))
     
     if args == ():
+<<<<<<< Updated upstream
         help_string = ('**Command:** urbanlist\n'
             '**Description:** Responds with urban dictionary definition list.\n'
             '**Aliases:** `ul, udlist, udl, ulist`\n'
             '**Usage:** `{}urbanlist (word)`\n'
             '**Parameters:** \n'
             '\t*word* (str)'.format(prefix))
+=======
+        help_string = (lg.urbanlist[0].format(prefix))
+>>>>>>> Stashed changes
 
         return await ctx.send(help_string)
     
@@ -204,10 +224,14 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
     except IndexError:
         if check == 0: # If there wasnt any correct iteration, then bot responds with No result message
             t.stop()
+<<<<<<< Updated upstream
             return await ctx.send("***No results***")
+=======
+            return await ctx.send(lg.urbanlist[0])
+>>>>>>> Stashed changes
     
     execution_time = str(t.stop())
-    response.set_footer(text='From urbandictionary.com | Done in {} seconds'.format(execution_time[:5]))
+    response.set_footer(text=lg.urbanlist[1].format(execution_time[:5]))
 
     await ctx.send(embed=response)
 
@@ -233,13 +257,7 @@ async def shindenanime(ctx, *args):
     logging.debug('Executing command {}shindenanime'.format(prefix))
 
     if args == ():
-        help_string = ('**Command:** shindenanime\n'
-            '**Description:** Returns an anime from shinden.pl\n'
-            '**Aliases:** `sa, shindena, sha, sanime, shanime`\n'
-            '**Usage:** `{}shindenanime (title) [which_result]`\n'
-            '**Parameters:** \n'
-            '\t*title* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
+        help_string = (lg.s_anime[0].format(prefix))
         return await ctx.send(help_string)
     
     try:
@@ -266,21 +284,27 @@ async def shindenanime(ctx, *args):
             anime = anime_list[which_result-1] # Selecting one anime result from the list of all found results
         except TypeError:
             t.stop()
+<<<<<<< Updated upstream
             return await ctx.send('***No results***')
         except IndexError:
             await ctx.send('**which_result param was too big, showing last result**')
+=======
+            return await ctx.send(lg.s_anime[1])
+        except IndexError:
+            await ctx.send(lg.s_anime[2])
+>>>>>>> Stashed changes
             anime = anime_list[-1]
 
         color = discord.Colour(16777215)
 
         # Creating a discord embed message object and adding fields with information
-        response = discord.Embed(title='***{0.title}***'.format(anime), type='rich', description='Tags: ' + str(anime.tags), colour=color.teal(), url=anime.url) 
-        response.add_field(name='Score', value=anime.top_score)
-        response.add_field(name='Episodes', value=anime.episodes)
-        response.add_field(name="Status", value=anime.status)
+        response = discord.Embed(title='***{0.title}***'.format(anime), type='rich', description=lg.s_anime[3] + str(anime.tags), colour=color.teal(), url=anime.url) 
+        response.add_field(name=lg.s_anime[4], value=anime.top_score)
+        response.add_field(name=lg.s_anime[5], value=anime.episodes)
+        response.add_field(name=lg.s_anime[6], value=anime.status)
 
         execution_time = round(t.stop(), 3)
-        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+        response.set_footer(text=lg.s_anime[7].format(execution_time))
 
         await ctx.send(embed=response)
 
@@ -292,18 +316,22 @@ async def shindenanime(ctx, *args):
             anime = anime_list[0] # Selecting one anime result from the list of all found results
         except TypeError:
             t.stop()
+<<<<<<< Updated upstream
             return await ctx.send('***No results***')
+=======
+            return await ctx.send(lg.s_anime[1])
+>>>>>>> Stashed changes
 
         color = discord.Colour(16777215)
 
         # Creating a discord embed message object and adding fields with information
-        response = discord.Embed(title='***{0.title}***'.format(anime), type='rich', description='Tags: ' + str(anime.tags), colour=color.teal(), url=anime.url) 
-        response.add_field(name='Score', value=anime.top_score)
-        response.add_field(name='Episodes', value=anime.episodes)
-        response.add_field(name="Status", value=anime.status)
+        response = discord.Embed(title='***{0.title}***'.format(anime), type='rich', description=lg.s_anime[3] + str(anime.tags), colour=color.teal(), url=anime.url) 
+        response.add_field(name=lg.s_anime[4], value=anime.top_score)
+        response.add_field(name=lg.s_anime[5], value=anime.episodes)
+        response.add_field(name=lg.s_anime[6], value=anime.status)
 
         execution_time = round(t.stop(), 3)
-        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+        response.set_footer(text=lg.s_anime[7].format(execution_time))
 
         await ctx.send(embed=response)
 
@@ -314,13 +342,7 @@ async def shindenmanga(ctx, *args):
     logging.debug('Executing command {}shindenmanga'.format(prefix))
 
     if args == ():
-        help_string = ('**Command:** shindenmanga\n'
-            '**Description:** Returns a manga from shinden.pl\n'
-            '**Aliases:** `sm, shindenm, shm, smanga, shmanga`\n'
-            '**Usage:** `{}shindenmanga (title) [which_result]`\n'
-            '**Parameters:** \n'
-            '\t*title* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
+        help_string = (lg.s_manga[0].format(prefix))
         return await ctx.send(help_string)
 
     try:
@@ -347,20 +369,26 @@ async def shindenmanga(ctx, *args):
             manga = manga_list[which_result-1]
         except TypeError:
             t.stop()
+<<<<<<< Updated upstream
             return await ctx.send('***No results***')
         except IndexError:
             await ctx.send('*which_result param was too big, showing last result*')
+=======
+            return await ctx.send(lg.s_manga[1])
+        except IndexError:
+            await ctx.send(lg.s_manga[2])
+>>>>>>> Stashed changes
             manga = manga_list[-1]
 
         color = discord.Colour(16777215)
 
-        response = discord.Embed(title='***{0.title}***'.format(manga), type='rich', description='Tags: ' + str(manga.tags), colour=color.teal(), url=manga.url)
-        response.add_field(name='Score', value=manga.top_score)
-        response.add_field(name='Chapters', value=manga.episodes)
-        response.add_field(name='Status', value=manga.status)
+        response = discord.Embed(title='***{0.title}***'.format(manga), type='rich', description=lg.s_manga[3] + str(manga.tags), colour=color.teal(), url=manga.url)
+        response.add_field(name=lg.s_manga[4], value=manga.top_score)
+        response.add_field(name=lg.s_manga[5], value=manga.episodes)
+        response.add_field(name=lg.s_manga[6], value=manga.status)
 
         execution_time = round(t.stop(), 3)
-        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+        response.set_footer(text=lg.s_manga[7].format(execution_time))
 
         
         await ctx.send(embed=response)
@@ -375,17 +403,25 @@ async def shindenmanga(ctx, *args):
             manga = manga_list[0]
         except TypeError:
             t.stop()
+<<<<<<< Updated upstream
             return await ctx.send('***No results***')
+=======
+            return await ctx.send(lg.s_manga[1])
+        except IndexError:
+            await ctx.send(lg.s_manga[2])
+            manga = manga_list[-1]
+
+>>>>>>> Stashed changes
 
         color = discord.Colour(16777215)
 
-        response = discord.Embed(title='***{0.title}***'.format(manga), type='rich', description='Tags: {0.tags}'.format(manga), colour=color.teal(), url=manga.url)
-        response.add_field(name='Score', value=manga.top_score)
-        response.add_field(name = 'Chapters', value=manga.episodes)
-        response.add_field(name='Status', value=manga.status)
+        response = discord.Embed(title='***{0.title}***'.format(manga), type='rich', description=lg.s_manga[3] + manga.tags, colour=color.teal(), url=manga.url)
+        response.add_field(name=lg.s_manga[4], value=manga.top_score)
+        response.add_field(name = lg.s_manga[5], value=manga.episodes)
+        response.add_field(name=lg.s_manga[6], value=manga.status)
         
         execution_time = round(t.stop(), 3)
-        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+        response.set_footer(text=lg.s_manga[7].format(execution_time))
 
         
         await ctx.send(embed=response)
@@ -397,12 +433,7 @@ async def shindenanimelist(ctx, *args):
     logging.debug('Executing command {}shindenanimelist'.format(prefix))
 
     if args == ():
-        help_string = ('**Command:** shindenanimelist\n'
-            '**Description:** Returns a list of anime from shinden.pl\n'
-            '**Aliases:** `sal, shindenal, shal, sanimelist, shanimelist`\n'
-            '**Usage:** `{}shindenanimelist (title)`\n'
-            '**Parameters:** \n'
-            '\t*title* (str)\n'.format(prefix))
+        help_string = (lg.s_animelist[0].format(prefix))
         return await ctx.send(help_string)
 
     try:
@@ -416,11 +447,15 @@ async def shindenanimelist(ctx, *args):
     anime_list = sh.search_titles(title)
     if anime_list == None:
         t.stop()
+<<<<<<< Updated upstream
         return await ctx.send('***No results***')
+=======
+        return await ctx.send(lg.s_animelist[1])
+>>>>>>> Stashed changes
 
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title='***Shinden anime list***', type='rich', description='Search results for: **{}**'.format(title), colour=color.teal())
+    response = discord.Embed(title=lg.s_animelist[2], type='rich', description=lg.s_animelist[3].format(title), colour=color.teal())
     
     counter = 1
     for anime in anime_list:
@@ -429,7 +464,7 @@ async def shindenanimelist(ctx, *args):
         counter = counter + 1
 
     execution_time = round(t.stop(), 3)
-    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+    response.set_footer(text=lg.s_animelist[4].format(execution_time))
 
 
     await ctx.send(embed=response)
@@ -447,12 +482,7 @@ async def shindenmangalist(ctx, *args):
         t.start()
 
     if args == ():
-        help_string = ('**Command:** shindenmangalist\n'
-            '**Description:** Returns a list of manga results\n'
-            '**Aliases:** `sml, shindenml, shml, smangalist, shmangalist`\n'
-            '**Usage:** `{}shindenmangalist (title)`\n'
-            '**Parameters:** \n'
-            '\t*title* (str)'.format(prefix))
+        help_string = (lg.s_mangalist[0].format(prefix))
 
         return await ctx.send(help_string)
 
@@ -461,10 +491,14 @@ async def shindenmangalist(ctx, *args):
     manga_list = sh.search_titles(title, anime_or_manga='manga')
     if manga_list == None:
         t.stop()
+<<<<<<< Updated upstream
         return await ctx.send('***No results***')
+=======
+        return await ctx.send(lg.s_mangalist[1])
+>>>>>>> Stashed changes
     color = discord.Colour(16777215)
 
-    response = discord.Embed(title='***Shinden manga list***', type='rich', description='Search results for: **{}**'.format(title), colour=color.teal())
+    response = discord.Embed(title=lg.s_mangalist[2], type='rich', description=lg.s_mangalist[3].format(title), colour=color.teal())
     
     counter = 1
     for manga in manga_list:
@@ -473,7 +507,7 @@ async def shindenmangalist(ctx, *args):
         counter = counter + 1
 
     execution_time = round(t.stop(), 3)
-    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+    response.set_footer(text=lg.s_mangalist[4].format(execution_time))
 
 
     await ctx.send(embed=response)
@@ -485,13 +519,7 @@ async def shindencharacter(ctx, *args):
     logging.debug('Executing command {}shindencharacter'.format(prefix))
 
     if args == ():
-        help_string = ('**Command:** shindencharacter\n'
-            '**Description:** Returns a character result from shinden.pl\n'
-            '**Aliases:** `sc, shindenc, shc, scharacter, shcharacter, sch, shindench, shch`\n'
-            '**Usage:** `{}shindencharacter (name) [which_result]`\n'
-            '**Parameters:** \n'
-            '\t*name* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
+        help_string = (lg.s_character[0].format(prefix))
 
         return await ctx.send(help_string)
 
@@ -518,9 +546,15 @@ async def shindencharacter(ctx, *args):
             character = character_list[which_result-1]
         except TypeError:
             t.stop()
+<<<<<<< Updated upstream
             return await ctx.send('***No results***')
         except IndexError:
             await ctx.send('*which_result param was too big, showing last result*')
+=======
+            return await ctx.send(lg.s_character[1])
+        except IndexError:
+            await ctx.send(lg.s_character[2])
+>>>>>>> Stashed changes
             character = character_list[-1]
 
         color = discord.Colour(16777215)
@@ -532,12 +566,12 @@ async def shindencharacter(ctx, *args):
 
         response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`' + desc + '`', colour=color.dark_gold(), url=character.url)
 
-        response.add_field(name='Gender', value=character.gender)
-        response.add_field(name='Is historical', value=character.is_historical)
-        response.add_field(name='Appearance list', value=(', '.join(character.appearance_list)), inline=False)
+        response.add_field(name=lg.s_character[3], value=character.gender)
+        response.add_field(name=lg.s_character[4], value=character.is_historical)
+        response.add_field(name=lg.s_character[5], value=(', '.join(character.appearance_list)), inline=False)
 
         execution_time = round(t.stop(), 3)
-        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+        response.set_footer(text=lg.s_character[6].format(execution_time))
 
         
         await ctx.send(embed=response)
@@ -548,20 +582,27 @@ async def shindencharacter(ctx, *args):
         character_list = sh.search_characters(name)
         try:
             character = character_list[0]
-        except:
+        except TypeError:
             t.stop()
+<<<<<<< Updated upstream
             return await ctx.send('***No result***')
+=======
+            return await ctx.send(lg.s_character[1])
+        except IndexError:
+            await ctx.send(lg.s_character[2])
+            character = character_list[-1]
+>>>>>>> Stashed changes
         
         color = discord.Colour(16777215)
 
         response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`{0.description}`'.format(character), colour=color.dark_gold(), url=character.url)
 
-        response.add_field(name='Gender', value=character.gender)
-        response.add_field(name='Is historical', value=character.is_historical)
-        response.add_field(name='Appearance list', value=(', '.join(character.appearance_list)), inline=False)
+        response.add_field(name=lg.s_character[3], value=character.gender)
+        response.add_field(name=lg.s_character[4], value=character.is_historical)
+        response.add_field(name=lg.s_character[5], value=(', '.join(character.appearance_list)), inline=False)
 
         execution_time = round(t.stop(), 3)
-        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+        response.set_footer(text=lg.s_character[6].format(execution_time))
 
         
         await ctx.send(embed=response)
@@ -573,13 +614,7 @@ async def shindencharacterlist(ctx, *args):
     logging.debug('Executing command {}shindencharacterlist'.format(prefix))
 
     if args == ():
-        help_string = ('**Command:** shindencharacterlist\n'
-            '**Description:** Returns with a list of character results\n'
-            '**Aliases:** `scl, shindencl, shcl, scharacterlist, schl, shindenchl, shchl`\n'
-            '**Usage:** `{}shindencharacter (name)`\n'
-            '**Parameters:** \n'
-            '\t*name* (str)\n'.format(prefix))
-
+        help_string = (lg.s_characterlist[0].format(prefix))
         return await ctx.send(help_string)
 
     try:
@@ -593,15 +628,22 @@ async def shindencharacterlist(ctx, *args):
     character_list = sh.search_characters(name, get_description=False)
     if character_list == None:
         t.stop()
+<<<<<<< Updated upstream
         return await ctx.send('***No results***')
 
     color = discord.Colour(16777215)
     response = discord.Embed(title='***Shinden character list***', type='rich', description='Search results for: **{}**'.format(name), colour=color.green())
+=======
+        return await ctx.send(lg.s_characterlist[1])
+
+    color = discord.Colour(16777215)
+    response = discord.Embed(title=lg.s_characterlist[2], type='rich', description=lg.s_characterlist[3].format(name), colour=color.green())
+>>>>>>> Stashed changes
 
     counter = 1
     for character in character_list:
         
-        info = '[**Appears in: **]({0.url})'.format(character)
+        info = lg.s_characterlist[4].format(character)
         for appear in character.appearance_list:
             info = info + str(appear) + ', '
         
@@ -609,7 +651,7 @@ async def shindencharacterlist(ctx, *args):
         counter = counter + 1
     
     execution_time = round(t.stop(), 3)
-    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+    response.set_footer(text=lg.s_characterlist[5].format(execution_time))
 
 
     await ctx.send(embed=response)
@@ -621,13 +663,7 @@ async def shindenuser(ctx, *args):
     logging.debug('Executing command {}shindenuser'.format(prefix))
 
     if args == ():
-        help_string = ('**Command:** shindenuser\n'
-            '**Description:** Searches for a shinden user\n'
-            '**Aliases:** `su, shindenu, shc, shu, suser, shuser`\n'
-            '**Usage:** `{}shindencharacter (nickname) [which_result]`\n'
-            '**Parameters:** \n'
-            '\t*nickname* (str)\n'
-            '\t*which_result* (int) - optional, default value = 1'.format(prefix))
+        help_string = (lg.s_user[0].format(prefix))
 
         return await ctx.send(help_string)
 
@@ -653,30 +689,38 @@ async def shindenuser(ctx, *args):
         try:
             user = user_list[which_result-1]
         except IndexError:
+<<<<<<< Updated upstream
             await ctx.send('*which_result param too big, showing last result*')
             user = user_list[-1]
         except TypeError:
             t.stop()
             return await ctx.send('***No results***')
+=======
+            await ctx.send(lg.s_user[1])
+            user = user_list[-1]
+        except TypeError:
+            t.stop()
+            return await ctx.send(lg.s_user[2])
+>>>>>>> Stashed changes
 
         color = discord.Colour(16777215)
         response = discord.Embed(title='**{0.nickname}**'.format(user), type='rich', colour=color.red(), url=user.url)
         
-        response.add_field(name='Anime titles watched', value='`{0.anime_titles_watched}`'.format(user))
+        response.add_field(name=lg.s_user[3], value='`{0.anime_titles_watched}`'.format(user))
 
         hours_watched = int(user.anime_minutes_watched/60)
-        response.add_field(name='Anime hours watched', value='`{}`'.format(hours_watched))
+        response.add_field(name=lg.s_user[4], value='`{}`'.format(hours_watched))
 
-        response.add_field(name='Anime episodes watched', value='`{0.anime_episodes_watched}`'.format(user))
-        response.add_field(name='Average anime ratings', value='`{0.average_anime_ratings}`'.format(user))
-        response.add_field(name='Achievement count', value='`{0.achievement_count}`'.format(user))
-        response.add_field(name='Points', value='`{0.points}`'.format(user))
+        response.add_field(name=lg.s_user[5], value='`{0.anime_episodes_watched}`'.format(user))
+        response.add_field(name=lg.s_user[6], value='`{0.average_anime_ratings}`'.format(user))
+        response.add_field(name=lg.s_user[7], value='`{0.achievement_count}`'.format(user))
+        response.add_field(name=lg.s_user[8], value='`{0.points}`'.format(user))
 
         formatted_last_seen = user.last_seen.strftime('%H:%M %d.%m.%Y')
-        response.add_field(name='Last seen', value='`{}`'.format(formatted_last_seen))
+        response.add_field(name=lg.s_user[9], value='`{}`'.format(formatted_last_seen))
         
         execution_time = round(t.stop(), 3)
-        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+        response.set_footer(text=lg.s_user[10].format(execution_time))
 
 
         await ctx.send(embed=response)
@@ -689,26 +733,33 @@ async def shindenuser(ctx, *args):
             user = user_list[0]
         except TypeError:
             t.stop()
+<<<<<<< Updated upstream
             return await ctx.send('***No results***')
+=======
+            return await ctx.send(lg.s_user[1])
+        except TypeError:
+            t.stop()
+            return await ctx.send(lg.s_user[2])
+>>>>>>> Stashed changes
 
         color = discord.Colour(16777215)
         response = discord.Embed(title='**{0.nickname}**'.format(user), type='rich', colour=color.red(), url=user.url)
         
-        response.add_field(name='Anime titles watched', value='`{0.anime_titles_watched}`'.format(user))
+        response.add_field(name=lg.s_user[3], value='`{0.anime_titles_watched}`'.format(user))
 
         hours_watched = int(user.anime_minutes_watched/60)
-        response.add_field(name='Anime hours watched', value='`{}`'.format(hours_watched))
+        response.add_field(name=lg.s_user[4], value='`{}`'.format(hours_watched))
 
-        response.add_field(name='Anime episodes watched', value='`{0.anime_episodes_watched}`'.format(user))
-        response.add_field(name='Average anime ratings', value='`{0.average_anime_ratings}`'.format(user))
-        response.add_field(name='Achievement count', value='`{0.achievement_count}`'.format(user))
-        response.add_field(name='Points', value='`{0.points}`'.format(user))
+        response.add_field(name=lg.s_user[5], value='`{0.anime_episodes_watched}`'.format(user))
+        response.add_field(name=lg.s_user[6], value='`{0.average_anime_ratings}`'.format(user))
+        response.add_field(name=lg.s_user[7], value='`{0.achievement_count}`'.format(user))
+        response.add_field(name=lg.s_user[8], value='`{0.points}`'.format(user))
 
         formatted_last_seen = user.last_seen.strftime('%H:%M %d.%m.%Y')
-        response.add_field(name='Last seen', value='`{}`'.format(formatted_last_seen))
+        response.add_field(name=lg.s_user[9], value='`{}`'.format(formatted_last_seen))
         
         execution_time = round(t.stop(), 3)
-        response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time))
+        response.set_footer(text=lg.s_user[10].format(execution_time))
 
 
         await ctx.send(embed=response)
@@ -720,12 +771,7 @@ async def shindenuserlist(ctx, *args):
     logging.debug('Executing command {}shindenuserlist'.format(prefix))
 
     if args == ():
-        help_string = ('**Command:** shindenuserlist\n'
-            '**Description:** Lists shinden users found\n'
-            '**Aliases:** `sul, shindenul, shul, suserlist, shuserlist`\n'
-            '**Usage:** `{}shindencharacterlist (nickname)`\n'
-            '**Parameters:** \n'
-            '\t*nickname* (str)\n'.format(prefix))
+        help_string = (lg.s_userlist[0].format(prefix))
         return await ctx.send(help_string)
 
     try:
@@ -739,24 +785,28 @@ async def shindenuserlist(ctx, *args):
     user_list = sh.search_users(nickname, detailed_info=True)
     if user_list == None:
         t.stop()
+<<<<<<< Updated upstream
         return await ctx.send('***No results***')
+=======
+        return await ctx.send(lg.s_userlist[1])
+>>>>>>> Stashed changes
 
     color = discord.Colour(16777215)
-    response = discord.Embed(title='***Shinden user list***', type='rich', description='Search results for: ***{}***'.format(nickname), colour=color.purple()) 
+    response = discord.Embed(title=lg.s_userlist[2] , type='rich', description=lg.s_userlist[3].format(nickname), colour=color.purple()) 
     
     counter = 1
     for user in user_list: # Formatting the data using datatime's strftime method
-        profile_hyperlink = '[Profile]({0.url})'.format(user)
+        profile_hyperlink = lg.s_userlist[4].format(user)
         formatted_last_seen = user.last_seen.strftime('%H:%M %d.%m.%Y')
         hours_watched = int(user.anime_minutes_watched/60)
 
-        info = '**Last seen:** {}\n**Hours watched: **{}\n{}'.format(formatted_last_seen, hours_watched, profile_hyperlink)
+        info = lg.s_userlist[5].format(formatted_last_seen, hours_watched, profile_hyperlink)
 
         response.add_field(name='`{0}. {1.nickname}`'.format(counter, user), value=info, inline=False)
         counter = counter + 1
     
     execution_time = str(t.stop())
-    response.set_footer(text='From shinden.pl | Done in {} seconds'.format(execution_time[:5]))
+    response.set_footer(text=lg.s_userlist[6].format(execution_time[:5]))
 
 
     await ctx.send(embed=response)
@@ -780,20 +830,20 @@ async def covid(ctx):
 
     # Creating two separate embeds for world and poland respectively
     color = discord.Colour(16777215)
-    world_embed = discord.Embed(title='**COVID-19 - World**', type='rich', colour=color.red(), url='https://worldometers.info/coronavirus/')
+    world_embed = discord.Embed(title=lg.covid[0], type='rich', colour=color.red(), url='https://worldometers.info/coronavirus/')
     
-    world_embed.add_field(name='Cases', value=data['world'].cases)
-    world_embed.add_field(name='Deaths', value=data['world'].deaths)
-    world_embed.add_field(name='Recovered', value=data['world'].recovered)
+    world_embed.add_field(name=lg.covid[2], value=data['world'].cases)
+    world_embed.add_field(name=lg.covid[3], value=data['world'].deaths)
+    world_embed.add_field(name=lg.covid[4], value=data['world'].recovered)
 
-    poland_embed = discord.Embed(title='**COVID-19 - Poland**', type='rich', colour=color.red(), url='https://worldometers.info/coronavirus/country/poland')
+    poland_embed = discord.Embed(title=lg.covid[1], type='rich', colour=color.red(), url='https://worldometers.info/coronavirus/country/poland')
     
-    poland_embed.add_field(name='Cases', value=data['poland'].cases)
-    poland_embed.add_field(name='Deaths', value=data['poland'].deaths)
-    poland_embed.add_field(name='Recovered', value=data['poland'].recovered)
+    poland_embed.add_field(name=lg.covid[2], value=data['poland'].cases)
+    poland_embed.add_field(name=lg.covid[3], value=data['poland'].deaths)
+    poland_embed.add_field(name=lg.covid[4], value=data['poland'].recovered)
     
-    world_embed.set_footer(text='Data from worldometers.info/coronavirus')
-    poland_embed.set_footer(text='Data from worldometers.info/coronavirus')
+    world_embed.set_footer(text=lg.covid[5])
+    poland_embed.set_footer(text=lg.covid[5])
 
     await ctx.send(embed=world_embed)
     await ctx.send(embed=poland_embed)
