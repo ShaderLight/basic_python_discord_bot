@@ -93,40 +93,21 @@ async def language(ctx, *args):
     logging.debug('Executing command {}language'.format(prefix))
 
     if len(args) != 1:
-<<<<<<< Updated upstream
-        help_string = ('**Command:** language\n'
-            '**Description:** Changes language\n'
-            '**Aliases:** `lang`\n'
-            '**Usage:** `{}language (desired_language)`\n'
-            '**Parameters:** \n'
-            '\t*desired_language* (str, currently only EN or PL)\n'.format(prefix))
-=======
         help_string = (lg.language[0].format(prefix))
->>>>>>> Stashed changes
         return await ctx.send(help_string)
 
     desired_language = ''.join(args)
     desired_language = desired_language.upper()
 
     if desired_language == lg.lang_set:
-<<<<<<< Updated upstream
-        return await ctx.send('***Desired language has already been set***')
-=======
         return await ctx.send(lg.language[2])
->>>>>>> Stashed changes
     
     try:
         lg.update(desired_language)
     except languages.LanguageNotSupportedError:
-<<<<<<< Updated upstream
-        return await ctx.send('***Wrong or not supported language***')
-
-    await ctx.send('***Language changed to*** `{}`'.format(lg.lang_set))
-=======
         return await ctx.send(lg.language[1])
 
     await ctx.send(lg.language[3].format(lg.lang_set))
->>>>>>> Stashed changes
 
 
  
@@ -159,11 +140,7 @@ async def urban(ctx, *args):
         try:
             definition = defs[which_result-1] # Selecting one result, based on which_result parameter (first result by default)
         except IndexError:
-<<<<<<< Updated upstream
-            await ctx.send("***No result***") # If index is out of range, then prints out that there was no result found
-=======
             await ctx.send(lg.urban[1]) # If index is out of range, then prints out that there was no result found
->>>>>>> Stashed changes
     
         response = lg.urban[2].format(definition) # Reponse with some discord formatting for a nicer look
         await ctx.send(response)
@@ -175,11 +152,7 @@ async def urban(ctx, *args):
         try:
             definition = defs[0]
         except IndexError:
-<<<<<<< Updated upstream
-            await ctx.send("***No result***") # If index is out of range, then prints out that there was no result found
-=======
             await ctx.send(lg.urban[1]) # If index is out of range, then prints out that there was no result found
->>>>>>> Stashed changes
     
         response = lg.urban[2].format(definition) # Reponse with some discord formatting for a nicer look
         await ctx.send(response)
@@ -191,16 +164,7 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
     logging.debug('Executing command {}urbanlist'.format(prefix))
     
     if args == ():
-<<<<<<< Updated upstream
-        help_string = ('**Command:** urbanlist\n'
-            '**Description:** Responds with urban dictionary definition list.\n'
-            '**Aliases:** `ul, udlist, udl, ulist`\n'
-            '**Usage:** `{}urbanlist (word)`\n'
-            '**Parameters:** \n'
-            '\t*word* (str)'.format(prefix))
-=======
         help_string = (lg.urbanlist[0].format(prefix))
->>>>>>> Stashed changes
 
         return await ctx.send(help_string)
     
@@ -224,11 +188,7 @@ async def urbanlist(ctx, *args): # This function responds with every definition 
     except IndexError:
         if check == 0: # If there wasnt any correct iteration, then bot responds with No result message
             t.stop()
-<<<<<<< Updated upstream
-            return await ctx.send("***No results***")
-=======
             return await ctx.send(lg.urbanlist[0])
->>>>>>> Stashed changes
     
     execution_time = str(t.stop())
     response.set_footer(text=lg.urbanlist[1].format(execution_time[:5]))
@@ -284,15 +244,9 @@ async def shindenanime(ctx, *args):
             anime = anime_list[which_result-1] # Selecting one anime result from the list of all found results
         except TypeError:
             t.stop()
-<<<<<<< Updated upstream
-            return await ctx.send('***No results***')
-        except IndexError:
-            await ctx.send('**which_result param was too big, showing last result**')
-=======
             return await ctx.send(lg.s_anime[1])
         except IndexError:
             await ctx.send(lg.s_anime[2])
->>>>>>> Stashed changes
             anime = anime_list[-1]
 
         color = discord.Colour(16777215)
@@ -316,11 +270,7 @@ async def shindenanime(ctx, *args):
             anime = anime_list[0] # Selecting one anime result from the list of all found results
         except TypeError:
             t.stop()
-<<<<<<< Updated upstream
-            return await ctx.send('***No results***')
-=======
             return await ctx.send(lg.s_anime[1])
->>>>>>> Stashed changes
 
         color = discord.Colour(16777215)
 
@@ -369,15 +319,9 @@ async def shindenmanga(ctx, *args):
             manga = manga_list[which_result-1]
         except TypeError:
             t.stop()
-<<<<<<< Updated upstream
-            return await ctx.send('***No results***')
-        except IndexError:
-            await ctx.send('*which_result param was too big, showing last result*')
-=======
             return await ctx.send(lg.s_manga[1])
         except IndexError:
             await ctx.send(lg.s_manga[2])
->>>>>>> Stashed changes
             manga = manga_list[-1]
 
         color = discord.Colour(16777215)
@@ -403,15 +347,11 @@ async def shindenmanga(ctx, *args):
             manga = manga_list[0]
         except TypeError:
             t.stop()
-<<<<<<< Updated upstream
-            return await ctx.send('***No results***')
-=======
             return await ctx.send(lg.s_manga[1])
         except IndexError:
             await ctx.send(lg.s_manga[2])
             manga = manga_list[-1]
 
->>>>>>> Stashed changes
 
         color = discord.Colour(16777215)
 
@@ -447,11 +387,7 @@ async def shindenanimelist(ctx, *args):
     anime_list = sh.search_titles(title)
     if anime_list == None:
         t.stop()
-<<<<<<< Updated upstream
-        return await ctx.send('***No results***')
-=======
         return await ctx.send(lg.s_animelist[1])
->>>>>>> Stashed changes
 
     color = discord.Colour(16777215)
 
@@ -491,11 +427,7 @@ async def shindenmangalist(ctx, *args):
     manga_list = sh.search_titles(title, anime_or_manga='manga')
     if manga_list == None:
         t.stop()
-<<<<<<< Updated upstream
-        return await ctx.send('***No results***')
-=======
         return await ctx.send(lg.s_mangalist[1])
->>>>>>> Stashed changes
     color = discord.Colour(16777215)
 
     response = discord.Embed(title=lg.s_mangalist[2], type='rich', description=lg.s_mangalist[3].format(title), colour=color.teal())
@@ -546,15 +478,9 @@ async def shindencharacter(ctx, *args):
             character = character_list[which_result-1]
         except TypeError:
             t.stop()
-<<<<<<< Updated upstream
-            return await ctx.send('***No results***')
-        except IndexError:
-            await ctx.send('*which_result param was too big, showing last result*')
-=======
             return await ctx.send(lg.s_character[1])
         except IndexError:
             await ctx.send(lg.s_character[2])
->>>>>>> Stashed changes
             character = character_list[-1]
 
         color = discord.Colour(16777215)
@@ -584,14 +510,10 @@ async def shindencharacter(ctx, *args):
             character = character_list[0]
         except TypeError:
             t.stop()
-<<<<<<< Updated upstream
-            return await ctx.send('***No result***')
-=======
             return await ctx.send(lg.s_character[1])
         except IndexError:
             await ctx.send(lg.s_character[2])
             character = character_list[-1]
->>>>>>> Stashed changes
         
         color = discord.Colour(16777215)
 
@@ -628,17 +550,10 @@ async def shindencharacterlist(ctx, *args):
     character_list = sh.search_characters(name, get_description=False)
     if character_list == None:
         t.stop()
-<<<<<<< Updated upstream
-        return await ctx.send('***No results***')
-
-    color = discord.Colour(16777215)
-    response = discord.Embed(title='***Shinden character list***', type='rich', description='Search results for: **{}**'.format(name), colour=color.green())
-=======
         return await ctx.send(lg.s_characterlist[1])
 
     color = discord.Colour(16777215)
     response = discord.Embed(title=lg.s_characterlist[2], type='rich', description=lg.s_characterlist[3].format(name), colour=color.green())
->>>>>>> Stashed changes
 
     counter = 1
     for character in character_list:
@@ -689,19 +604,11 @@ async def shindenuser(ctx, *args):
         try:
             user = user_list[which_result-1]
         except IndexError:
-<<<<<<< Updated upstream
-            await ctx.send('*which_result param too big, showing last result*')
-            user = user_list[-1]
-        except TypeError:
-            t.stop()
-            return await ctx.send('***No results***')
-=======
             await ctx.send(lg.s_user[1])
             user = user_list[-1]
         except TypeError:
             t.stop()
             return await ctx.send(lg.s_user[2])
->>>>>>> Stashed changes
 
         color = discord.Colour(16777215)
         response = discord.Embed(title='**{0.nickname}**'.format(user), type='rich', colour=color.red(), url=user.url)
@@ -733,14 +640,10 @@ async def shindenuser(ctx, *args):
             user = user_list[0]
         except TypeError:
             t.stop()
-<<<<<<< Updated upstream
-            return await ctx.send('***No results***')
-=======
             return await ctx.send(lg.s_user[1])
         except TypeError:
             t.stop()
             return await ctx.send(lg.s_user[2])
->>>>>>> Stashed changes
 
         color = discord.Colour(16777215)
         response = discord.Embed(title='**{0.nickname}**'.format(user), type='rich', colour=color.red(), url=user.url)
@@ -785,11 +688,7 @@ async def shindenuserlist(ctx, *args):
     user_list = sh.search_users(nickname, detailed_info=True)
     if user_list == None:
         t.stop()
-<<<<<<< Updated upstream
-        return await ctx.send('***No results***')
-=======
         return await ctx.send(lg.s_userlist[1])
->>>>>>> Stashed changes
 
     color = discord.Colour(16777215)
     response = discord.Embed(title=lg.s_userlist[2] , type='rich', description=lg.s_userlist[3].format(nickname), colour=color.purple()) 
