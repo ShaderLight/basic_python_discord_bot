@@ -355,7 +355,7 @@ async def shindenmanga(ctx, *args):
 
         color = discord.Colour(16777215)
 
-        response = discord.Embed(title='***{0.title}***'.format(manga), type='rich', description=lg.s_manga[3] + manga.tags, colour=color.teal(), url=manga.url)
+        response = discord.Embed(title='***{0.title}***'.format(manga), type='rich', description=lg.s_manga[3] + str(manga.tags), colour=color.teal(), url=manga.url)
         response.add_field(name=lg.s_manga[4], value=manga.top_score)
         response.add_field(name = lg.s_manga[5], value=manga.episodes)
         response.add_field(name=lg.s_manga[6], value=manga.status)
@@ -484,13 +484,16 @@ async def shindencharacter(ctx, *args):
             character = character_list[-1]
 
         color = discord.Colour(16777215)
-        
-        if len(character.description) > 2000: # Description of discord embed must be under 2048 characters
-            desc = character.description[:2000] + '...'
-        else:
-            desc = character.description
+        try:
+            if len(character.description) > 2000: # Description of discord embed must be under 2048 characters
+                desc = character.description[:2000] + '...'
+            else:
+                desc = character.description
 
-        response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`' + desc + '`', colour=color.dark_gold(), url=character.url)
+            response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`' + desc + '`', colour=color.dark_gold(), url=character.url)
+        
+        except TypeError: # In case the character has no description (character.description = None)
+            response = discord.Embed(title='***{0.name}***'.format(character), type='rich', colour=color.dark_gold(), url=character.url)
 
         response.add_field(name=lg.s_character[3], value=character.gender)
         response.add_field(name=lg.s_character[4], value=character.is_historical)
@@ -517,7 +520,18 @@ async def shindencharacter(ctx, *args):
         
         color = discord.Colour(16777215)
 
-        response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`{0.description}`'.format(character), colour=color.dark_gold(), url=character.url)
+        try:
+            if len(character.description) > 2000: # Description of discord embed must be under 2048 characters
+                desc = character.description[:2000] + '...'
+            else:
+                desc = character.description
+            
+            response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`' + desc + '`', colour=color.dark_gold(), url=character.url)
+    
+        except TypeError: # In case the character has no description (character.description = None)
+            response = discord.Embed(title='***{0.name}***'.format(character), type='rich', colour=color.dark_gold(), url=character.url)
+
+        response = discord.Embed(title='***{0.name}***'.format(character), type='rich', description='`' + desc + '`', colour=color.dark_gold(), url=character.url)
 
         response.add_field(name=lg.s_character[3], value=character.gender)
         response.add_field(name=lg.s_character[4], value=character.is_historical)
