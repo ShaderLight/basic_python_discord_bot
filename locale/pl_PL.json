@@ -36,7 +36,7 @@
     "urban": [
         "**Polecenie:** urban\n**Opis:** Odpowiada definicj\u0105 s\u0142ownika miejskiego\n**Aliasy:**` u, ud` \n**Spos\u00f3b u\u017cycia:** `{}urban (s\u0142owo) [kt\u00f3ry_wynik = 1]`\n**Parametry: **\n\t*s\u0142owo* (str)\n\t*kt\u00f3ry_wynik* (int) - opcjonalnie, warto\u015b\u0107 domy\u015blna = 1",
         "***Brak wynik\u00f3w***",
-        "*** {0.word} *** \n\n`{0.definicja}\n\n{0. przyk\u0142ad}`"
+        "*** {0.word} *** \n\n`{0.definition}\n\n{0.example}`"
     ],
     "urbanlist": [
         "**Polecenie:** urbanlist\n**Opis:** Odpowiada z list\u0105 definicji s\u0142ownika miejskiego\n**Aliasy:**` ul, udlist, udl, ulist` \n**Spos\u00f3b u\u017cycia:** `{}urbanlist (s\u0142owo)`\n**Parametry:**\n\t*s\u0142owo* (str)",
