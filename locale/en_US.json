@@ -64,20 +64,14 @@
     ],
     "shindenanimelist": [
         "**Command:** shindenanimelist\n**Description:** Returns a list of anime from shinden.pl\n**Aliases:** `sal, shindenal, shal, sanimelist, shanimelist`\n**Usage:** `{}shindenanimelist (title)`\n**Parameters:** \n\t*title* (str)",
-<<<<<<< Updated upstream
-=======
         "***No results***",
->>>>>>> Stashed changes
         "***Shinden anime list***",
         "Search results for: **{}**",
         "From shinden.pl | Done in {} seconds"
     ],
     "shindenmangalist": [
         "**Command:** shindenmangalist\n**Description:** Returns a list of manga results\n**Aliases:** `sml, shindenml, shml, smangalist, shmangalist`\n**Usage:** `{}shindenmangalist (title)`\n**Parameters:** \n\t*title* (str)",
-<<<<<<< Updated upstream
-=======
         "***No results***",
->>>>>>> Stashed changes
         "***Shinden manga list***",
         "Search results for: **{}**",
         "From shinden.pl | Done in {} seconds"
@@ -93,10 +87,7 @@
     ],
     "shindencharacterlist": [
         "**Command:** shindencharacterlist\n**Description:** Returns with a list of character results\n**Aliases:** `scl, shindencl, shcl, scharacterlist, schl, shindenchl, shchl`\n**Usage:** `{}shindencharacter (name)`\n**Parameters:** \n\t*name* (str)",
-<<<<<<< Updated upstream
-=======
         "***No results***",
->>>>>>> Stashed changes
         "***Shinden character list***",
         "Search results for: **{}**",
         "[**Appears in: **]({0.url})",
@@ -117,10 +108,7 @@
     ],
     "shindenuserlist": [
         "**Command:** shindenuserlist\n**Description:** Lists shinden users found\n**Aliases:** `sul, shindenul, shul, suserlist, shuserlist`\n**Usage:** `{}shindencharacterlist (nickname)`\n**Parameters:** \n\t*nickname* (str)",
-<<<<<<< Updated upstream
-=======
         "***No results***",
->>>>>>> Stashed changes
         "***Shinden user list***",
         "Search results for: **{}**",
         "[Profile]({0.url})",
@@ -129,11 +117,7 @@
     ],
     "covid": [
         "**COVID-19 - World**",
-<<<<<<< Updated upstream
-        "**COVID-19 - World**",
-=======
         "**COVID-19 - Poland**",
->>>>>>> Stashed changes
         "Cases",
         "Deaths",
         "Recovered",
