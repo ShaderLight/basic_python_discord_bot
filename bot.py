@@ -718,8 +718,8 @@ async def shindenuserlist(ctx, *args):
         response.add_field(name='`{0}. {1.nickname}`'.format(counter, user), value=info, inline=False)
         counter = counter + 1
     
-    execution_time = str(t.stop())
-    response.set_footer(text=lg.s_userlist[6].format(execution_time[:5]))
+    execution_time = round(t.stop(), 3)
+    response.set_footer(text=lg.s_userlist[6].format(execution_time))
 
 
     await ctx.send(embed=response)
@@ -733,6 +733,8 @@ async def shindenuserlist(ctx, *args):
 @bot.command(name='covid', aliases=['ncov', 'covid19', 'coronavirus'])
 async def covid(ctx):
     logging.debug('Executing command {}covid'.format(prefix))
+
+    t.start()
 
     if cv.when_last_update() == 'never':
         cv.update()
@@ -755,8 +757,10 @@ async def covid(ctx):
     poland_embed.add_field(name=lg.covid[3], value=data['poland'].deaths)
     poland_embed.add_field(name=lg.covid[4], value=data['poland'].recovered)
     
-    world_embed.set_footer(text=lg.covid[5])
-    poland_embed.set_footer(text=lg.covid[5])
+    execution_time = round(t.stop(), 3)
+
+    world_embed.set_footer(text=lg.covid[5].format(execution_time))
+    poland_embed.set_footer(text=lg.covid[5].format(execution_time))
 
     await ctx.send(embed=world_embed)
     await ctx.send(embed=poland_embed)
