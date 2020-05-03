@@ -1,15 +1,15 @@
-import discord
-from discord.ext import commands
-import urbandictionary as ud
-import shinden as sh
-
 import json
 import logging
 import sys
 from datetime import datetime, timedelta
 
-import timer
+import discord
+from discord.ext import commands
+import urbandictionary as ud
+import shinden as sh
+
 import covid19
+import timer
 import languages
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.INFO)
@@ -61,6 +61,7 @@ async def on_ready():
     # Setting bot status to streaming (Never gonna give you up)
     stream = discord.Streaming(name=prefix + 'helperino', url='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     await bot.change_presence(activity=stream) 
+    await lg.update(starting_language)
 
     logging.info("------ | Ready | ------")
 
@@ -103,7 +104,7 @@ async def language(ctx, *args):
         return await ctx.send(lg.language[2])
     
     try:
-        lg.update(desired_language)
+        await lg.update(desired_language)
     except languages.LanguageNotSupportedError:
         return await ctx.send(lg.language[1])
 
@@ -736,12 +737,14 @@ async def covid(ctx):
 
     t.start()
 
-    if cv.when_last_update() == 'never':
-        cv.update()
-    elif (datetime.now() - cv.when_last_update()) > timedelta(hours=12): # if covid data hasnt been updated in 12 hours, then update (in order to minimalise requests sent)
-        cv.update()
+    time_of_update = await cv.when_last_update()
+
+    if time_of_update == 'never':
+        await cv.update()
+    elif (datetime.now() - time_of_update) > timedelta(hours=12): # if covid data hasnt been updated in 12 hours, then update (in order to minimalise requests sent)
+        await cv.update()
     
-    data = cv.read_data()
+    data = await cv.read_data()
 
     # Creating two separate embeds for world and poland respectively
     color = discord.Colour(16777215)
