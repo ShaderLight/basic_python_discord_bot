@@ -1,5 +1,7 @@
 import json
 
+import aiofiles
+
 
 class LanguageNotSupportedError(Exception):
     """Raised when passed language is not recognised"""
@@ -9,19 +11,19 @@ class Language:
     def __init__(self, lang_set):
         self.lang_set = lang_set.upper()
 
-        self.update(self.lang_set)
 
 
-
-    def read_localisation_file(self):
+    async def read_localisation_file(self):
         
         if self.lang_set == 'EN':
-            with open('locale/en_US.json', 'r') as f:
-                language_dict = json.load(f)
+            async with aiofiles.open('locale/en_US.json', mode='r') as f:
+                content = await f.read()
+                language_dict = json.loads(content)
     
         elif self.lang_set == 'PL':
-            with open('locale/pl_PL.json', 'r') as f:
-                language_dict = json.load(f)
+            async with aiofiles.open('locale/pl_PL.json', mode='r') as f:
+                content = await f.read()
+                language_dict = json.loads(content)
         
         return language_dict
 
@@ -43,26 +45,28 @@ class Language:
         self.covid = language_dict['covid']
 
 
-    def save_settings(self):
+    async def save_settings(self):
 
-        with open('settings.json', 'r') as f:
-            settings = json.load(f)
-        
+        async with aiofiles.open('settings.json', 'r') as f:
+            content = await f.read()
+
+        settings = json.loads(content)
         settings['language'] = self.lang_set
+        json_string = json.dumps(settings, indent=4)
 
-        with open('settings.json', 'w') as f:
-            json.dump(settings, f, indent=4)
+        async with aiofiles.open('settings.json', 'w') as f:
+            await f.write(json_string)
 
     
-    def update(self, desired_language):
+    async def update(self, desired_language):
         
         if desired_language not in ['EN','PL']:
             raise LanguageNotSupportedError
         
         self.lang_set = desired_language.upper()
 
-        language_dict = self.read_localisation_file()
+        language_dict = await self.read_localisation_file()
 
         self.load_strings(language_dict)
 
-        self.save_settings()
+        await self.save_settings()

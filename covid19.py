@@ -6,6 +6,7 @@ from time import sleep
 import random
 
 import aiohttp
+import aiofiles
 from bs4 import BeautifulSoup
 import requests
 
@@ -23,6 +24,8 @@ class Covid_data:
         self.base_url = 'https://worldometers.info/coronavirus/'
         self.last_updated = None
         
+        # No need to use aiofiles because this gets executed at the 
+        # very beggining, before bot connects to discord's websockets
         try:
             with open('covid.json', 'r') as f:
                 logging.debug('Found existing covid.json')
@@ -72,7 +75,7 @@ class Covid_data:
         return response
     
 
-    def save_data(self, world, poland):
+    async def save_data(self, world, poland):
         data_dict = {}
 
         current_date = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
@@ -86,13 +89,17 @@ class Covid_data:
         data_dict['world'] = world_dict
         data_dict['poland'] = poland_dict
 
-        with open('covid.json', 'w') as f:
-            json.dump(data_dict, f, indent = 4)
+        json_string = json.dumps(data_dict, indent = 4)
+
+        async with aiofiles.open('covid.json', mode='w') as f:
+            await f.write(json_string)
     
 
-    def when_last_update(self):
-        with open('covid.json', 'r') as f:
-            data = json.load(f)
+    async def when_last_update(self):
+        async with aiofiles.open('covid.json', mode='r') as f:
+            content = await f.read()
+        
+        data = json.loads(content)
         
         last_updated = data['updated']
 
@@ -114,14 +121,16 @@ class Covid_data:
             poland_data = await self.get_poland_data(session)
 
 
-        self.save_data(world_data, poland_data)
+        await self.save_data(world_data, poland_data)
         
         logging.debug('Updated covid data')
 
 
-    def read_data(self):
-        with open('covid.json', 'r') as f:
-            data = json.load(f)
+    async def read_data(self):
+        async with aiofiles.open('covid.json', mode='r') as f:
+            content = await f.read()
+        
+        data = json.loads(content)
 
         w_data = data['world']
         p_data = data['poland']
