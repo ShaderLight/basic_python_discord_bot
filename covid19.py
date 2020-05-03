@@ -1,11 +1,14 @@
-import requests
-from bs4 import BeautifulSoup
-
+import asyncio
 from datetime import datetime
 import json
-from time import sleep
 import logging
+from time import sleep
 import random
+
+import aiohttp
+from bs4 import BeautifulSoup
+import requests
+
 
 
 class Stats(object):
@@ -29,13 +32,12 @@ class Covid_data:
                 json.dump({'updated' : 'never'}, f, indent = 4)
 
 
-    def get_world_data(self):
-        user_agent = random.choice(['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'])
-        r = requests.get(self.base_url, headers={'User-Agent': user_agent})
-        
-        assert r.status_code == 200
+    async def get_world_data(self, session):
+        async with session.get(self.base_url) as response:
+            assert response.status == 200
+            content = await response.text()
 
-        soup = BeautifulSoup(r.content, 'html.parser')
+        soup = BeautifulSoup(content, 'html.parser')
         data_container = soup.find('div', {'class':'content-inner'})
         
         counters = data_container.find_all('div', {'class':'maincounter-number'})
@@ -49,15 +51,14 @@ class Covid_data:
         return response
     
 
-    def get_poland_data(self):
-        user_agent = random.choice(['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'])
+    async def get_poland_data(self, session):
         url = self.base_url + 'country/poland/'
 
-        r = requests.get(url, headers={'User-Agent': user_agent})
-        
-        assert r.status_code == 200
+        async with session.get(url) as response:
+            assert response.status == 200
+            content = await response.text()
 
-        soup = BeautifulSoup(r.content, 'html.parser')
+        soup = BeautifulSoup(content, 'html.parser')
         data_container = soup.find('div', {'class':'content-inner'})
         
         counters = data_container.find_all('div', {'class':'maincounter-number'})
@@ -103,11 +104,15 @@ class Covid_data:
         return datetime_last_updated
 
 
-    def update(self):
+    async def update(self):
         logging.debug('Updating covid data')
-        world_data = self.get_world_data()
-        sleep(random.randrange(10, 20)/10)
-        poland_data = self.get_poland_data()
+        user_agent = random.choice(['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.19582'])
+        async with aiohttp.ClientSession(headers={'User-Agent':user_agent}) as session:
+
+            world_data = await self.get_world_data(session)
+            await asyncio.sleep(random.randrange(10, 20)/10)
+            poland_data = await self.get_poland_data(session)
+
 
         self.save_data(world_data, poland_data)
         

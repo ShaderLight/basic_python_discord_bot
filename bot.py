@@ -1,15 +1,15 @@
-import discord
-from discord.ext import commands
-import urbandictionary as ud
-import shinden as sh
-
 import json
 import logging
 import sys
 from datetime import datetime, timedelta
 
-import timer
+import discord
+from discord.ext import commands
+import urbandictionary as ud
+import shinden as sh
+
 import covid19
+import timer
 import languages
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.INFO)
@@ -718,8 +718,8 @@ async def shindenuserlist(ctx, *args):
         response.add_field(name='`{0}. {1.nickname}`'.format(counter, user), value=info, inline=False)
         counter = counter + 1
     
-    execution_time = str(t.stop())
-    response.set_footer(text=lg.s_userlist[6].format(execution_time[:5]))
+    execution_time = round(t.stop(), 3)
+    response.set_footer(text=lg.s_userlist[6].format(execution_time))
 
 
     await ctx.send(embed=response)
@@ -734,10 +734,12 @@ async def shindenuserlist(ctx, *args):
 async def covid(ctx):
     logging.debug('Executing command {}covid'.format(prefix))
 
+    t.start()
+
     if cv.when_last_update() == 'never':
-        cv.update()
+        await cv.update()
     elif (datetime.now() - cv.when_last_update()) > timedelta(hours=12): # if covid data hasnt been updated in 12 hours, then update (in order to minimalise requests sent)
-        cv.update()
+        await cv.update()
     
     data = cv.read_data()
 
@@ -755,8 +757,10 @@ async def covid(ctx):
     poland_embed.add_field(name=lg.covid[3], value=data['poland'].deaths)
     poland_embed.add_field(name=lg.covid[4], value=data['poland'].recovered)
     
-    world_embed.set_footer(text=lg.covid[5])
-    poland_embed.set_footer(text=lg.covid[5])
+    execution_time = round(t.stop(), 3)
+
+    world_embed.set_footer(text=lg.covid[5].format(execution_time))
+    poland_embed.set_footer(text=lg.covid[5].format(execution_time))
 
     await ctx.send(embed=world_embed)
     await ctx.send(embed=poland_embed)

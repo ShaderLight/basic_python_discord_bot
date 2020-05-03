@@ -1,7 +1,6 @@
 import json
 
 
-
 class LanguageNotSupportedError(Exception):
     """Raised when passed language is not recognised"""
 
@@ -67,9 +66,3 @@ class Language:
         self.load_strings(language_dict)
 
         self.save_settings()
-
-
-
-    
-        
-        
