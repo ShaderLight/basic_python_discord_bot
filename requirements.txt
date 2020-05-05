@@ -1,3 +1,5 @@
-shinden>=0.5
+aiohttp
+aiofiles
 discord.py
+shinden>=0.5
 urbandictionary
