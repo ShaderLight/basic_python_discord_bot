@@ -6,6 +6,8 @@ Basic bot using discord.py library
 Has a few integrations, e.g. with Urban Dictionary or worldometers.info
 
 ## Requirements:
+- aiofiles
+- aiohttp
 - discord.py
 - shinden
 - UrbanDictionary
