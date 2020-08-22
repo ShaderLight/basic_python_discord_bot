@@ -11,6 +11,7 @@ Has a few integrations, e.g. with Urban Dictionary or worldometers.info
 - discord.py
 - shinden
 - UrbanDictionary
+- SQLAlchemy
 
 ## Usage:
 
