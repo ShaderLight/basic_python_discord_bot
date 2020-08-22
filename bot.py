@@ -11,12 +11,13 @@ import shinden as sh
 import covid19
 import timer
 import languages
+import albion
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.INFO)
 
 cv = covid19.Covid_data()
 t = timer.Timer()
-
+al = albion.AlbionDataBrowser()
 
 # On the first execution, there will be no settings.json, so we will create one
 try:
@@ -779,6 +780,38 @@ async def truth(ctx):
 
     await ctx.send(embed=response)
 
+
+@bot.command(name='albionitem')
+async def albionitem(ctx, *args):
+    preferences = list(args)
+    try:
+        maybe_int = int(preferences[-1])
+        quality = preferences.pop()
+        name = ' '.join(preferences)
+    except: 
+        quality = 1
+        name = ' '.join(preferences)
+
+    print(name)
+
+    item_basic_data = al.find_by_name(name)
+
+    if item_basic_data == None:
+        return await ctx.send('No matching result')
+
+    item_prices = al.get_item_prices_by_id(item_basic_data['id'], quality)
+    price_list = {}
+    for entry in item_prices:
+        price_list[entry['city']] = entry['sell_price_min']
+
+    color = discord.Colour(16777215)
+    response = discord.Embed(title='***' + item_basic_data['name'] + '***', description='*' + item_basic_data['description'] + '*', type='rich', colour=color.orange())
+    
+    for city, price in price_list.items():
+        if city in al.desired_cities:
+            response.add_field(name = city, value = '`' + str(price) + '`', inline = True)
+
+    await ctx.send(embed=response)
 
 
 # Finally running the bot with our api key from settings.json
