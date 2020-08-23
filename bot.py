@@ -1,6 +1,7 @@
 import json
 import logging
 import sys
+import os
 from datetime import datetime, timedelta
 
 import discord
@@ -11,11 +12,13 @@ import shinden as sh
 import covid19
 import timer
 import languages
+import notes
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.INFO)
 
 cv = covid19.Covid_data()
 t = timer.Timer()
+nt = notes.Notes()
 
 
 # On the first execution, there will be no settings.json, so we will create one

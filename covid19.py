@@ -4,12 +4,16 @@ import json
 import logging
 from time import sleep
 import random
+import os
 
 import aiohttp
 import aiofiles
 from bs4 import BeautifulSoup
 import requests
 
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+if not os.path.isdir(os.path.join(BASEDIR, 'databases')):
+    os.makedirs(os.path.join(BASEDIR, 'databases'))
 
 
 class Stats(object):
@@ -27,10 +31,10 @@ class Covid_data:
         # No need to use aiofiles because this gets executed at the 
         # very beggining, before bot connects to discord's websockets
         try:
-            with open('covid.json', 'r') as f:
+            with open('databases/covid.json', 'r') as f:
                 logging.debug('Found existing covid.json')
         except FileNotFoundError:
-            with open('covid.json', 'w') as f:
+            with open('databases/covid.json', 'w') as f:
                 logging.debug('No covid.json found, creating one')
                 json.dump({'updated' : 'never'}, f, indent = 4)
 
@@ -91,12 +95,12 @@ class Covid_data:
 
         json_string = json.dumps(data_dict, indent = 4)
 
-        async with aiofiles.open('covid.json', mode='w') as f:
+        async with aiofiles.open('databases/covid.json', mode='w') as f:
             await f.write(json_string)
     
 
     async def when_last_update(self):
-        async with aiofiles.open('covid.json', mode='r') as f:
+        async with aiofiles.open('databases/covid.json', mode='r') as f:
             content = await f.read()
         
         data = json.loads(content)
@@ -127,7 +131,7 @@ class Covid_data:
 
 
     async def read_data(self):
-        async with aiofiles.open('covid.json', mode='r') as f:
+        async with aiofiles.open('databases/covid.json', mode='r') as f:
             content = await f.read()
         
         data = json.loads(content)
