@@ -784,5 +784,55 @@ async def truth(ctx):
 
 
 
+@bot.command(name='addnote', aliases=['note'])
+async def addnote(ctx, *args):
+    await ctx.message.delete()
+    content = " ".join(args)
+    user_string = ctx.message.author.mention
+    nt.add_note(content, user_string)
+
+    response = await ctx.send('Note saved', delete_after=3)
+    await response.add_reaction('💾')
+
+
+
+@bot.command(name='deletenote', aliases=['delnote'])
+async def deletenote(ctx, id):
+    try:
+        id = int(id)
+    except:
+        return await ctx.send('Wrong id')
+
+    requested_note = nt.search_by_id(id)
+
+    requesting_user = ctx.message.author.mention
+
+    if requested_note.user != requesting_user:
+        return await ctx.send('You cannot delete notes that don\'t belong to you')
+
+    nt.delete_note(id)
+
+    await ctx.send('Note deleted')
+
+
+
+@bot.command(name='listnotes', aliases=['lnotes'])
+async def listnotes(ctx):
+    requesting_user = ctx.message.author.mention
+
+    notes = nt.search_by_user(requesting_user)
+
+    if notes is None:
+        return await ctx.send('You don\'t have any notes')
+
+    color = discord.Colour(16777215)
+    nickname = ctx.message.author.name
+    response = discord.Embed(title=(nickname + '\'s notes'), type='rich', colour=color.gold())
+    for note in notes:
+        response.add_field(name=note.id, value=note.content, inline=True)
+
+    await ctx.send(embed=response)
+
+
 # Finally running the bot with our api key from settings.json
 bot.run(api_key)

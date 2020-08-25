@@ -6,7 +6,7 @@ class Note(Base):
 
     id = Column(Integer, primary_key=True)
     content = Column(String)
-    nickname = Column(String)
+    user = Column(String)
     timestamp = Column(String)
 
 Base.metadata.create_all(engine)
