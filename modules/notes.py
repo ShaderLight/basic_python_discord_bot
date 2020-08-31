@@ -1,6 +1,6 @@
-import models as md
+import modules.models as md
 from datetime import datetime
-from db_config import sessionmkr
+from modules.db_config import sessionmkr
 
 class Notes:
     def __init__(self):

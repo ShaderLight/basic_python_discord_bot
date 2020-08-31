@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from db_config import Base, engine
+from modules.db_config import Base, engine
 
 class Note(Base):
     __tablename__ = 'notes'

@@ -9,10 +9,10 @@ from discord.ext import commands
 import urbandictionary as ud
 import shinden as sh
 
-import covid19
-import timer
-import languages
-import notes
+from modules import covid19
+from modules import timer
+from modules import languages
+from modules import notes
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d/%m/%Y %H:%M:%S', level=logging.INFO)
 
