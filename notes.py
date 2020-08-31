@@ -48,3 +48,19 @@ class Notes:
         session.commit()
 
         return 0
+
+    def clear_all_by_user(self, user):
+        session = sessionmkr()
+
+        notes = session.query(md.Note).filter(md.Note.user == user).all()
+
+        if notes == []:
+            return None
+        
+        for note in notes:
+            session.delete(note)
+
+        session.commit()
+
+        return 0
+

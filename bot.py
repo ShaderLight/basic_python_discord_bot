@@ -805,7 +805,9 @@ async def deletenote(ctx, id):
         return await ctx.send('Wrong id')
 
     requested_note = nt.search_by_id(id)
-
+    if requested_note is None:
+        return await ctx.send('Note does not exist')
+    
     requesting_user = ctx.message.author.mention
 
     if requested_note.user != requesting_user:
@@ -842,6 +844,32 @@ async def listnotes(ctx, mode='private'):
             response.set_footer(text='Invoked at DM chat')
 
         await ctx.message.author.send(embed=response)
+
+
+
+@bot.command(name='clearallnotes')
+async def clearallnotes(ctx):
+    confirmation = await ctx.send('Are you sure you want to delete all your notes?')
+    await confirmation.add_reaction('❌') # Cross Mark U+274C
+    await confirmation.add_reaction('✅') # White Heavy Check Mark U+2705
+
+    requesting_user = ctx.message.author
+    
+    user_response = await bot.wait_for(event='reaction_add', check=lambda r,u: u == requesting_user, timeout=60)
+    
+    if user_response[0].emoji == '✅':
+        await confirmation.delete()
+        async with ctx.typing():
+            response = nt.clear_all_by_user(requesting_user.mention)
+        if response == None:
+            return await ctx.send('No notes to delete')
+        else:
+            r = await ctx.send('Notes cleared')
+            return await r.add_reaction('🗑') # Wastebasket U+1F5D1
+    else:
+        await confirmation.clear_reactions()
+        return await confirmation.edit(content='Clearing notes has been cancelled')
+
 
 
 # Finally running the bot with our api key from settings.json
