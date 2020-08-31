@@ -792,12 +792,13 @@ async def addnote(ctx, *args):
     nt.add_note(content, user_string)
 
     response = await ctx.send('Note saved', delete_after=3)
-    await response.add_reaction('💾')
+    await response.add_reaction('💾') # Floppy Disk U+1F4BE
 
 
 
 @bot.command(name='deletenote', aliases=['delnote'])
 async def deletenote(ctx, id):
+    await ctx.message.delete()
     try:
         id = int(id)
     except:
@@ -812,7 +813,8 @@ async def deletenote(ctx, id):
 
     nt.delete_note(id)
 
-    await ctx.send('Note deleted')
+    response = await ctx.send('Note deleted', delete_after=3)
+    await response.add_reaction('🗑') # Wastebasket U+1F5D1
 
 
 
@@ -827,7 +829,7 @@ async def listnotes(ctx):
 
     color = discord.Colour(16777215)
     nickname = ctx.message.author.name
-    response = discord.Embed(title=(nickname + '\'s notes'), type='rich', colour=color.gold())
+    response = discord.Embed(title=(nickname + '\'s notes'), description='ID - content', type='rich', colour=color.gold())
     for note in notes:
         response.add_field(name=note.id, value=note.content, inline=True)
 

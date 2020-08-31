@@ -38,8 +38,8 @@ class Notes:
 
     def delete_note(self, id):
         session = sessionmkr()
-
-        note = session.query(md.Note).filter(md.Note.id == id).one()
+        
+        note = session.query(md.Note).filter(md.Note.id == id).one_or_none()
 
         if note is None:
             return "Note does not exist"
