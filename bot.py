@@ -786,10 +786,12 @@ async def truth(ctx):
 
 @bot.command(name='addnote', aliases=['note'])
 async def addnote(ctx, *args):
-    await ctx.message.delete()
+    if ctx.guild != None:
+        await ctx.message.delete()
+    
     content = " ".join(args)
-    user_string = ctx.message.author.mention
-    nt.add_note(content, user_string)
+    user = ctx.message.author.id
+    nt.add_note(content, user)
 
     response = await ctx.send('Note saved', delete_after=3)
     await response.add_reaction('💾') # Floppy Disk U+1F4BE
@@ -798,7 +800,9 @@ async def addnote(ctx, *args):
 
 @bot.command(name='deletenote', aliases=['delnote'])
 async def deletenote(ctx, id):
-    await ctx.message.delete()
+    if ctx.guild != None:
+        await ctx.message.delete()
+    
     try:
         id = int(id)
     except:
@@ -808,7 +812,7 @@ async def deletenote(ctx, id):
     if requested_note is None:
         return await ctx.send('Note does not exist')
     
-    requesting_user = ctx.message.author.mention
+    requesting_user = ctx.message.author.id
 
     if requested_note.user != requesting_user:
         return await ctx.send('You cannot delete notes that don\'t belong to you')
@@ -822,18 +826,18 @@ async def deletenote(ctx, id):
 
 @bot.command(name='listnotes', aliases=['lnotes'])
 async def listnotes(ctx, mode='private'):
-    requesting_user = ctx.message.author.mention
+    requesting_user = ctx.message.author
 
-    notes = nt.search_by_user(requesting_user)
+    notes = nt.search_by_user(requesting_user.id)
 
     if notes is None:
         return await ctx.send('You don\'t have any notes')
 
     color = discord.Colour(16777215)
-    nickname = ctx.message.author.name
+    nickname = requesting_user.name
     response = discord.Embed(title=(nickname + '\'s notes'), description='ID - content', type='rich', colour=color.gold())
     for note in notes:
-        response.add_field(name=note.id, value=note.content, inline=True)
+        response.add_field(name=note.id, value=note.content, inline=False)
 
     if mode == 'public':
         await ctx.send(embed=response)
@@ -860,14 +864,15 @@ async def clearallnotes(ctx):
     if user_response[0].emoji == '✅':
         await confirmation.delete()
         async with ctx.typing():
-            response = nt.clear_all_by_user(requesting_user.mention)
+            response = nt.clear_all_by_user(requesting_user.id)
         if response == None:
             return await ctx.send('No notes to delete')
         else:
             r = await ctx.send('Notes cleared')
             return await r.add_reaction('🗑') # Wastebasket U+1F5D1
     else:
-        await confirmation.clear_reactions()
+        if ctx.guild != None:
+            await confirmation.clear_reactions()
         return await confirmation.edit(content='Clearing notes has been cancelled')
 
 
