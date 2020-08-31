@@ -819,7 +819,7 @@ async def deletenote(ctx, id):
 
 
 @bot.command(name='listnotes', aliases=['lnotes'])
-async def listnotes(ctx):
+async def listnotes(ctx, mode='private'):
     requesting_user = ctx.message.author.mention
 
     notes = nt.search_by_user(requesting_user)
@@ -833,7 +833,15 @@ async def listnotes(ctx):
     for note in notes:
         response.add_field(name=note.id, value=note.content, inline=True)
 
-    await ctx.send(embed=response)
+    if mode == 'public':
+        await ctx.send(embed=response)
+    else:
+        try:
+            response.set_footer(text=('Invoked at ' + ctx.guild.name))
+        except AttributeError:
+            response.set_footer(text='Invoked at DM chat')
+
+        await ctx.message.author.send(embed=response)
 
 
 # Finally running the bot with our api key from settings.json
