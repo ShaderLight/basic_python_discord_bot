@@ -23,7 +23,7 @@ class Notes:
     def search_by_id(self, id):
         session = sessionmkr()
 
-        result = session.query(md.Note).filter(md.Note.id == id).one()
+        result = session.query(md.Note).filter(md.Note.id == id).one_or_none()
 
         session.close()
         return result
@@ -42,7 +42,7 @@ class Notes:
         note = session.query(md.Note).filter(md.Note.id == id).one_or_none()
 
         if note is None:
-            return "Note does not exist"
+            return None
 
         session.delete(note)
         session.commit()
