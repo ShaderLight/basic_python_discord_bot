@@ -790,6 +790,11 @@ async def addnote(ctx, *args):
         await ctx.message.delete()
     
     content = " ".join(args)
+    print(content)
+
+    if args == ():
+        return await ctx.send('Cannot add blank note')
+
     user = ctx.message.author.id
     nt.add_note(content, user)
 
@@ -814,7 +819,7 @@ async def deletenote(ctx, id):
     
     requesting_user = ctx.message.author.id
 
-    if requested_note.user != requesting_user:
+    if int(requested_note.user) != requesting_user:
         return await ctx.send('You cannot delete notes that don\'t belong to you')
 
     nt.delete_note(id)
