@@ -17,7 +17,7 @@ Has a few integrations, e.g. with Urban Dictionary or worldometers.info
 
 - Run bot.py
 - The program will generate settings.json and close itself
-- Fill in settings.json with your discord api token, preffered language (currently only EN or PL) and prefix
+- Fill in settings.json with your discord api token, preferred language (currently only EN or PL) and prefix
 - Run bot.py again
 - Done (assuming you already added your app associated with the token to your guild)
 
